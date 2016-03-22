@@ -78,9 +78,9 @@ public:
   MemoryResource get(const std::string& url);
 
 private:
-  CURL* curl_handle_;
-
   Retriever(const Retriever & ret) = delete;
+
+  CURL* curl_handle_;
 };
 
 } // namespace resource_retriever
