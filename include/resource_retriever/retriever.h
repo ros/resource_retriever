@@ -79,6 +79,8 @@ public:
 
 private:
   CURL* curl_handle_;
+
+  Retriever(const Retriever & ret) = delete;
 };
 
 } // namespace resource_retriever
