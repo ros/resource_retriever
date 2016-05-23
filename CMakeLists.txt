@@ -12,6 +12,11 @@ catkin_package(
 include_directories(include)
 
 find_package(catkin REQUIRED COMPONENTS rosconsole roslib)
+
+
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " -std=c++11")
+
+
 include_directories(${catkin_INCLUDE_DIRS})
 link_directories(${catkin_LIBRARY_DIRS})
 
