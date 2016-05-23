@@ -45,7 +45,7 @@ TEST(Retriever, getByPackage)
   try
   {
     Retriever r;
-    MemoryResource res = r.get("package://"ROS_PACKAGE_NAME"/test/test.txt");
+    MemoryResource res = r.get("package://" ROS_PACKAGE_NAME "/test/test.txt");
 
     ASSERT_EQ(res.size, 1);
     ASSERT_EQ(res.data[0], 'A');
@@ -73,7 +73,7 @@ TEST(Retriever, largeFile)
     fclose(f);
 
     Retriever r;
-    MemoryResource res = r.get("package://"ROS_PACKAGE_NAME"/test/large_file.dat");
+    MemoryResource res = r.get("package://" ROS_PACKAGE_NAME "/test/large_file.dat");
 
     ASSERT_EQ(res.size, 1024*1024*50);
   }
