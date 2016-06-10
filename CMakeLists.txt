@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(resource_retriever)
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
 find_package(catkin REQUIRED COMPONENTS rosconsole roslib)
 
 catkin_python_setup()
@@ -10,11 +12,6 @@ catkin_package(
   INCLUDE_DIRS include)
 
 include_directories(include)
-
-find_package(catkin REQUIRED COMPONENTS rosconsole roslib)
-
-
-set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} " -std=c++11")
 
 
 include_directories(${catkin_INCLUDE_DIRS})
