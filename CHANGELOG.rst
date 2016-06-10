@@ -2,6 +2,11 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* fix failing build due to cmake error (`#6 <https://github.com/ros/resource_retriever/issues/6>`_)
+* Contributors: Jackie Kay
+
 1.12.1 (2016-06-10)
 -------------------
 * Fix warnings in test (`#5 <https://github.com/ros/resource_retriever/issues/5>`_)
