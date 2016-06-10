@@ -2,6 +2,14 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix warnings in test (`#5 <https://github.com/ros/resource_retriever/issues/5>`_)
+  add spaces around ROS_PACKAGE_NAME
+* Merge pull request `#4 <https://github.com/ros/resource_retriever/issues/4>`_ from DLu/kinetic-devel
+  Add c++11 flag
+* Contributors: David V. Lu!!, Jackie Kay, Steven Peters
+
 1.12.0 (2016-03-23)
 -------------------
 * resource_retriever: adding missing dep
