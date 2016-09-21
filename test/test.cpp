@@ -88,7 +88,7 @@ TEST(Retriever, http)
   try
   {
     Retriever r;
-    MemoryResource res = r.get("http://pr.willowgarage.com/downloads/svnmerge.py");
+    MemoryResource res = r.get("http://repositories.ros.org/repos.key");
 
     ASSERT_GT(res.size, 0);
   }
