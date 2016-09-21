@@ -88,7 +88,7 @@ TEST(Retriever, http)
   try
   {
     Retriever r;
-    MemoryResource res = r.get("http://repositories.ros.org/repos.key");
+    MemoryResource res = r.get("http://packages.ros.org/ros.key");
 
     ASSERT_GT(res.size, 0);
   }
