@@ -33,6 +33,7 @@
 
 import roslib; roslib.load_manifest('resource_retriever')
 import subprocess
+import rospkg
 try:
     from urllib.request import urlopen
     from urllib.error import URLError
@@ -41,14 +42,7 @@ except ImportError:
     from urllib2 import URLError
 
 PACKAGE_PREFIX = 'package://'
-
-def rospack_find(package):
-    process = subprocess.Popen(['rospack', 'find', package], shell=False, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    (stdout, stderr) = process.communicate()
-    if len(stderr) > 0:
-        raise Exception(stderr)
-    else:
-        return string.strip(stdout)
+r = rospkg.RosPack()
 
 def get_filename(url, use_protocol=True ):
     mod_url = url
@@ -60,7 +54,7 @@ def get_filename(url, use_protocol=True ):
 
         package = mod_url[0:pos]
         mod_url = mod_url[pos:]
-        package_path = rospack_find(package)
+        package_path = r.get_path(package)
 
         if use_protocol:
             protocol = "file://"
