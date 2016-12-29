@@ -28,6 +28,6 @@
   <run_depend>curl</run_depend>
   <run_depend>rosconsole</run_depend>
   <run_depend>roslib</run_depend>
-  <run_depend>rospkg</run_depend>
+  <run_depend>python-rospkg</run_depend>
 
 </package>
