@@ -33,7 +33,12 @@
 
 import roslib; roslib.load_manifest('resource_retriever')
 import subprocess
-import urlgrabber, string
+try:
+    from urllib.request import urlopen
+    from urllib.error import URLError
+except ImportError:
+    from urllib2 import urlopen
+    from urllib2 import URLError
 
 PACKAGE_PREFIX = 'package://'
 
@@ -65,5 +70,8 @@ def get_filename(url, use_protocol=True ):
     return mod_url
 
 def get(url):
-    return urlgrabber.urlopen(get_filename(url))
-
+    filename = get_filename(url)
+    try:
+        return urlopen(filename).read()
+    except URLError:
+        raise Exception("Invalid URL: {}".format(filename))
