@@ -11,7 +11,9 @@
   </description>
 
   <author email="jfaust@willowgarage.com">Josh Faust</author>
-  <maintainer email="isucan@gmail.com">Ioan Sucan</maintainer>
+  <author email="isucan@gmail.com">Ioan Sucan</author>
+  <maintainer email="clalancette@osrfoundation.org">Chris Lalancette</maintainer>
+  <maintainer email="sloretz@osrfoundation.org">Shane Loretz</maintainer>
 
   <license>BSD</license>
 
