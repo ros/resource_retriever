@@ -12,11 +12,11 @@ def test_get_by_package():
     assert res == 'A'.encode()
 
 def test_get_large_file():
-    res_path = os.path.join(rospack.get_path("resource_retriever"), "test/large_file.dat")
+    res_path = os.path.join(rospack.get_path("resource_retriever"), "test/large_filepy.dat")
     with open(res_path, 'w') as f:
         for _ in range(1024*1024*50):
             f.write('A')
-    res = r.get("package://resource_retriever/test/large_file.dat")
+    res = r.get("package://resource_retriever/test/large_filepy.dat")
     assert len(res) == 1024*1024*50
 
 def test_http():
