@@ -5,25 +5,26 @@ set_directory_properties(PROPERTIES COMPILE_OPTIONS "-std=c++11")
 
 find_package(catkin REQUIRED COMPONENTS rosconsole roslib)
 
-catkin_python_setup()
-
-catkin_package(
-  LIBRARIES ${PROJECT_NAME}
-  INCLUDE_DIRS include)
-
-include_directories(include)
-
-
-include_directories(${catkin_INCLUDE_DIRS})
-link_directories(${catkin_LIBRARY_DIRS})
+find_package(Boost REQUIRED)
 
 include(FindCURL)
 if(NOT CURL_FOUND)
   message("CURL not found!  Aborting...")
   fail()
 endif(NOT CURL_FOUND)
-include_directories(${CURL_INCLUDE_DIRS})
 
+include_directories(include
+                    ${catkin_INCLUDE_DIRS}
+                    ${CURL_INCLUDE_DIRS}
+                    ${Boost_INCLUDE_DIRS})
+
+link_directories(${catkin_LIBRARY_DIRS})
+
+catkin_python_setup()
+
+catkin_package(
+  LIBRARIES ${PROJECT_NAME}
+  INCLUDE_DIRS include)
 
 add_library(${PROJECT_NAME} src/retriever.cpp)
 target_link_libraries(${PROJECT_NAME} ${CURL_LIBRARIES} ${catkin_LIBRARIES})
