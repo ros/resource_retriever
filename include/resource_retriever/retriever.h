@@ -78,7 +78,11 @@ public:
   MemoryResource get(const std::string& url);
 
 private:
+#if __cplusplus >= 201103L
   Retriever(const Retriever & ret) = delete;
+#else
+  Retriever(const Retriever &);
+#endif
 
   CURL* curl_handle_;
 };
