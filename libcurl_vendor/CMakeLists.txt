@@ -1,0 +1,60 @@
+cmake_minimum_required(VERSION 3.5)
+
+project(libcurl_vendor)
+
+set(PACKAGE_VERSION "1.0.0")
+
+macro(build_libcurl)
+  set(extra_cxx_flags)
+  set(extra_c_flags)
+  if(NOT WIN32)
+    list(APPEND extra_cxx_flags "-std=c++14 -w")
+    list(APPEND extra_c_flags "-w")
+  endif()
+
+  set(PKGCONFIG_FOR_OPENSSL)
+  if(APPLE)
+    set(PKGCONFIG_FOR_OPENSSL "/usr/local/opt/openssl/lib/pkgconfig")
+  endif()
+
+  include(ExternalProject)
+  ExternalProject_Add(curl-7.57.0
+    URL https://github.com/curl/curl/releases/download/curl-7_57_0/curl-7.57.0.tar.gz
+    URL_MD5 c7aab73aaf5e883ca1d7518f93649dc2
+    CONFIGURE_COMMAND 
+      <SOURCE_DIR>/configure
+      CFLAGS=${extra_c_flags}
+      CXXFLAGS=${extra_cxx_flags}
+      PKG_CONFIG_PATH=$PKG_CONFIG_PATH:${PKGCONFIG_FOR_OPENSSL}
+      --prefix=${CMAKE_CURRENT_BINARY_DIR}/libcurl_install
+      --with-ssl
+    BUILD_COMMAND ${MAKE}
+    INSTALL_COMMAND make install
+    TIMEOUT 600
+  )
+
+  # The external project will install to the build folder, but we'll install that on make install.
+  install(
+    DIRECTORY
+      ${CMAKE_CURRENT_BINARY_DIR}/libcurl_install/
+    DESTINATION
+      ${CMAKE_INSTALL_PREFIX}/opt/libcurl_vendor
+  )
+endmacro()
+
+find_package(CURL QUIET)
+
+if(NOT CURL_FOUND)
+  # System curl not found, build one locally.
+  build_libcurl()
+endif()
+
+configure_file(libcurl_vendorConfig.cmake.in
+  "${PROJECT_BINARY_DIR}/libcurl_vendorConfig.cmake" @ONLY)
+configure_file(libcurl_vendorConfig-version.cmake.in
+  "${PROJECT_BINARY_DIR}/libcurl_vendorConfig-version.cmake" @ONLY)
+
+install(FILES
+  "${PROJECT_BINARY_DIR}/libcurl_vendorConfig.cmake"
+  "${PROJECT_BINARY_DIR}/libcurl_vendorConfig-version.cmake"
+  DESTINATION share/${PROJECT_NAME}/cmake)

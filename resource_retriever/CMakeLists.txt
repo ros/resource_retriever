@@ -12,7 +12,8 @@ endif()
 
 find_package(ament_cmake REQUIRED)
 find_package(ament_index_cpp REQUIRED)
-find_package(rviz_libcurl_vendor REQUIRED)
+# TODO(wjwwood): remove libcurl_vendor and just use system curl when possible
+find_package(libcurl_vendor REQUIRED)
 
 add_library(${PROJECT_NAME} src/retriever.cpp)
 target_include_directories(${PROJECT_NAME}
@@ -22,7 +23,7 @@ target_include_directories(${PROJECT_NAME}
 )
 ament_target_dependencies(${PROJECT_NAME}
   ament_index_cpp
-  rviz_libcurl_vendor
+  libcurl_vendor
 )
 
 ament_export_interfaces(${PROJECT_NAME})
