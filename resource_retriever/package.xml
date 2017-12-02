@@ -24,7 +24,7 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>ament_index_cpp</depend>
-  <depend>rviz_libcurl_vendor</depend>
+  <depend>libcurl_vendor</depend>
 
   <export>
     <build_type>ament_cmake</build_type>
