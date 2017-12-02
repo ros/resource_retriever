@@ -21,13 +21,11 @@
   <url type="repository">https://github.com/ros/robot_model</url>
   <url type="bugtracker">https://github.com/ros/robot_model/issues</url>
 
-  <buildtool_depend version_gte="0.5.68">catkin</buildtool_depend>
+  <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <depend>curl</depend>
-  <depend>roslib</depend>
-  <depend>rosconsole</depend>
-  <depend>boost</depend>
+  <depend>rviz_libcurl_vendor</depend>
 
-  <exec_depend>python-rospkg</exec_depend>
-
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
 </package>
