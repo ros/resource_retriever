@@ -5,18 +5,17 @@ set_directory_properties(PROPERTIES COMPILE_OPTIONS "-std=c++11")
 
 find_package(catkin REQUIRED COMPONENTS rosconsole roslib)
 
-find_package(Boost REQUIRED)
-
 include(FindCURL)
 if(NOT CURL_FOUND)
   message("CURL not found!  Aborting...")
   fail()
 endif(NOT CURL_FOUND)
 
-include_directories(include
-                    ${catkin_INCLUDE_DIRS}
-                    ${CURL_INCLUDE_DIRS}
-                    ${Boost_INCLUDE_DIRS})
+include_directories(
+  include
+  ${catkin_INCLUDE_DIRS}
+  ${CURL_INCLUDE_DIRS}
+)
 
 link_directories(${catkin_LIBRARY_DIRS})
 

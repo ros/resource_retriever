@@ -28,10 +28,10 @@
 #ifndef RESOURCE_RETRIEVER_RETRIEVER_H
 #define RESOURCE_RETRIEVER_RETRIEVER_H
 
-#include <stdint.h>
-#include <string>
-#include <boost/shared_array.hpp>
+#include <cstdint>
+#include <memory>
 #include <stdexcept>
+#include <string>
 
 typedef void CURL;
 
@@ -55,7 +55,7 @@ struct MemoryResource
   : size(0)
   {}
 
-  boost::shared_array<uint8_t> data;
+  std::shared_ptr<uint8_t> data;
   uint32_t size;
 };
 
