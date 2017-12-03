@@ -33,6 +33,8 @@
 #include <stdexcept>
 #include <string>
 
+#include "resource_retriever/visibility_control.hpp"
+
 typedef void CURL;
 
 namespace resource_retriever
@@ -63,10 +65,11 @@ struct MemoryResource
  * \brief Retrieves files from from a url.  Caches a CURL handle so multiple accesses to a single url
  * will keep connections open.
  */
-class Retriever
+class RESOURCE_RETRIEVER_PUBLIC Retriever
 {
 public:
   Retriever();
+
   ~Retriever();
 
   /**
