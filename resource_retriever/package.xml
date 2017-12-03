@@ -21,7 +21,7 @@
   <url type="repository">https://github.com/ros/robot_model</url>
   <url type="bugtracker">https://github.com/ros/robot_model/issues</url>
 
-  <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>ament_cmake_ros</buildtool_depend>
 
   <depend>ament_index_cpp</depend>
   <depend>libcurl_vendor</depend>
