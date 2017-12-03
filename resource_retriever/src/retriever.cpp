@@ -139,7 +139,8 @@ MemoryResource Retriever::get(const std::string& url)
   else if (!buf.v.empty())
   {
     res.size = buf.v.size();
-    res.data.reset(new uint8_t[res.size]);
+    // Converted from boost::shared_array, see: https://stackoverflow.com/a/8624884
+    res.data.reset(new uint8_t[res.size], std::default_delete<uint8_t[]>());
     memcpy(res.data.get(), &buf.v[0], res.size);
   }
 
