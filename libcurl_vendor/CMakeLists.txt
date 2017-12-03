@@ -18,20 +18,29 @@ macro(build_libcurl)
   endif()
 
   include(ExternalProject)
-  ExternalProject_Add(curl-7.57.0
-    URL https://github.com/curl/curl/releases/download/curl-7_57_0/curl-7.57.0.tar.gz
-    URL_MD5 c7aab73aaf5e883ca1d7518f93649dc2
-    CONFIGURE_COMMAND 
-      <SOURCE_DIR>/configure
-      CFLAGS=${extra_c_flags}
-      CXXFLAGS=${extra_cxx_flags}
-      PKG_CONFIG_PATH=$PKG_CONFIG_PATH:${PKGCONFIG_FOR_OPENSSL}
-      --prefix=${CMAKE_CURRENT_BINARY_DIR}/libcurl_install
-      --with-ssl
-    BUILD_COMMAND ${MAKE}
-    INSTALL_COMMAND make install
-    TIMEOUT 600
-  )
+  if(WIN32)
+    ExternalProject_Add(curl-7.57.0
+      URL https://github.com/curl/curl/releases/download/curl-7_57_0/curl-7.57.0.tar.gz
+      URL_MD5 c7aab73aaf5e883ca1d7518f93649dc2
+      CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/libcurl_install -Wno-dev
+      TIMEOUT 600
+    )
+  else()
+    ExternalProject_Add(curl-7.57.0
+      URL https://github.com/curl/curl/releases/download/curl-7_57_0/curl-7.57.0.tar.gz
+      URL_MD5 c7aab73aaf5e883ca1d7518f93649dc2
+      CONFIGURE_COMMAND
+        <SOURCE_DIR>/configure
+        CFLAGS=${extra_c_flags}
+        CXXFLAGS=${extra_cxx_flags}
+        PKG_CONFIG_PATH=$PKG_CONFIG_PATH:${PKGCONFIG_FOR_OPENSSL}
+        --prefix=${CMAKE_CURRENT_BINARY_DIR}/libcurl_install
+        --with-ssl
+      BUILD_COMMAND ${MAKE}
+      INSTALL_COMMAND make install
+      TIMEOUT 600
+    )
+  endif()
 
   # The external project will install to the build folder, but we'll install that on make install.
   install(

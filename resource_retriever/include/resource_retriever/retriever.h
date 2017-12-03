@@ -56,7 +56,7 @@ struct MemoryResource
   {}
 
   std::shared_ptr<uint8_t> data;
-  uint32_t size;
+  size_t size;
 };
 
 /**
