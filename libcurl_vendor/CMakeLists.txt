@@ -22,7 +22,11 @@ macro(build_libcurl)
     ExternalProject_Add(curl-7.57.0
       URL https://github.com/curl/curl/releases/download/curl-7_57_0/curl-7.57.0.tar.gz
       URL_MD5 c7aab73aaf5e883ca1d7518f93649dc2
-      CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/libcurl_install -Wno-dev
+      CMAKE_ARGS
+        -DENABLE_MANUAL=OFF
+        -DBUILD_TESTING=OFF
+        -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/libcurl_install
+        -Wno-dev
       TIMEOUT 600
     )
   else()
