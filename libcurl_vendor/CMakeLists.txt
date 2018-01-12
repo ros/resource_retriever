@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.5)
 
 project(libcurl_vendor)
 
+find_package(ament_cmake REQUIRED)
+
 set(PACKAGE_VERSION "1.0.0")
 
 macro(build_libcurl)
@@ -60,14 +62,14 @@ find_package(CURL QUIET)
 if(NOT CURL_FOUND)
   # System curl not found, build one locally.
   build_libcurl()
+
+  if(WIN32)
+    ament_environment_hooks(env_hook/libcurl_vendor_library_path.bat)
+  else()
+    ament_environment_hooks(env_hook/libcurl_vendor_library_path.sh)
+  endif()
 endif()
 
-configure_file(libcurl_vendorConfig.cmake.in
-  "${PROJECT_BINARY_DIR}/libcurl_vendorConfig.cmake" @ONLY)
-configure_file(libcurl_vendorConfig-version.cmake.in
-  "${PROJECT_BINARY_DIR}/libcurl_vendorConfig-version.cmake" @ONLY)
-
-install(FILES
-  "${PROJECT_BINARY_DIR}/libcurl_vendorConfig.cmake"
-  "${PROJECT_BINARY_DIR}/libcurl_vendorConfig-version.cmake"
-  DESTINATION share/${PROJECT_NAME}/cmake)
+ament_package(
+  CONFIG_EXTRAS "libcurl_vendor-extras.cmake.in"
+)
