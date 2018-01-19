@@ -19,11 +19,19 @@ macro(build_libcurl)
     set(PKGCONFIG_FOR_OPENSSL "/usr/local/opt/openssl/lib/pkgconfig")
   endif()
 
+  if(WIN32 AND NOT ${CMAKE_VERBOSE_MAKEFILE})
+    set(should_log ON)  # prevent warnings in Windows CI
+  else()
+    set(should_log OFF)
+  endif()
+
   include(ExternalProject)
   if(WIN32)
     ExternalProject_Add(curl-7.57.0
       URL https://github.com/curl/curl/releases/download/curl-7_57_0/curl-7.57.0.tar.gz
       URL_MD5 c7aab73aaf5e883ca1d7518f93649dc2
+      LOG_CONFIGURE ${should_log}
+      LOG_BUILD ${should_log}
       CMAKE_ARGS
         -DENABLE_MANUAL=OFF
         -DBUILD_TESTING=OFF
