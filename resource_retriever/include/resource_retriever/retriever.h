@@ -28,10 +28,12 @@
 #ifndef RESOURCE_RETRIEVER_RETRIEVER_H
 #define RESOURCE_RETRIEVER_RETRIEVER_H
 
-#include <stdint.h>
-#include <string>
-#include <boost/shared_array.hpp>
+#include <cstdint>
+#include <memory>
 #include <stdexcept>
+#include <string>
+
+#include "resource_retriever/visibility_control.hpp"
 
 typedef void CURL;
 
@@ -55,18 +57,19 @@ struct MemoryResource
   : size(0)
   {}
 
-  boost::shared_array<uint8_t> data;
-  uint32_t size;
+  std::shared_ptr<uint8_t> data;
+  size_t size;
 };
 
 /**
  * \brief Retrieves files from from a url.  Caches a CURL handle so multiple accesses to a single url
  * will keep connections open.
  */
-class Retriever
+class RESOURCE_RETRIEVER_PUBLIC Retriever
 {
 public:
   Retriever();
+
   ~Retriever();
 
   /**
