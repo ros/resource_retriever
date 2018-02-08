@@ -2,8 +2,8 @@
 Changelog for package libcurl_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.0.2 (2018-02-08)
+------------------
 * Added missing dependency on pkg-config (`#19 <https://github.com/ros/resource_retriever/issues/19>`_) (`#20 <https://github.com/ros/resource_retriever/issues/20>`_)
 * Contributors: William Woodall
 
