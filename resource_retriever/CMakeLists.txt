@@ -34,6 +34,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE "RESOURCE_RETRIEVER_BUILDING_
 ament_export_interfaces(${PROJECT_NAME})
 ament_export_dependencies(ament_index_cpp)
 ament_export_dependencies(libcurl_vendor)
+ament_export_include_directories(include)
 
 if(BUILD_TESTING)
   # TODO(wjwwood): add ament linters
