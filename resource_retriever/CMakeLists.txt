@@ -31,7 +31,10 @@ ament_target_dependencies(${PROJECT_NAME}
 # which is appropriate when building the dll but not consuming it.
 target_compile_definitions(${PROJECT_NAME} PRIVATE "RESOURCE_RETRIEVER_BUILDING_LIBRARY")
 
+# specific order: dependents before dependencies
+ament_export_include_directories(include)
 ament_export_interfaces(${PROJECT_NAME})
+
 ament_export_dependencies(ament_index_cpp)
 ament_export_dependencies(libcurl_vendor)
 
