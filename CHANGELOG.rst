@@ -2,6 +2,18 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Fix an intermittent test failure.
+  Both the C++ and python tests were using test/large_file.dat,
+  which means if they were run concurrently, they would sometimes
+  collide.  Avoid this by having them use different filenames.
+* Cleanup resource_retriever packaging.
+  In particular, make sure that resource_retriever properly
+  depends on all of the things it needs.  While we are in here,
+  switch over to package xml version 2.
+* Contributors: Chris Lalancette
+
 1.12.3 (2017-03-27)
 -------------------
 * Fix C++11 to use set_directory_properties
