@@ -2,8 +2,8 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.12.4 (2018-03-19)
+-------------------
 * Fix an intermittent test failure.
   Both the C++ and python tests were using test/large_file.dat,
   which means if they were run concurrently, they would sometimes
