@@ -32,18 +32,28 @@
 #include <string>
 #include <boost/shared_array.hpp>
 #include <stdexcept>
+#include <curl/curl.h>
+#include <memory>
 
 typedef void CURL;
 
 namespace resource_retriever
 {
 
+struct Progress
+{
+    curl_off_t dl_total;
+    curl_off_t dl_now;
+    double last_in_secs;
+    CURL *curl;
+};
+
 class Exception : public std::runtime_error
 {
 public:
-  Exception(const std::string& file, const std::string& error_msg)
-  : std::runtime_error("Error retrieving file [" + file + "]: " + error_msg)
-  {}
+    Exception(const std::string &file, const std::string &error_msg)
+        : std::runtime_error("Error retrieving file [" + file + "]: " + error_msg)
+    {}
 };
 
 /**
@@ -51,12 +61,12 @@ public:
  */
 struct MemoryResource
 {
-  MemoryResource()
-  : size(0)
-  {}
+    MemoryResource()
+        : size(0)
+    {}
 
-  boost::shared_array<uint8_t> data;
-  uint32_t size;
+    boost::shared_array<uint8_t> data;
+    uint32_t size;
 };
 
 /**
@@ -65,22 +75,34 @@ struct MemoryResource
  */
 class Retriever
 {
+private:
+    static struct Progress prog_;
 public:
-  Retriever();
-  ~Retriever();
+    Retriever();
+    ~Retriever();
 
-  /**
-   * \brief Get a file and store it in memory
-   * \param url The url to retrieve.  package://package/file will be turned into the correct file:// invocation
-   * \return The file, loaded into memory
-   * \throws resource_retriever::Exception if anything goes wrong.
-   */
-  MemoryResource get(const std::string& url);
+    /**
+     * \brief Get a file and store it in memory
+     * \param url The url to retrieve.  package://package/file will be turned into the correct file:// invocation
+     * \return The file, loaded into memory
+     * \throws resource_retriever::Exception if anything goes wrong.
+     */
+    MemoryResource get(const std::string &url);
+
+    static void setProgress(Progress &prog);
+    static struct Progress getProgress();
 
 private:
-  Retriever(const Retriever & ret) = delete;
+    Retriever(const Retriever &ret) = delete;
 
-  CURL* curl_handle_;
+    static int xferinfo(const void *p,
+                        const curl_off_t dltotal, const curl_off_t dlnow,
+                        const curl_off_t ultotal, const curl_off_t ulnow);
+
+    static int older_progress(void *p,
+                              double dltotal, double dlnow,
+                              double ultotal, double ulnow);
+    CURL *curl_handle_;
 };
 
 } // namespace resource_retriever
