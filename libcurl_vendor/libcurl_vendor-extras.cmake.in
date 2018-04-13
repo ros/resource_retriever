@@ -30,7 +30,7 @@ endif()
 # message(STATUS "CURL_INCLUDE_DIRS: ${CURL_INCLUDE_DIRS}")
 
 set(libcurl_vendor_LIBRARIES)
-set(libcurl_abs ${CURL_LIBRARY_DIRS})
+set(library_abs ${CURL_LIBRARY_DIRS})
 foreach(library IN LISTS CURL_LIBRARIES)
   message(STATUS "library: ${library}")
   if(IS_ABSOLUTE "${library}" OR TARGET ${library})
