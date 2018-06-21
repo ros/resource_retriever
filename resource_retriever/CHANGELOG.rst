@@ -2,6 +2,11 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Make sure to export the include directory for resource_retriever. (`#22 <https://github.com/ros/resource_retriever/issues/22>`_)
+* Contributors: Chris Lalancette
+
 1.12.3 (2017-03-27)
 -------------------
 * Fix C++11 to use set_directory_properties
