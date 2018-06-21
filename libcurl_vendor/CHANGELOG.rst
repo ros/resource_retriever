@@ -2,8 +2,8 @@
 Changelog for package libcurl_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.1.0 (2018-06-21)
+------------------
 * depend on curl (mapping to curl, libcurl4-openssl-dev) for packaging (`#25 <https://github.com/ros/resource_retriever/issues/25>`_)
 * add missing dependency on pkg-config (`#19 <https://github.com/ros/resource_retriever/issues/19>`_)
 * [libcurl_vendor] convert to ament and setup env hooks for library paths (`#14 <https://github.com/ros/resource_retriever/issues/14>`_)
