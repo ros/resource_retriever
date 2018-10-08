@@ -34,6 +34,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE "RESOURCE_RETRIEVER_BUILDING_
 # specific order: dependents before dependencies
 ament_export_include_directories(include)
 ament_export_interfaces(${PROJECT_NAME})
+ament_export_libraries(${PROJECT_NAME})
 
 ament_export_dependencies(ament_index_cpp)
 ament_export_dependencies(libcurl_vendor)
