@@ -137,8 +137,9 @@ MemoryResource Retriever::get(const std::string& url)
   else if (!buf.v.empty())
   {
     res.size = buf.v.size();
-    res.data.reset(new uint8_t[res.size]);
+    res.data.reset(new uint8_t[res.size+1]);
     memcpy(res.data.get(), &buf.v[0], res.size);
+    res.data[res.size] = '\0';  // write trailing zero for interpretation as char*
   }
 
   return res;
