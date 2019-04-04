@@ -18,8 +18,8 @@
   <license>BSD</license>
 
   <url type="website">http://ros.org/wiki/resource_retriever</url>
-  <url type="repository">https://github.com/ros/robot_model</url>
-  <url type="bugtracker">https://github.com/ros/robot_model/issues</url>
+  <url type="repository">https://github.com/ros/resource_retriever</url>
+  <url type="bugtracker">https://github.com/ros/resource_retriever/issues</url>
 
   <buildtool_depend version_gte="0.5.68">catkin</buildtool_depend>
 
