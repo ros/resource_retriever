@@ -2,6 +2,11 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Changed to export resource retriever and to enable hooks. (`#26 <https://github.com/ros/resource_retriever/issues/26>`_)
+* Contributors: Steven! Ragnarök
+
 2.1.0 (2018-06-21)
 ------------------
 * Make sure to export the include directory for resource_retriever. (`#22 <https://github.com/ros/resource_retriever/issues/22>`_)
