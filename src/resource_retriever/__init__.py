@@ -44,13 +44,13 @@ except ImportError:
 PACKAGE_PREFIX = 'package://'
 r = rospkg.RosPack()
 
-def get_filename(url, use_protocol=True ):
+def get_filename(url, use_protocol=True):
     mod_url = url
     if url.find(PACKAGE_PREFIX) == 0:
         mod_url = url[len(PACKAGE_PREFIX):]
         pos = mod_url.find('/')
         if pos == -1:
-            raise Exception("Could not parse package:// format into file:// format for "+url)
+            raise Exception("Could not parse package:// format into file:// format for " + url)
 
         package = mod_url[0:pos]
         mod_url = mod_url[pos:]
