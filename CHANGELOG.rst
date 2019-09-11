@@ -2,6 +2,13 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Update the exec_depend keys for Python 3. (`#29 <https://github.com/ros/resource_retriever/issues/29>`_)
+* point to the ros/resource_retriever repository (`#28 <https://github.com/ros/resource_retriever/issues/28>`_)
+* append trailing zero to memory buffer, to allow safe use as char* (`#27 <https://github.com/ros/resource_retriever/issues/27>`_)
+* Contributors: Chris Lalancette, Mikael Arguedas, Robert Haschke
+
 1.12.4 (2018-03-19)
 -------------------
 * Fix an intermittent test failure.
