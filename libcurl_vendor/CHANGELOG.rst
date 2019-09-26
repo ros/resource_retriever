@@ -2,6 +2,11 @@
 Changelog for package libcurl_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* add .dsv file beside custom environment hook (`#30 <https://github.com/ros/resource_retriever/issues/30>`_)
+* Contributors: Dirk Thomas
+
 2.1.1 (2019-05-08)
 ------------------
 
