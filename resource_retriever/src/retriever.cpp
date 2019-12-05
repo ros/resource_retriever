@@ -34,6 +34,7 @@
 
 #include <curl/curl.h>
 
+#include "ament_index_cpp/get_package_prefix.hpp"
 #include "ament_index_cpp/get_package_share_directory.hpp"
 
 namespace resource_retriever
@@ -111,10 +112,10 @@ MemoryResource Retriever::get(const std::string& url)
 
     std::string package = mod_url.substr(0, pos);
     mod_url.erase(0, pos);
-    std::string package_path = ament_index_cpp::get_package_share_directory(package);
-
-    if (package_path.empty())
-    {
+    std::string package_path;
+    try {
+      package_path = ament_index_cpp::get_package_share_directory(package);
+    } catch (const ament_index_cpp::PackageNotFoundError &) {
       throw Exception(url, "Package [" + package + "] does not exist");
     }
 
