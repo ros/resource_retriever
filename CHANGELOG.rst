@@ -2,6 +2,11 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+1.12.6 (2020-02-14)
+-------------------
+* Bump CMake version to avoid CMP0048 warning (`#37 <https://github.com/ros/resource_retriever/issues/37>`_)
+* Contributors: Shane Loretz
+
 1.12.5 (2019-09-11)
 -------------------
 * Update the exec_depend keys for Python 3. (`#29 <https://github.com/ros/resource_retriever/issues/29>`_)
