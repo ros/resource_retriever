@@ -1,7 +1,7 @@
 :: copied from libcurl_vendor/env_hook/libcurl_vendor_library_path.bat
 @echo off
 
-call:ament_prepend_unique_value PATH "%AMENT_CURRENT_PREFIX%\opt\libcurl_vendor\bin"
+call:ament_prepend_unique_value PATH "%AMENT_CURRENT_PREFIX%\opt\libcurl_vendor\lib"
 
 goto:eof
 
