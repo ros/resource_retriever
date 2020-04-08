@@ -76,6 +76,7 @@ if(NOT CURL_FOUND)
   else()
     ament_environment_hooks(env_hook/libcurl_vendor_library_path.sh)
   endif()
+  set(CURL_FOUND FALSE)
 endif()
 
 ament_package(
