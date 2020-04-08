@@ -1,3 +1,6 @@
+# Ignore the broken curl-config.cmake in 7.58
+set(CURL_NO_CURL_CMAKE ON)
+
 # Look for system curl first.
 find_package(CURL QUIET)
 
