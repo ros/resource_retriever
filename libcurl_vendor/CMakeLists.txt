@@ -85,6 +85,7 @@ if(NOT CURL_FOUND)
     set(ENV_VAR_VALUE "opt/libcurl_vendor/lib")
   endif()
   ament_environment_hooks(env_hook/libcurl_vendor_library_path.dsv.in)
+  set(CURL_FOUND FALSE)
 endif()
 
 ament_package(
