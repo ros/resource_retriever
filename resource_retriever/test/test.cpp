@@ -55,6 +55,7 @@ TEST(Retriever, http)
 
     ASSERT_GT(res.size, 0u);
   } catch (const std::exception & e) {
+    std::cerr << "Exception caught: " << e.what() << '\n';
     FAIL();
   }
 }
