@@ -78,6 +78,11 @@ if(BUILD_TESTING)
   )
 
   set(PYTHON_EXECUTABLE "${_PYTHON_EXECUTABLE}")
+
+  install(
+    FILES test/test.txt
+    DESTINATION share/${PROJECT_NAME}/test
+  )
 endif()
 
 install(
@@ -92,11 +97,6 @@ install(
 install(
   DIRECTORY include/
   DESTINATION include
-)
-
-install(
-  DIRECTORY test
-  DESTINATION share/${PROJECT_NAME}
 )
 
 ament_package()
