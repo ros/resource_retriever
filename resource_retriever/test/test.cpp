@@ -66,21 +66,18 @@ TEST(Retriever, invalidFiles)
     r.get("file://fail");
     FAIL();
   } catch (const std::exception & e) {
-    std::cerr << "Exception caught: " << e.what() << '\n';
   }
 
   try {
     r.get("package://roscpp");
     FAIL();
   } catch (const std::exception & e) {
-    std::cerr << "Exception caught: " << e.what() << '\n';
   }
 
   try {
     r.get("package://invalid_package_blah/test.xml");
     FAIL();
   } catch (const std::exception & e) {
-    std::cerr << "Exception caught: " << e.what() << '\n';
   }
 }
 
