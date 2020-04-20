@@ -1,6 +1,5 @@
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR})
+ament_add_gtest(${PROJECT_NAME}_test test.cpp)
 
-catkin_add_gtest(${PROJECT_NAME}_utest test.cpp)
-target_link_libraries(${PROJECT_NAME}_utest ${PROJECT_NAME})
-
-catkin_add_nosetests(test.py)
+if(TARGET ${PROJECT_NAME}_test)
+  target_link_libraries(${PROJECT_NAME}_test ${PROJECT_NAME})
+endif()

@@ -15,7 +15,7 @@ find_package(ament_index_cpp REQUIRED)
 # TODO(wjwwood): remove libcurl_vendor and just use system curl when possible
 find_package(libcurl_vendor REQUIRED)
 
-# TODO(wjwwood): split cpp and python apis into separate packages and fix python api
+# TODO(wjwwood): split cpp and python apis into separate packages
 
 add_library(${PROJECT_NAME} src/retriever.cpp)
 target_include_directories(${PROJECT_NAME}
@@ -38,11 +38,46 @@ ament_export_targets(${PROJECT_NAME} HAS_LIBRARY_TARGET)
 ament_export_dependencies(ament_index_cpp)
 ament_export_dependencies(libcurl_vendor)
 
-if(BUILD_TESTING)
-  # TODO(wjwwood): add ament linters
+ament_python_install_package(${PROJECT_NAME}
+  PACKAGE_DIR src/${PROJECT_NAME})
 
-  # TODO(wjwwood): reenable tests from ROS 1
-  # add_subdirectory(test EXCLUDE_FROM_ALL)
+if(BUILD_TESTING)
+  find_package(ament_cmake_gtest REQUIRED)
+  find_package(ament_lint_auto REQUIRED)
+
+  list(APPEND AMENT_LINT_AUTO_EXCLUDE
+    ament_cmake_cppcheck
+    ament_cmake_uncrustify
+  )
+  ament_lint_auto_find_test_dependencies()
+
+  ament_cppcheck(LANGUAGE "c++")
+  ament_uncrustify(LANGUAGE "C++")
+
+  ament_add_gtest(${PROJECT_NAME}_test test/test.cpp)
+
+  if(TARGET ${PROJECT_NAME}_test)
+    target_link_libraries(${PROJECT_NAME}_test ${PROJECT_NAME})
+  endif()
+
+  # Python test
+  # Provides PYTHON_EXECUTABLE_DEBUG
+  find_package(python_cmake_module REQUIRED)
+  find_package(PythonExtra REQUIRED)
+
+  set(_PYTHON_EXECUTABLE "${PYTHON_EXECUTABLE}")
+  if(WIN32 AND CMAKE_BUILD_TYPE STREQUAL "Debug")
+    set(PYTHON_EXECUTABLE "${PYTHON_EXECUTABLE_DEBUG}")
+  endif()
+
+  find_package(ament_cmake_pytest REQUIRED)
+  ament_add_pytest_test(resource_retriever_python_test test/test.py
+    PYTHON_EXECUTABLE "${PYTHON_EXECUTABLE}"
+    APPEND_ENV PYTHONPATH=${CMAKE_CURRENT_BINARY_DIR}
+    TIMEOUT 60
+  )
+
+  set(PYTHON_EXECUTABLE "${_PYTHON_EXECUTABLE}")
 endif()
 
 install(
@@ -57,6 +92,11 @@ install(
 install(
   DIRECTORY include/
   DESTINATION include
+)
+
+install(
+  DIRECTORY test
+  DESTINATION share/${PROJECT_NAME}
 )
 
 ament_package()
