@@ -54,7 +54,7 @@ TEST(Retriever, http)
     resource_retriever::MemoryResource res = r.get("http://packages.ros.org/ros.key");
 
     ASSERT_GT(res.size, 0u);
-  } catch (std::exception & e) {
+  } catch (const std::exception & e) {
     FAIL();
   }
 }
