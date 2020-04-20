@@ -42,8 +42,7 @@ TEST(Retriever, getByPackage)
     ASSERT_EQ(res.size, 1u);
     ASSERT_EQ(*res.data, 'A');
   } catch (const std::exception & e) {
-    std::cerr << "Exception caught: " << e.what() << '\n';
-    FAIL();
+    FAIL() << "Exception caught: " << e.what() << '\n';
   }
 }
 
@@ -55,8 +54,7 @@ TEST(Retriever, http)
 
     ASSERT_GT(res.size, 0u);
   } catch (const std::exception & e) {
-    std::cerr << "Exception caught: " << e.what() << '\n';
-    FAIL();
+    FAIL() << "Exception caught: " << e.what() << '\n';
   }
 }
 
