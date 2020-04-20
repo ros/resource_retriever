@@ -41,7 +41,7 @@ TEST(Retriever, getByPackage)
 
     ASSERT_EQ(res.size, 1u);
     ASSERT_EQ(*res.data, 'A');
-  } catch (std::exception & e) {
+  } catch (const std::exception & e) {
     std::cerr << "Exception caught: " << e.what() << '\n';
     FAIL();
   }
@@ -66,21 +66,21 @@ TEST(Retriever, invalidFiles)
   try {
     r.get("file://fail");
     FAIL();
-  } catch (std::exception & e) {
+  } catch (const std::exception & e) {
     std::cerr << "Exception caught: " << e.what() << '\n';
   }
 
   try {
     r.get("package://roscpp");
     FAIL();
-  } catch (std::exception & e) {
+  } catch (const std::exception & e) {
     std::cerr << "Exception caught: " << e.what() << '\n';
   }
 
   try {
     r.get("package://invalid_package_blah/test.xml");
     FAIL();
-  } catch (std::exception & e) {
+  } catch (const std::exception & e) {
     std::cerr << "Exception caught: " << e.what() << '\n';
   }
 }
