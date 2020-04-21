@@ -55,10 +55,7 @@ if(BUILD_TESTING)
   ament_uncrustify(LANGUAGE "C++")
 
   ament_add_gtest(${PROJECT_NAME}_test test/test.cpp)
-
-  if(TARGET ${PROJECT_NAME}_test)
-    target_link_libraries(${PROJECT_NAME}_test ${PROJECT_NAME})
-  endif()
+  target_link_libraries(${PROJECT_NAME}_test ${PROJECT_NAME})
 
   # Python test
   # Provides PYTHON_EXECUTABLE_DEBUG
