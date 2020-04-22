@@ -26,6 +26,7 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 
+import sys
 
 from ament_index_python import get_package_share_directory
 
@@ -55,7 +56,12 @@ def get_filename(url, use_protocol=True):
             protocol = 'file://'
         else:
             protocol = ''
-        mod_url = protocol + package_path + mod_url
+        if sys.platform.startswith('win'):
+            path_without_protocol = package_path + mod_url
+            path_without_protocol = '/' + path_without_protocol.replace('/', '\\')
+            mod_url = protocol + path_without_protocol
+        else:
+            mod_url = protocol + package_path + mod_url
     return mod_url
 
 
