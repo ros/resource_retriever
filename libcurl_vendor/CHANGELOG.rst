@@ -2,6 +2,12 @@
 Changelog for package libcurl_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Ignore broken curl-config.cmake (`#40 <https://github.com/ros/resource_retriever/issues/40>`_)
+* Update curl reference from 7.57 to 7.58 (`#36 <https://github.com/ros/resource_retriever/issues/36>`_)
+* Contributors: Nathan Brooks, Scott K Logan
+
 2.2.0 (2019-09-26)
 ------------------
 * add .dsv file beside custom environment hook (`#30 <https://github.com/ros/resource_retriever/issues/30>`_)
