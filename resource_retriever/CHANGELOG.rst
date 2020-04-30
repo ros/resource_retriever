@@ -2,8 +2,8 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.3.0 (2020-04-30)
+------------------
 * Towards Quality Level 1 - Added common_linters and fixed tests  (`#43 <https://github.com/ros/resource_retriever/issues/43>`_)
 * use ament_export_targets() (`#41 <https://github.com/ros/resource_retriever/issues/41>`_)
 * Catch ament_index_cpp::PackageNotFoundError (`#32 <https://github.com/ros/resource_retriever/issues/32>`_)
