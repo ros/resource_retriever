@@ -27,10 +27,8 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 import ament_index_python
-
-from nose.tools import raises
-
 import resource_retriever as r
+import pytest
 
 
 def test_get_by_package():
@@ -44,16 +42,16 @@ def test_http():
     assert len(res) > 0
 
 
-@raises(Exception)
 def test_invalid_file():
-    r.get('file://fail')
+    with pytest.raises(Exception):
+        r.get('file://fail')
 
 
-@raises(Exception)
 def test_no_file():
-    r.get('package://roscpp')
+    with pytest.raises(Exception):
+        r.get('package://roscpp')
 
 
-@raises(ament_index_python.PackageNotFoundError)
 def test_invalid_package():
-    r.get('package://invalid_package_blah/test.xml')
+    with pytest.raises(ament_index_python.PackageNotFoundError):
+        r.get('package://invalid_package_blah/test.xml')
