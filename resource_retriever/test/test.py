@@ -27,8 +27,8 @@
 # POSSIBILITY OF SUCH DAMAGE.
 
 import ament_index_python
-import resource_retriever as r
 import pytest
+import resource_retriever as r
 
 
 def test_get_by_package():
