@@ -2,6 +2,12 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Import pytest before resource_retriever (`#45 <https://github.com/ros/resource_retriever/issues/45>`_)
+* Use pytest instead of nose (`#44 <https://github.com/ros/resource_retriever/issues/44>`_)
+* Contributors: Shane Loretz
+
 2.3.0 (2020-04-30)
 ------------------
 * Towards Quality Level 1 - Added common_linters and fixed tests  (`#43 <https://github.com/ros/resource_retriever/issues/43>`_)
