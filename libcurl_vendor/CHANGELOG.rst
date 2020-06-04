@@ -2,6 +2,11 @@
 Changelog for package libcurl_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* export TARGETS in libcurl_vendor (`#46 <https://github.com/ros/resource_retriever/issues/46>`_)
+* Contributors: Dirk Thomas
+
 2.3.1 (2020-05-08)
 ------------------
 

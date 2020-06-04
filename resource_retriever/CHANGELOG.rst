@@ -2,6 +2,9 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 2.3.1 (2020-05-08)
 ------------------
 * Import pytest before resource_retriever (`#45 <https://github.com/ros/resource_retriever/issues/45>`_)
