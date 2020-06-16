@@ -28,8 +28,8 @@ macro(build_libcurl)
   include(ExternalProject)
   if(WIN32)
     ExternalProject_Add(curl-7.58.0
-      URL https://github.com/curl/curl/releases/download/curl-7_58_0/curl-7.58.0.tar.gz
-      URL_MD5 7E9E9D5405C61148D53035426F162B0A
+      URL https://github.com/curl/curl/releases/download/curl-7_68_0/curl-7.68.0.tar.gz
+      URL_MD5 f68d6f716ff06d357f476ea4ea57a3d6
       LOG_CONFIGURE ${should_log}
       LOG_BUILD ${should_log}
       CMAKE_ARGS
@@ -41,8 +41,8 @@ macro(build_libcurl)
     )
   else()
     ExternalProject_Add(curl-7.58.0
-      URL https://github.com/curl/curl/releases/download/curl-7_58_0/curl-7.58.0.tar.gz
-      URL_MD5 7E9E9D5405C61148D53035426F162B0A
+      URL https://github.com/curl/curl/releases/download/curl-7_68_0/curl-7.68.0.tar.gz
+      URL_MD5 f68d6f716ff06d357f476ea4ea57a3d6
       CONFIGURE_COMMAND
         <SOURCE_DIR>/configure
         CFLAGS=${extra_c_flags}
