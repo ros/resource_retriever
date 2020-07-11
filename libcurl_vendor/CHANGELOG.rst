@@ -2,6 +2,11 @@
 Changelog for package libcurl_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.1.3 (2020-07-10)
+------------------
+* Ignore broken curl-config.cmake. (`#49 <https://github.com/ros/resource_retriever/issues/49>`_)
+* Contributors: Steven! Ragnarök
+
 2.1.2 (2019-12-05)
 ------------------
 
