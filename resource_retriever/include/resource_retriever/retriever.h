@@ -1,4 +1,4 @@
-// Copyright 2009, Willow Garage, Inc. All rights reserved.
+// Copyright 2020, Open Source Robotics Foundation, Inc. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -26,68 +26,18 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef RESOURCE_RETRIEVER__RETRIEVER_HPP_
-#define RESOURCE_RETRIEVER__RETRIEVER_HPP_
+#ifndef RESOURCE_RETRIEVER__RETRIEVER_H_
+#define RESOURCE_RETRIEVER__RETRIEVER_H_
 
-#include <cstdint>
-#include <memory>
-#include <stdexcept>
-#include <string>
+#ifdef _MSC_VER
+#pragma message("Including header <resource_retriever/retriever.h> is deprecated,")
+#pragma message("include <resource_retriever/retriever.hpp> instead.")
+#else
+// *INDENT-OFF* (prevent uncrustify from adding indention below)
+#warning Including header <resource_retriever/retriever.h> is deprecated, \
+include <resource_retriever/retriever.hpp> instead.
+#endif
 
-#include "resource_retriever/visibility_control.hpp"
+#include "./retriever.hpp"
 
-typedef void CURL;
-
-namespace resource_retriever
-{
-class Exception : public std::runtime_error
-{
-public:
-  Exception(const std::string & file, const std::string & error_msg)
-  : std::runtime_error("Error retrieving file [" + file + "]: " + error_msg)
-  {
-  }
-};
-
-/**
- * \brief A combination of a pointer to data in memory along with the data's size.
- */
-struct MemoryResource
-{
-  MemoryResource()
-  : size(0)
-  {
-  }
-
-  std::shared_ptr<uint8_t> data;
-  size_t size;
-};
-
-/**
- * \brief Retrieves files from from a url.  Caches a CURL handle so multiple accesses to a single url
- * will keep connections open.
- */
-class RESOURCE_RETRIEVER_PUBLIC Retriever
-{
-public:
-  Retriever();
-
-  ~Retriever();
-
-  /**
-   * \brief Get a file and store it in memory
-   * \param url The url to retrieve.  package://package/file will be turned into the correct file:// invocation
-   * \return The file, loaded into memory
-   * \throws resource_retriever::Exception if anything goes wrong.
-   */
-  MemoryResource get(const std::string & url);
-
-private:
-  Retriever(const Retriever & ret) = delete;
-
-  CURL * curl_handle_;
-};
-
-}  //  namespace resource_retriever
-
-#endif  //  RESOURCE_RETRIEVER__RETRIEVER_HPP_
+#endif  //  RESOURCE_RETRIEVER__RETRIEVER_H_
