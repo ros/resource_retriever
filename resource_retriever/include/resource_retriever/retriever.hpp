@@ -1,4 +1,4 @@
-// Copyright 2008, Willow Garage, Inc. All rights reserved.
+// Copyright 2009, Willow Garage, Inc. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -26,66 +26,68 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <gtest/gtest.h>
+#ifndef RESOURCE_RETRIEVER__RETRIEVER_HPP_
+#define RESOURCE_RETRIEVER__RETRIEVER_HPP_
 
-#include <resource_retriever/retriever.hpp>
-
+#include <cstdint>
+#include <memory>
+#include <stdexcept>
 #include <string>
-#include <exception>
 
-TEST(Retriever, getByPackage)
+#include "resource_retriever/visibility_control.hpp"
+
+typedef void CURL;
+
+namespace resource_retriever
 {
-  try {
-    resource_retriever::Retriever r;
-    resource_retriever::MemoryResource res = r.get("package://resource_retriever/test/test.txt");
-
-    ASSERT_EQ(res.size, 1u);
-    ASSERT_EQ(*res.data, 'A');
-  } catch (const std::exception & e) {
-    FAIL() << "Exception caught: " << e.what() << '\n';
-  }
-}
-
-TEST(Retriever, http)
+class Exception : public std::runtime_error
 {
-  try {
-    resource_retriever::Retriever r;
-    resource_retriever::MemoryResource res = r.get("http://packages.ros.org/ros.key");
-
-    ASSERT_GT(res.size, 0u);
-  } catch (const std::exception & e) {
-    FAIL() << "Exception caught: " << e.what() << '\n';
+public:
+  Exception(const std::string & file, const std::string & error_msg)
+  : std::runtime_error("Error retrieving file [" + file + "]: " + error_msg)
+  {
   }
-}
+};
 
-TEST(Retriever, invalidFiles)
+/**
+ * \brief A combination of a pointer to data in memory along with the data's size.
+ */
+struct MemoryResource
 {
-  resource_retriever::Retriever r;
-
-  try {
-    r.get("file://fail");
-    FAIL();
-  } catch (const std::exception & e) {
-    (void)e;
+  MemoryResource()
+  : size(0)
+  {
   }
 
-  try {
-    r.get("package://roscpp");
-    FAIL();
-  } catch (const std::exception & e) {
-    (void)e;
-  }
+  std::shared_ptr<uint8_t> data;
+  size_t size;
+};
 
-  try {
-    r.get("package://invalid_package_blah/test.xml");
-    FAIL();
-  } catch (const std::exception & e) {
-    (void)e;
-  }
-}
-
-int main(int argc, char ** argv)
+/**
+ * \brief Retrieves files from from a url.  Caches a CURL handle so multiple accesses to a single url
+ * will keep connections open.
+ */
+class RESOURCE_RETRIEVER_PUBLIC Retriever
 {
-  testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-}
+public:
+  Retriever();
+
+  ~Retriever();
+
+  /**
+   * \brief Get a file and store it in memory
+   * \param url The url to retrieve.  package://package/file will be turned into the correct file:// invocation
+   * \return The file, loaded into memory
+   * \throws resource_retriever::Exception if anything goes wrong.
+   */
+  MemoryResource get(const std::string & url);
+
+private:
+  Retriever(const Retriever & ret) = delete;
+
+  CURL * curl_handle_;
+};
+
+}  //  namespace resource_retriever
+
+#endif  //  RESOURCE_RETRIEVER__RETRIEVER_HPP_
