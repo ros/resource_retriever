@@ -2,8 +2,8 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.4.0 (2020-08-12)
+------------------
 * Add .hpp header and deprecate .h (`#51 <https://github.com/ros/resource_retriever/issues/51>`_)
 * Add pytest.ini so local tests don't display warning (`#48 <https://github.com/ros/resource_retriever/issues/48>`_)
 * Contributors: Chris Lalancette, Shane Loretz

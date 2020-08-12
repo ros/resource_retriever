@@ -2,8 +2,8 @@
 Changelog for package libcurl_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+2.4.0 (2020-08-12)
+------------------
 * bump curl version to 7.68 (`#47 <https://github.com/ros/resource_retriever/issues/47>`_)
 * Contributors: Dirk Thomas
 
