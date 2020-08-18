@@ -94,10 +94,10 @@ size_t curlWriteFunc(void * buffer, size_t size, size_t nmemb, void * userp)
   return size * nmemb;
 }
 
-MemoryResource Retriever::get(const std::string & url)
+std::string Retriever::resolve(const std::string & url)
 {
-  std::string mod_url = url;
   if (url.find("package://") == 0) {
+    std::string mod_url = url;
     mod_url.erase(0, strlen("package://"));
     size_t pos = mod_url.find("/");
     if (pos == std::string::npos) {
@@ -113,7 +113,21 @@ MemoryResource Retriever::get(const std::string & url)
       throw Exception(url, "Package [" + package + "] does not exist");
     }
 
-    mod_url = "file://" + package_path + mod_url;
+    return package_path + mod_url;
+  }
+  else if (url.find("file://") == 0) {
+    return url.substr(strlen("file://"));
+  }
+
+  return "";
+}
+
+MemoryResource Retriever::get(const std::string & url)
+{
+  std::string mod_url = url;
+  std::string local_path = resolve(url);
+  if (!local_path.empty()) {
+    mod_url = "file://" + local_path;
   }
 
   curl_easy_setopt(curl_handle_, CURLOPT_URL, mod_url.c_str());

@@ -82,6 +82,14 @@ public:
    */
   MemoryResource get(const std::string & url);
 
+  /**
+   * \brief Resolve the URL to a file on disk
+   * \param url The url to resolve to a local path on disk
+   * \return The path on disk if the url resolves to a local path, else empty string
+   * \throws resource_retriever::Exception if anything goes wrong.
+   */
+  std::string resolve(const std::string & url);
+
 private:
   Retriever(const Retriever & ret) = delete;
 
