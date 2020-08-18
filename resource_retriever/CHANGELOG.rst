@@ -2,6 +2,11 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.3.3 (2020-08-18)
+------------------
+* Add pytest.ini so local tests don't display warning (`#48 <https://github.com/ros/resource_retriever/issues/48>`_) (`#52 <https://github.com/ros/resource_retriever/issues/52>`_)
+* Contributors: Chris Lalancette
+
 2.3.2 (2020-06-03)
 ------------------
 
