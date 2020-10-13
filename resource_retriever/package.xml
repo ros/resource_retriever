@@ -10,13 +10,14 @@
    data. The resource retriever is based on the the libcurl library.
   </description>
 
+  <maintainer email="alejandro@osrfoundation.org">Alejandro Hernandez</maintainer>
+
+  <license>BSD</license>
+
   <author email="jfaust@willowgarage.com">Josh Faust</author>
   <author email="isucan@gmail.com">Ioan Sucan</author>
   <author email="clalancette@osrfoundation.org">Chris Lalancette</author>
   <author email="sloretz@osrfoundation.org">Shane Loretz</author>
-  <maintainer email="alejandro@osrfoundation.org">Alejandro Hernandez</maintainer>
-
-  <license>BSD</license>
 
   <url type="website">http://ros.org/wiki/resource_retriever</url>
   <url type="repository">https://github.com/ros/robot_model</url>
