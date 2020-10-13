@@ -13,6 +13,8 @@
   <!-- https://curl.haxx.se/docs/copyright.html -->
   <license>MIT</license>  <!-- libcurl is "MIT style" -->
 
+  <author email="william@osrfoundation.org">William Woodall</author>
+
   <url type="website">https://github.com/curl/curl</url>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
