@@ -8,7 +8,7 @@
   <description>
     Wrapper around libcurl, it provides a fixed CMake module and an ExternalProject build of it.
   </description>
-  <maintainer email="william@osrfoundation.org">William Woodall</maintainer>
+  <maintainer email="alejandro@osrfoundation.org">Alejandro Hernandez</maintainer>
   <license>Apache License 2.0</license>  <!-- the contents of this package are Apache 2.0 -->
   <!-- https://curl.haxx.se/docs/copyright.html -->
   <license>MIT</license>  <!-- libcurl is "MIT style" -->
