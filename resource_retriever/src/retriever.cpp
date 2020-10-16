@@ -111,6 +111,9 @@ MemoryResource Retriever::get(const std::string& url)
     }
 
     std::string package = mod_url.substr(0, pos);
+    if (package.empty()) {
+      throw Exception(url, "Package name must not be empty");
+    }
     mod_url.erase(0, pos);
     std::string package_path;
     try {
