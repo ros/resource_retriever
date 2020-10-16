@@ -82,6 +82,14 @@ TEST(Retriever, invalidFiles)
   } catch (const std::exception & e) {
     (void)e;
   }
+
+  // Empty package name
+  try {
+    r.get("package:///test.xml");
+    FAIL();
+  } catch (const std::exception & e) {
+    (void)e;
+  }
 }
 
 int main(int argc, char ** argv)
