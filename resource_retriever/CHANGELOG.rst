@@ -2,6 +2,12 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.4.1 (2020-12-08)
+------------------
+* Throw exception if package name is empty (`#54 <https://github.com/ros/resource_retriever/issues/54>`_)
+* Update maintainers (`#53 <https://github.com/ros/resource_retriever/issues/53>`_)
+* Contributors: Alejandro Hernández Cordero, Jacob Perron
+
 2.4.0 (2020-08-12)
 ------------------
 * Add .hpp header and deprecate .h (`#51 <https://github.com/ros/resource_retriever/issues/51>`_)
