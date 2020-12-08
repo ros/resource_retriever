@@ -2,6 +2,11 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.3.4 (2020-12-08)
+------------------
+* Throw exception if package name is empty (`#54 <https://github.com/ros/resource_retriever/issues/54>`_) (`#55 <https://github.com/ros/resource_retriever/issues/55>`_)
+* Contributors: Jacob Perron
+
 2.3.3 (2020-08-18)
 ------------------
 * Add pytest.ini so local tests don't display warning (`#48 <https://github.com/ros/resource_retriever/issues/48>`_) (`#52 <https://github.com/ros/resource_retriever/issues/52>`_)
