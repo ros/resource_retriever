@@ -2,6 +2,10 @@ cmake_minimum_required(VERSION 3.5)
 
 project(libcurl_vendor)
 
+option(FORCE_BUILD_VENDOR_PKG
+  "Build libcurl from source, even if system-installed package is available"
+  OFF)
+
 find_package(ament_cmake REQUIRED)
 
 set(PACKAGE_VERSION "1.0.0")
@@ -67,7 +71,7 @@ endmacro()
 
 find_package(CURL QUIET)
 
-if(NOT CURL_FOUND)
+if(FORCE_BUILD_VENDOR_PKG OR NOT CURL_FOUND)
   # System curl not found, build one locally.
   build_libcurl()
 
