@@ -2,6 +2,11 @@
 Changelog for package libcurl_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Add an override flag to force vendored build (`#58 <https://github.com/ros/resource_retriever/issues/58>`_)
+* Contributors: Scott K Logan
+
 2.4.1 (2020-12-08)
 ------------------
 * Update maintainers (`#53 <https://github.com/ros/resource_retriever/issues/53>`_)
