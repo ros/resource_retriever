@@ -8,8 +8,6 @@ option(FORCE_BUILD_VENDOR_PKG
 
 find_package(ament_cmake REQUIRED)
 
-set(PACKAGE_VERSION "1.0.0")
-
 macro(build_libcurl)
   set(extra_cxx_flags)
   set(extra_c_flags)
@@ -31,9 +29,9 @@ macro(build_libcurl)
 
   include(ExternalProject)
   if(WIN32)
-    ExternalProject_Add(curl-7.58.0
-      URL https://github.com/curl/curl/releases/download/curl-7_68_0/curl-7.68.0.tar.gz
-      URL_MD5 f68d6f716ff06d357f476ea4ea57a3d6
+    ExternalProject_Add(curl-7.75.0
+      URL https://github.com/curl/curl/releases/download/curl-7_75_0/curl-7.75.0.tar.gz
+      URL_MD5 2071994cfc5079d03439915f2751c8bc
       LOG_CONFIGURE ${should_log}
       LOG_BUILD ${should_log}
       CMAKE_ARGS
@@ -44,9 +42,9 @@ macro(build_libcurl)
       TIMEOUT 600
     )
   else()
-    ExternalProject_Add(curl-7.58.0
-      URL https://github.com/curl/curl/releases/download/curl-7_68_0/curl-7.68.0.tar.gz
-      URL_MD5 f68d6f716ff06d357f476ea4ea57a3d6
+    ExternalProject_Add(curl-7.75.0
+      URL https://github.com/curl/curl/releases/download/curl-7_75_0/curl-7.75.0.tar.gz
+      URL_MD5 2071994cfc5079d03439915f2751c8bc
       CONFIGURE_COMMAND
         <SOURCE_DIR>/configure
         CFLAGS=${extra_c_flags}
@@ -54,8 +52,10 @@ macro(build_libcurl)
         PKG_CONFIG_PATH=$PKG_CONFIG_PATH:${PKGCONFIG_FOR_OPENSSL}
         --prefix=${CMAKE_CURRENT_BINARY_DIR}/libcurl_install
         --with-ssl
-      BUILD_COMMAND ${MAKE}
-      INSTALL_COMMAND make install
+	--without-libpsl
+	--without-libidn2
+      BUILD_COMMAND $(MAKE)
+      INSTALL_COMMAND $(MAKE) install
       TIMEOUT 600
     )
   endif()
