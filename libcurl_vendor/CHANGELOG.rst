@@ -2,6 +2,11 @@
 Changelog for package libcurl_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Update libcurl_vendor to the latest version (7.75.0). (`#60 <https://github.com/ros/resource_retriever/issues/60>`_)
+* Contributors: Chris Lalancette
+
 2.4.2 (2021-03-18)
 ------------------
 * Add an override flag to force vendored build (`#58 <https://github.com/ros/resource_retriever/issues/58>`_)
