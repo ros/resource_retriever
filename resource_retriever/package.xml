@@ -27,7 +27,7 @@
 
   <depend>ament_index_cpp</depend>
   <depend>ament_index_python</depend>
-  <depend>libcurl_vendor</depend>
+  <depend>curl</depend>
 
   <test_depend>ament_cmake_gtest</test_depend>
   <test_depend>ament_cmake_pytest</test_depend>
