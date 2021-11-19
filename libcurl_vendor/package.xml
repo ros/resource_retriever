@@ -15,7 +15,6 @@
   <!-- https://curl.haxx.se/docs/copyright.html -->
   <license>MIT</license>  <!-- libcurl is "MIT style" -->
 
-  <author email="alejandro@osrfoundation.org">Alejandro Hernandez</author>
   <author email="william@osrfoundation.org">William Woodall</author>
 
   <url type="website">https://github.com/curl/curl</url>
