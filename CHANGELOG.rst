@@ -2,6 +2,11 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+1.12.7 (2021-12-06)
+-------------------
+* Split curl dependency to avoid dev package at runtime (`#67 <https://github.com/ros/resource_retriever/issues/67>`_)
+* Contributors: Scott K Logan
+
 1.12.6 (2020-02-14)
 -------------------
 * Bump CMake version to avoid CMP0048 warning (`#37 <https://github.com/ros/resource_retriever/issues/37>`_)
