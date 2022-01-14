@@ -2,6 +2,13 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.0.0 (2022-01-14)
+------------------
+* Fix include order for cpplint (`#69 <https://github.com/ros/resource_retriever/issues/69>`_)
+* Update maintainers (`#66 <https://github.com/ros/resource_retriever/issues/66>`_)
+* Remove the deprecated retriever.h header (`#63 <https://github.com/ros/resource_retriever/issues/63>`_)
+* Contributors: Audrow Nash, Chris Lalancette, Jacob Perron
+
 2.5.0 (2021-04-06)
 ------------------
 
