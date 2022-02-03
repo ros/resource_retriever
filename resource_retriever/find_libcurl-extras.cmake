@@ -1,0 +1,11 @@
+find_package(CURL QUIET)
+
+if(NOT CURL_FOUND)
+  find_program(_curl_program NAMES curl curl.exe)
+  if(_curl_program)
+    get_filename_component(_curl_prefix "${_curl_program}" DIRECTORY)
+    find_package(CURL REQUIRED HINTS "${_curl_prefix}")
+  else()
+    find_package(CURL REQUIRED)
+  endif()
+endif()
