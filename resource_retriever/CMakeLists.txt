@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.12)
 project(resource_retriever)
 
 # Default to C++14
@@ -10,10 +10,9 @@ if(NOT WIN32)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic")
 endif()
 
-find_package(ament_cmake_ros REQUIRED)
+find_package(ament_cmake REQUIRED)
 find_package(ament_index_cpp REQUIRED)
-# TODO(wjwwood): remove libcurl_vendor and just use system curl when possible
-find_package(libcurl_vendor REQUIRED)
+find_package(CURL REQUIRED)
 
 # TODO(wjwwood): split cpp and python apis into separate packages
 
@@ -23,20 +22,22 @@ target_include_directories(${PROJECT_NAME}
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<INSTALL_INTERFACE:include>
 )
-ament_target_dependencies(${PROJECT_NAME}
-  ament_index_cpp
-  libcurl_vendor
+target_link_libraries(${PROJECT_NAME} PRIVATE
+  ament_index_cpp::ament_index_cpp
+  CURL::libcurl
 )
 # Causes the visibility macros to use dllexport rather than dllimport,
 # which is appropriate when building the dll but not consuming it.
 target_compile_definitions(${PROJECT_NAME} PRIVATE "RESOURCE_RETRIEVER_BUILDING_LIBRARY")
 
-# specific order: dependents before dependencies
+# Export old-style CMake variables
 ament_export_include_directories(include)
+
+# Export modern CMake targets
 ament_export_targets(${PROJECT_NAME} HAS_LIBRARY_TARGET)
 
+# specific order: dependents before dependencies
 ament_export_dependencies(ament_index_cpp)
-ament_export_dependencies(libcurl_vendor)
 
 ament_python_install_package(${PROJECT_NAME}
   PACKAGE_DIR src/${PROJECT_NAME})
