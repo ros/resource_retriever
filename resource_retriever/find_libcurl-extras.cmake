@@ -1,9 +1,14 @@
 find_package(CURL QUIET)
 
 if(NOT CURL_FOUND)
+  if(WIN32)
+    # Chocolatey package is compiled with mingw, which uses these suffixes for libraries
+    list(APPEND CMAKE_FIND_LIBRARY_SUFFIXES ".dll.a" ".a")
+  endif()
   find_program(_curl_program NAMES curl curl.exe)
   if(_curl_program)
     get_filename_component(_curl_prefix "${_curl_program}" DIRECTORY)
+    message(STATUS "Looking for CURL in ${_curl_prefix}")
     find_package(CURL REQUIRED HINTS "${_curl_prefix}")
   else()
     find_package(CURL REQUIRED)
