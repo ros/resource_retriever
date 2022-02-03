@@ -26,6 +26,7 @@
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <build_depend>libcurl-dev</build_depend>
+  <build_export_depend>libcurl</build_export_depend>
   <exec_depend>libcurl</exec_depend>
 
   <depend>ament_index_cpp</depend>

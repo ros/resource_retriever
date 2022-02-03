@@ -12,11 +12,12 @@ endif()
 
 find_package(ament_cmake REQUIRED)
 find_package(ament_index_cpp REQUIRED)
-find_package(CURL REQUIRED)
+
+include(find_libcurl-extras.cmake)
 
 # TODO(wjwwood): split cpp and python apis into separate packages
 
-add_library(${PROJECT_NAME} src/retriever.cpp)
+add_library(${PROJECT_NAME} SHARED src/retriever.cpp)
 target_include_directories(${PROJECT_NAME}
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -36,7 +37,6 @@ ament_export_include_directories(include)
 # Export modern CMake targets
 ament_export_targets(${PROJECT_NAME} HAS_LIBRARY_TARGET)
 
-# specific order: dependents before dependencies
 ament_export_dependencies(ament_index_cpp)
 
 ament_python_install_package(${PROJECT_NAME}
@@ -97,4 +97,4 @@ install(
   DESTINATION include
 )
 
-ament_package()
+ament_package(CONFIG_EXTRAS find_libcurl-extras.cmake)
