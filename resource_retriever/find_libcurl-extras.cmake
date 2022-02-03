@@ -18,8 +18,16 @@ if(NOT CURL_FOUND)
   if(WIN32)
     # Chocolatey package is compiled with mingw, which uses these suffixes for libraries
     list(APPEND CMAKE_FIND_LIBRARY_SUFFIXES ".dll.a" ".a")
+    # Ignore curl shipped with default windows 10 since it has no headers or libraries
+    # We want the one installed by chocolatey
+    set(_old_ignore_paths "${CMAKE_IGNORE_PATH}")
+    list(APPEND CMAKE_IGNORE_PATH "C:/Windows/System32")
   endif()
   find_program(_curl_program NAMES curl curl.exe)
+  if(WIN32)
+    # Undo ignoring of the system paths
+    set(CMAKE_IGNORE_PATH "${_old_ignore_paths}")
+  endif()
   if(_curl_program)
     get_filename_component(_curl_prefix "${_curl_program}" DIRECTORY)
     message(STATUS "Looking for CURL in ${_curl_prefix}")
