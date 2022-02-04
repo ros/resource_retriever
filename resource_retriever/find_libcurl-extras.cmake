@@ -16,9 +16,6 @@
 function(locate_chocolatey_curl output_var)
   set(location "${output_var}-NOTFOUND")
 
-  # Chocolatey package is compiled with mingw, which uses these suffixes for libraries
-  list(APPEND CMAKE_FIND_LIBRARY_SUFFIXES ".dll.a" ".a")
-
   # Find the chocolatey curl executable - ignore curl shipped with Windows 10
   set(_old_ignore_paths "${CMAKE_IGNORE_PATH}")
   list(APPEND CMAKE_IGNORE_PATH "C:/Windows/System32")
@@ -54,7 +51,9 @@ macro(find_curl_win32)
     locate_chocolatey_curl(choco_curl_location)
     if(choco_curl_location)
       message(STATUS "Looking for CURL in ${choco_curl_location}")
-      # Add extra search path to assist FindCURL.cmake
+      # Chocolatey package is compiled with mingw, which uses these suffixes for libraries
+      list(APPEND CMAKE_FIND_LIBRARY_SUFFIXES ".dll.a" ".a")
+      # Add choco curl location as an extra search path to assist FindCURL.cmake
       list(APPEND CMAKE_PREFIX_PATH "${choco_curl_location}")
       find_package(CURL REQUIRED)
     endif()
