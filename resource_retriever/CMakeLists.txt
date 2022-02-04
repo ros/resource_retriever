@@ -10,7 +10,7 @@ if(NOT WIN32)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic")
 endif()
 
-find_package(ament_cmake_ros REQUIRED)
+find_package(ament_cmake REQUIRED)
 find_package(ament_index_cpp REQUIRED)
 # TODO(wjwwood): remove libcurl_vendor and just use system curl when possible
 find_package(libcurl_vendor REQUIRED)
@@ -21,7 +21,7 @@ add_library(${PROJECT_NAME} src/retriever.cpp)
 target_include_directories(${PROJECT_NAME}
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include>
+    $<INSTALL_INTERFACE:include/${PROJECT_NAME}>
 )
 ament_target_dependencies(${PROJECT_NAME}
   ament_index_cpp
@@ -31,10 +31,13 @@ ament_target_dependencies(${PROJECT_NAME}
 # which is appropriate when building the dll but not consuming it.
 target_compile_definitions(${PROJECT_NAME} PRIVATE "RESOURCE_RETRIEVER_BUILDING_LIBRARY")
 
-# specific order: dependents before dependencies
-ament_export_include_directories(include)
+# Export old-style CMake variables
+ament_export_include_directories("include/${PROJECT_NAME}")
+
+# Export modern CMake targets
 ament_export_targets(${PROJECT_NAME} HAS_LIBRARY_TARGET)
 
+# specific order: dependents before dependencies
 ament_export_dependencies(ament_index_cpp)
 ament_export_dependencies(libcurl_vendor)
 
@@ -88,12 +91,11 @@ install(
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin
-  INCLUDES DESTINATION include
 )
 
 install(
   DIRECTORY include/
-  DESTINATION include
+  DESTINATION include/${PROJECT_NAME}
 )
 
 ament_package()
