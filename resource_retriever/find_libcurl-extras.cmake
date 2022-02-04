@@ -54,6 +54,10 @@ macro(find_curl_win32)
     locate_chocolatey_curl(choco_curl_location)
     if(choco_curl_location)
       message(STATUS "Looking for CURL in ${choco_curl_location}")
+      # Add extra search paths to find_path/find_library to assist FindCURL.cmake
+      list(APPEND CMAKE_INCLUDE_PATH "${choco_curl_location}")
+      list(APPEND CMAKE_LIBRARY_PATH "${choco_curl_location}")
+      # Also set HINTS in case the chocolatey package ever provides curlConfig.cmake
       find_package(CURL REQUIRED HINTS "${choco_curl_location}")
     endif()
   endif()
