@@ -14,7 +14,7 @@
 
 
 function(locate_chocolatey_curl output_var)
-  set("${output_var}" "${output_var}-NOTFOUND")
+  set(location "${output_var}-NOTFOUND")
 
   # Chocolatey package is compiled with mingw, which uses these suffixes for libraries
   list(APPEND CMAKE_FIND_LIBRARY_SUFFIXES ".dll.a" ".a")
@@ -37,11 +37,11 @@ function(locate_chocolatey_curl output_var)
       message(STATUS "Found chocolatey curl: ${CMAKE_MATCH_0}")
       get_filename_component(dir_containing_curl "${CMAKE_MATCH_0}" DIRECTORY)
       get_filename_component(dir_containing_dir "${dir_containing_curl}" DIRECTORY)
-      set("${output_var}" "${dir_containing_dir}" PARENT_SCOPE)
+      set(location "${dir_containing_dir}" PARENT_SCOPE)
     endif()
   endif()
 
-  set("${output_var}" "${output_var}" PARENT_SCOPE)
+  set("${output_var}" "${location}" PARENT_SCOPE)
 endfunction()
 
 
