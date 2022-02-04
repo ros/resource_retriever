@@ -32,8 +32,8 @@ function(locate_chocolatey_curl output_var)
     message(STATUS "Shimgen: ${shimgen_output}")
 
     # Look for output that says the real path to executable
-    string(REGEX MATCH "path to executable: ([^\r^\n]+)" "${shimgen_output}")
-    if(CMAKE_MATCH_0)
+    string(REGEX MATCH "path to executable: ([^\r\n]+)" regex_match "${shimgen_output}")
+    if(regex_match)
       message(STATUS "Found chocolatey curl: ${CMAKE_MATCH_0}")
       get_filename_component(dir_containing_curl "${CMAKE_MATCH_0}" DIRECTORY)
       get_filename_component(dir_containing_dir "${dir_containing_curl}" DIRECTORY)
@@ -50,8 +50,10 @@ macro(find_curl_win32)
 
   if(NOT CURL_FOUND)
     locate_chocolatey_curl(choco_curl_location)
-    message(STATUS "Looking for CURL in ${choco_curl_location}")
-    find_package(CURL REQUIRED HINTS "${choco_curl_location}")
+    if(choco_curl_location)
+      message(STATUS "Looking for CURL in ${choco_curl_location}")
+      find_package(CURL REQUIRED HINTS "${choco_curl_location}")
+    endif()
   endif()
 endmacro()
 
