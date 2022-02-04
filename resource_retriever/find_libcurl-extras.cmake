@@ -34,10 +34,12 @@ function(locate_chocolatey_curl output_var)
     # Look for output that says the real path to executable
     string(REGEX MATCH "path to executable: ([^\r\n]+)" regex_match "${shimgen_output}")
     if(regex_match)
-      message(STATUS "Found chocolatey curl: ${CMAKE_MATCH_0}")
-      get_filename_component(dir_containing_curl "${CMAKE_MATCH_0}" DIRECTORY)
-      get_filename_component(dir_containing_dir "${dir_containing_curl}" DIRECTORY)
-      set(location "${dir_containing_dir}" PARENT_SCOPE)
+      message(STATUS "Found chocolatey curl: ${CMAKE_MATCH_1}")
+      # Get .../bin directory
+      get_filename_component(dir_containing_curl "${CMAKE_MATCH_1}" DIRECTORY)
+      # The prefix to look for libcurl is the directory containing bin
+      get_filename_component(dir_containing_bin "${dir_containing_curl}" DIRECTORY)
+      set(location "${dir_containing_bin}" PARENT_SCOPE)
     endif()
   endif()
 
