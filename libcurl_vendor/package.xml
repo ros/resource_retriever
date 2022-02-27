@@ -23,6 +23,8 @@
 
   <buildtool_export_depend>pkg-config</buildtool_export_depend>
 
+  <build_depend>file</build_depend>
+
   <depend>curl</depend>
 
   <export>
