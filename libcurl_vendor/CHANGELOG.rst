@@ -2,8 +2,8 @@
 Changelog for package libcurl_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+3.1.0 (2022-03-01)
+------------------
 * Update to curl 7.81. (`#74 <https://github.com/ros/resource_retriever/issues/74>`_)
 * Contributors: Chris Lalancette
 

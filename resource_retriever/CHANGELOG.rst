@@ -2,8 +2,8 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+3.1.0 (2022-03-01)
+------------------
 * Install headers to include/${PROJECT_NAME} (`#72 <https://github.com/ros/resource_retriever/issues/72>`_)
 * Contributors: Shane Loretz
 
