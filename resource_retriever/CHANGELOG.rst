@@ -2,6 +2,9 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.2.0 (2022-05-10)
+------------------
+
 3.1.0 (2022-03-01)
 ------------------
 * Install headers to include/${PROJECT_NAME} (`#72 <https://github.com/ros/resource_retriever/issues/72>`_)
