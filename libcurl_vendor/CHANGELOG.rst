@@ -2,6 +2,12 @@
 Changelog for package libcurl_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Sets CMP0135 policy behavior to NEW (`#79 <https://github.com/ros/resource_retriever/issues/79>`_)
+* Fixes policy CMP0135 warning for CMake >= 3.24
+* Contributors: Cristóbal Arroyo, Crola1702
+
 3.2.0 (2022-05-10)
 ------------------
 
