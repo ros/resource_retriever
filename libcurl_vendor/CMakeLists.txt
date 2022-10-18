@@ -15,10 +15,8 @@ endif()
 
 macro(build_libcurl)
 
-  set(extra_cxx_flags)
   set(extra_c_flags)
   if(NOT WIN32)
-    list(APPEND extra_cxx_flags "-w")
     list(APPEND extra_c_flags "-w")
   endif()
 
@@ -36,26 +34,14 @@ macro(build_libcurl)
     LOG_CONFIGURE ${should_log}
     LOG_BUILD ${should_log}
     CMAKE_ARGS
-      -DCMAKE_CXX_STANDARD=14
-      -DCMAKE_CXX_FLAGS=${extra_cxx_flags}
       -DCMAKE_C_FLAGS=${extra_c_flags}
       -DENABLE_MANUAL=OFF
       -DBUILD_TESTING=OFF
-      -DCURL_ENABLE_SSL=ON #default, but just to make clear
-      -DCURL_USE_LIBPSL=OFF
-      -DUSE_LIBIDN2=OFF
-      -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/libcurl_install
-      -Wno-dev
+      -DCURL_ENABLE_SSL=ON  # default, but just to make clear
+      -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
     TIMEOUT 600
   )
 
-  # The external project will install to the build folder, but we'll install that on make install.
-  install(
-    DIRECTORY
-      ${CMAKE_CURRENT_BINARY_DIR}/libcurl_install/
-    DESTINATION
-      ${CMAKE_INSTALL_PREFIX}/opt/libcurl_vendor
-  )
 endmacro()
 
 find_package(CURL QUIET)
