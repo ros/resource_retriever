@@ -38,10 +38,10 @@ macro(build_libcurl)
       -DENABLE_MANUAL=OFF
       -DBUILD_TESTING=OFF
       -DCURL_ENABLE_SSL=ON  # default, but just to make clear
+      -DUSE_LIBIDN2=OFF
       -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}
     TIMEOUT 600
   )
-
 endmacro()
 
 find_package(CURL QUIET)
