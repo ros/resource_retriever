@@ -39,8 +39,16 @@ macro(build_libcurl)
       -DBUILD_TESTING=OFF
       -DCURL_ENABLE_SSL=ON  # default, but just to make clear
       -DUSE_LIBIDN2=OFF
-      -DCMAKE_INSTALL_PREFIX=${CMAKE_INSTALL_PREFIX}/opt/libcurl_vendor
+      -DCMAKE_INSTALL_PREFIX=${CMAKE_CURRENT_BINARY_DIR}/libcurl_install
     TIMEOUT 600
+  )
+
+  # The external project will install to the build folder, but we'll install that on make install.
+  install(
+    DIRECTORY
+      ${CMAKE_CURRENT_BINARY_DIR}/libcurl_install/
+    DESTINATION
+      ${CMAKE_INSTALL_PREFIX}/opt/libcurl_vendor
   )
 endmacro()
 
