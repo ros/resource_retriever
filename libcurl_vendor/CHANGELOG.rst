@@ -2,6 +2,11 @@
 Changelog for package libcurl_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* merge libcurl_vendor build instructions (`#81 <https://github.com/ros/resource_retriever/issues/81>`_)
+* Contributors: schrodinbug
+
 3.2.1 (2022-09-13)
 ------------------
 * Sets CMP0135 policy behavior to NEW (`#79 <https://github.com/ros/resource_retriever/issues/79>`_)
