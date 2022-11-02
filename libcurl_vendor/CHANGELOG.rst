@@ -2,8 +2,8 @@
 Changelog for package libcurl_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+3.2.2 (2022-11-02)
+------------------
 * merge libcurl_vendor build instructions (`#81 <https://github.com/ros/resource_retriever/issues/81>`_)
 * Contributors: schrodinbug
 
