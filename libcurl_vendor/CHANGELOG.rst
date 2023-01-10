@@ -2,6 +2,11 @@
 Changelog for package libcurl_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.1.1 (2023-01-10)
+------------------
+* Sets CMP0135 policy behavior to NEW (backport `#79 <https://github.com/ros/resource_retriever/issues/79>`_) (`#82 <https://github.com/ros/resource_retriever/issues/82>`_)
+* Contributors: mergify[bot]
+
 3.1.0 (2022-03-01)
 ------------------
 * Update to curl 7.81. (`#74 <https://github.com/ros/resource_retriever/issues/74>`_)
