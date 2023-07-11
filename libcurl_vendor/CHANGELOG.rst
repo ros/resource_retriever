@@ -2,8 +2,8 @@
 Changelog for package libcurl_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+3.3.1 (2023-07-11)
+------------------
 * Switch to ament_cmake_vendor_package (`#86 <https://github.com/ros/resource_retriever/issues/86>`_)
 * Contributors: Scott K Logan
 
