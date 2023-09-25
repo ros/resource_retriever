@@ -31,7 +31,6 @@
 # POSSIBILITY OF SUCH DAMAGE.
 #
 
-import roslib; roslib.load_manifest('resource_retriever')
 import subprocess
 import rospkg
 try:
