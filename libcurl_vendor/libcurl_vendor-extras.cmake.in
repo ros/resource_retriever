@@ -10,7 +10,7 @@ find_package(CURL QUIET)
 if(NOT CURL_FOUND)
   if(WIN32)
     # Force cmake to find the curl-config file in our local build.
-    set(curl_DIR "${@PROJECT_NAME@_DIR}/../../../opt/libcurl_vendor/CMake")
+    set(curl_DIR "${@PROJECT_NAME@_DIR}/../../../opt/libcurl_vendor/lib/cmake/CURL")
     message(STATUS "Setting curl_DIR to: '${curl_DIR}'")
 
     find_package(curl REQUIRED PATHS "${curl_DIR}" NO_MODULE NO_DEFAULT_PATH)
