@@ -4,7 +4,7 @@
   schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="2">
   <name>libcurl_vendor</name>
-  <version>3.3.1</version>
+  <version>3.4.0</version>
   <description>
     Wrapper around libcurl, it provides a fixed CMake module and an ExternalProject build of it.
   </description>
