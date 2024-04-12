@@ -33,19 +33,19 @@
 #include <cstring>
 #include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "ament_index_cpp/get_package_prefix.hpp"
 #include "ament_index_cpp/get_package_share_directory.hpp"
 
-namespace resource_retriever
-{
 
+namespace
+{
 class CURLStaticInit
 {
 public:
   CURLStaticInit()
-  : initialized_(false)
   {
     CURLcode ret = curl_global_init(CURL_GLOBAL_ALL);
     if (ret != 0) {
@@ -62,20 +62,37 @@ public:
     }
   }
 
-  bool initialized_;
+private:
+  bool initialized_ {false};
 };
-static CURLStaticInit g_curl_init;
+CURLStaticInit g_curl_init;
+}  // namespace
+
+
+namespace resource_retriever
+{
 
 Retriever::Retriever()
+: curl_handle_(curl_easy_init())
 {
-  curl_handle_ = curl_easy_init();
 }
 
 Retriever::~Retriever()
 {
-  if (curl_handle_) {
+  if (curl_handle_ != nullptr) {
     curl_easy_cleanup(curl_handle_);
   }
+}
+
+Retriever::Retriever(Retriever && other) noexcept
+: curl_handle_(std::exchange(other.curl_handle_, nullptr))
+{
+}
+
+Retriever & Retriever::operator=(Retriever && other) noexcept
+{
+  std::swap(curl_handle_, other.curl_handle_);
+  return *this;
 }
 
 struct MemoryBuffer
@@ -99,7 +116,7 @@ MemoryResource Retriever::get(const std::string & url)
   std::string mod_url = url;
   if (url.find("package://") == 0) {
     mod_url.erase(0, strlen("package://"));
-    size_t pos = mod_url.find("/");
+    size_t pos = mod_url.find('/');
     if (pos == std::string::npos) {
       throw Exception(url, "Could not parse package:// format into file:// format");
     }
@@ -132,7 +149,9 @@ MemoryResource Retriever::get(const std::string & url)
   CURLcode ret = curl_easy_perform(curl_handle_);
   if (ret != 0) {
     throw Exception(mod_url, error_buffer);
-  } else if (!buf.v.empty()) {
+  }
+
+  if (!buf.v.empty()) {
     res.size = buf.v.size();
     // Converted from boost::shared_array, see: https://stackoverflow.com/a/8624884
     res.data.reset(new uint8_t[res.size], std::default_delete<uint8_t[]>());
