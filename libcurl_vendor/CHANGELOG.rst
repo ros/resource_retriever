@@ -2,8 +2,8 @@
 Changelog for package libcurl_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+3.4.2 (2024-05-13)
+------------------
 * Add "lib" to the Windows curl search path. (`#96 <https://github.com/ros/resource_retriever/issues/96>`_) (`#97 <https://github.com/ros/resource_retriever/issues/97>`_)
   In CMake 3.3, a commit made it so that the find_package
   module in CMake had a compatibility mode where it would
