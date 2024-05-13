@@ -2,6 +2,27 @@
 Changelog for package libcurl_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Add "lib" to the Windows curl search path. (`#96 <https://github.com/ros/resource_retriever/issues/96>`_) (`#97 <https://github.com/ros/resource_retriever/issues/97>`_)
+  In CMake 3.3, a commit made it so that the find_package
+  module in CMake had a compatibility mode where it would
+  automatically search for packages in a <prefix>/lib subdirectory.
+  In CMake 3.6, this compatibility mode was reverted for all
+  platforms *except* Windows.
+  That means that since CMake 3.3, we haven't actually been
+  using the path as specified in `curl_DIR`, but we have
+  instead been inadvertently relying on that fallback behavior.
+  In CMake 3.28, that compatibilty mode was also removed for
+  Windows, meaning that we are now failing to find_package(curl)
+  in downstream packages (like resource_retriever).
+  Fix this by adding in the "lib" directory that always should
+  have been there.  I'll note that this *only* affects our
+  Windows builds, because this code is in a if(WIN32) block.
+  (cherry picked from commit 1839d583190eb9dcf339eaaf6bebe632d94664a6)
+  Co-authored-by: Chris Lalancette <clalancette@gmail.com>
+* Contributors: mergify[bot]
+
 3.4.1 (2024-04-16)
 ------------------
 
