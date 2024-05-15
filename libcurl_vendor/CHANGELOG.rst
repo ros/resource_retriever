@@ -2,6 +2,11 @@
 Changelog for package libcurl_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.1.2 (2024-05-15)
+------------------
+* Add "lib" to the Windows curl search path. (`#96 <https://github.com/ros/resource_retriever/issues/96>`_) (`#99 <https://github.com/ros/resource_retriever/issues/99>`_)
+* Contributors: mergify[bot]
+
 3.1.1 (2023-01-10)
 ------------------
 * Sets CMP0135 policy behavior to NEW (backport `#79 <https://github.com/ros/resource_retriever/issues/79>`_) (`#82 <https://github.com/ros/resource_retriever/issues/82>`_)
