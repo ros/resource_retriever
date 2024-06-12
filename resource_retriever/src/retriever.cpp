@@ -32,7 +32,6 @@
 
 #include <cstring>
 #include <memory>
-#include <regex>
 #include <string>
 #include <utility>
 #include <vector>
@@ -138,7 +137,22 @@ MemoryResource Retriever::get(const std::string & url)
   }
 
   // newer versions of curl do not accept spaces in URLs
-  mod_url = std::regex_replace(mod_url, std::regex(" "), "%20");
+  std::string new_mod_url;
+  new_mod_url.reserve(mod_url.length());
+
+  std::string::size_type last_pos = 0;
+  std::string::size_type find_pos;
+
+  while(std::string::npos != (find_pos = mod_url.find(" ", last_pos))) {
+    new_mod_url.append(mod_url, last_pos, find_pos - last_pos);
+    new_mod_url += "%20";
+    last_pos = find_pos + std::string(" ").length();
+  }
+
+  // Take care for the rest after last occurrence
+  new_mod_url.append(mod_url, last_pos, mod_url.length() - last_pos);
+
+  mod_url = new_mod_url;
 
   curl_easy_setopt(curl_handle_, CURLOPT_URL, mod_url.c_str());
   curl_easy_setopt(curl_handle_, CURLOPT_WRITEFUNCTION, curlWriteFunc);
