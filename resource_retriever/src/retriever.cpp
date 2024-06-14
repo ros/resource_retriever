@@ -111,7 +111,7 @@ size_t curlWriteFunc(void * buffer, size_t size, size_t nmemb, void * userp)
   return size * nmemb;
 }
 
-std::string Retriever::escape_spaces(const std::string & url)
+static std::string escape_spaces(const std::string & url)
 {
   std::string new_mod_url;
   new_mod_url.reserve(url.length());
@@ -119,7 +119,7 @@ std::string Retriever::escape_spaces(const std::string & url)
   std::string::size_type last_pos = 0;
   std::string::size_type find_pos;
 
-  while(std::string::npos != (find_pos = url.find(" ", last_pos))) {
+  while (std::string::npos != (find_pos = url.find(" ", last_pos))) {
     new_mod_url.append(url, last_pos, find_pos - last_pos);
     new_mod_url += "%20";
     last_pos = find_pos + std::string(" ").length();
