@@ -85,6 +85,8 @@ public:
 
 private:
   CURL * curl_handle_ {nullptr};
+
+  std::string escape_spaces(const std::string & url);
 };
 
 }  //  namespace resource_retriever

@@ -111,6 +111,25 @@ size_t curlWriteFunc(void * buffer, size_t size, size_t nmemb, void * userp)
   return size * nmemb;
 }
 
+std::string Retriever::escape_spaces(const std::string & url)
+{
+  std::string new_mod_url;
+  new_mod_url.reserve(url.length());
+
+  std::string::size_type last_pos = 0;
+  std::string::size_type find_pos;
+
+  while(std::string::npos != (find_pos = url.find(" ", last_pos))) {
+    new_mod_url.append(url, last_pos, find_pos - last_pos);
+    new_mod_url += "%20";
+    last_pos = find_pos + std::string(" ").length();
+  }
+
+  // Take care for the rest after last occurrence
+  new_mod_url.append(url, last_pos, url.length() - last_pos);
+  return new_mod_url;
+}
+
 MemoryResource Retriever::get(const std::string & url)
 {
   std::string mod_url = url;
@@ -137,22 +156,7 @@ MemoryResource Retriever::get(const std::string & url)
   }
 
   // newer versions of curl do not accept spaces in URLs
-  std::string new_mod_url;
-  new_mod_url.reserve(mod_url.length());
-
-  std::string::size_type last_pos = 0;
-  std::string::size_type find_pos;
-
-  while(std::string::npos != (find_pos = mod_url.find(" ", last_pos))) {
-    new_mod_url.append(mod_url, last_pos, find_pos - last_pos);
-    new_mod_url += "%20";
-    last_pos = find_pos + std::string(" ").length();
-  }
-
-  // Take care for the rest after last occurrence
-  new_mod_url.append(mod_url, last_pos, mod_url.length() - last_pos);
-
-  mod_url = new_mod_url;
+  mod_url = escape_spaces(mod_url);
 
   curl_easy_setopt(curl_handle_, CURLOPT_URL, mod_url.c_str());
   curl_easy_setopt(curl_handle_, CURLOPT_WRITEFUNCTION, curlWriteFunc);
