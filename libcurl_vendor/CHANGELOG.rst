@@ -2,8 +2,8 @@
 Changelog for package libcurl_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+3.2.3 (2024-07-10)
+------------------
 * Add "lib" to the Windows curl search path. (`#98 <https://github.com/ros/resource_retriever/issues/98>`_)
 * Contributors: Chris Lalancette
 
