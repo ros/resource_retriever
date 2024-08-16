@@ -26,50 +26,24 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include "resource_retriever/retriever.hpp"
+#ifndef RESOURCE_RETRIEVER__EXCEPTION_HPP_
+#define RESOURCE_RETRIEVER__EXCEPTION_HPP_
 
-#include <cstring>
-#include <memory>
+#include <stdexcept>
 #include <string>
-#include <utility>
-#include <vector>
 
-#include "resource_retriever/exception.hpp"
-#include "resource_retriever/plugins/curl_retriever.hpp"
-#include "resource_retriever/plugins/filesystem_retriever.hpp"
-
+#include "resource_retriever/visibility_control.hpp"
 
 namespace resource_retriever
 {
-
-RetrieverVec default_plugins()
+class RESOURCE_RETRIEVER_PUBLIC Exception : public std::runtime_error
 {
-  return {
-    std::make_shared<plugins::FilesystemRetriever>(),
-    std::make_shared<plugins::CurlRetriever>(),
-  };
-}
-
-Retriever::Retriever(RetrieverVec plugins):
-  plugins(std::move(plugins))
-{
-}
-
-Retriever::~Retriever() = default;
-
-MemoryResourcePtr Retriever::get(const std::string & url)
-{
-  for (auto & plugin : plugins)
+public:
+  Exception(const std::string & file, const std::string & error_msg)
+  : std::runtime_error("Error retrieving file [" + file + "]: " + error_msg)
   {
-    if (plugin->can_handle(url))
-    {
-      auto res = plugin->get(url);
-
-      if (res != nullptr)
-        return res;
-    }
   }
-  return nullptr;
-}
-
+};
 }  // namespace resource_retriever
+
+#endif  // RESOURCE_RETRIEVER__EXCEPTION_HPP_

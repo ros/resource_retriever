@@ -26,50 +26,31 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include "resource_retriever/retriever.hpp"
+#ifndef RESOURCE_RETRIEVER__MEMORY_RESOURCE_HPP_
+#define RESOURCE_RETRIEVER__MEMORY_RESOURCE_HPP_
 
-#include <cstring>
 #include <memory>
-#include <string>
 #include <utility>
 #include <vector>
 
-#include "resource_retriever/exception.hpp"
-#include "resource_retriever/plugins/curl_retriever.hpp"
-#include "resource_retriever/plugins/filesystem_retriever.hpp"
-
+#include "resource_retriever/visibility_control.hpp"
 
 namespace resource_retriever
 {
-
-RetrieverVec default_plugins()
+/**
+ * \brief A combination of a pointer to data in memory along with the data's size.
+ */
+struct RESOURCE_RETRIEVER_PUBLIC MemoryResource
 {
-  return {
-    std::make_shared<plugins::FilesystemRetriever>(),
-    std::make_shared<plugins::CurlRetriever>(),
-  };
-}
-
-Retriever::Retriever(RetrieverVec plugins):
-  plugins(std::move(plugins))
-{
-}
-
-Retriever::~Retriever() = default;
-
-MemoryResourcePtr Retriever::get(const std::string & url)
-{
-  for (auto & plugin : plugins)
+  explicit MemoryResource(std::vector<uint8_t> data):
+    data(std::move(data))
   {
-    if (plugin->can_handle(url))
-    {
-      auto res = plugin->get(url);
-
-      if (res != nullptr)
-        return res;
-    }
   }
-  return nullptr;
-}
+  const std::vector<uint8_t> data;
+};
 
-}  // namespace resource_retriever
+using MemoryResourcePtr = std::shared_ptr<MemoryResource>;
+
+}  //  namespace resource_retriever
+
+#endif  // RESOURCE_RETRIEVER__MEMORY_RESOURCE_HPP_

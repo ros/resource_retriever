@@ -26,50 +26,43 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include "resource_retriever/retriever.hpp"
+#ifndef RESOURCE_RETRIEVER__PLUGINS__CURL_RETRIEVER_HPP_
+#define RESOURCE_RETRIEVER__PLUGINS__CURL_RETRIEVER_HPP_
 
-#include <cstring>
+#include <cstdint>
 #include <memory>
+#include <stdexcept>
 #include <string>
-#include <utility>
 #include <vector>
 
-#include "resource_retriever/exception.hpp"
-#include "resource_retriever/plugins/curl_retriever.hpp"
-#include "resource_retriever/plugins/filesystem_retriever.hpp"
+#include "resource_retriever/plugins/retriever_plugin.hpp"
+#include "resource_retriever/visibility_control.hpp"
 
+using CURL = void;
 
-namespace resource_retriever
+namespace resource_retriever::plugins
 {
 
-RetrieverVec default_plugins()
+class RESOURCE_RETRIEVER_PUBLIC CurlRetriever: public RetrieverPlugin
 {
-  return {
-    std::make_shared<plugins::FilesystemRetriever>(),
-    std::make_shared<plugins::CurlRetriever>(),
-  };
-}
+public:
+  CurlRetriever();
+  ~CurlRetriever() override;
 
-Retriever::Retriever(RetrieverVec plugins):
-  plugins(std::move(plugins))
-{
-}
+  CurlRetriever(const CurlRetriever & ret) = delete;
+  CurlRetriever & operator=(const CurlRetriever & other) = delete;
 
-Retriever::~Retriever() = default;
+  CurlRetriever(CurlRetriever && other) noexcept;
+  CurlRetriever & operator=(CurlRetriever && other) noexcept;
 
-MemoryResourcePtr Retriever::get(const std::string & url)
-{
-  for (auto & plugin : plugins)
-  {
-    if (plugin->can_handle(url))
-    {
-      auto res = plugin->get(url);
+  bool can_handle(const std::string & url) override;
+  std::string name() override;
+  MemoryResourcePtr get(const std::string & url) override;
 
-      if (res != nullptr)
-        return res;
-    }
-  }
-  return nullptr;
-}
+private:
+  CURL * curl_handle_ {nullptr};
+};
 
-}  // namespace resource_retriever
+}  //  namespace resource_retriever::plugins
+
+#endif  // RESOURCE_RETRIEVER__PLUGINS__CURL_RETRIEVER_HPP_

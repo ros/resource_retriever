@@ -33,30 +33,18 @@
 #include <memory>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
+#include "resource_retriever/plugins/retriever_plugin.hpp"
 #include "resource_retriever/visibility_control.hpp"
-
-using CURL = void;
 
 namespace resource_retriever
 {
-class Exception : public std::runtime_error
-{
-public:
-  Exception(const std::string & file, const std::string & error_msg)
-  : std::runtime_error("Error retrieving file [" + file + "]: " + error_msg)
-  {
-  }
-};
 
-/**
- * \brief A combination of a pointer to data in memory along with the data's size.
- */
-struct MemoryResource
-{
-  std::shared_ptr<uint8_t> data;
-  size_t size {0};
-};
+using RetrieverPluginPtr = std::shared_ptr<plugins::RetrieverPlugin>;
+using RetrieverVec = std::vector<RetrieverPluginPtr>;
+
+RetrieverVec RESOURCE_RETRIEVER_PUBLIC default_plugins();
 
 /**
  * \brief Retrieves files from from a url.  Caches a CURL handle so multiple accesses to a single url
@@ -65,15 +53,9 @@ struct MemoryResource
 class RESOURCE_RETRIEVER_PUBLIC Retriever
 {
 public:
-  Retriever();
+  explicit Retriever(RetrieverVec plugins = default_plugins());
 
   ~Retriever();
-
-  Retriever(const Retriever & ret) = delete;
-  Retriever & operator=(const Retriever & other) = delete;
-
-  Retriever(Retriever && other) noexcept;
-  Retriever & operator=(Retriever && other) noexcept;
 
   /**
    * \brief Get a file and store it in memory
@@ -81,10 +63,10 @@ public:
    * \return The file, loaded into memory
    * \throws resource_retriever::Exception if anything goes wrong.
    */
-  MemoryResource get(const std::string & url);
+  MemoryResourcePtr get(const std::string & url);
 
 private:
-  CURL * curl_handle_ {nullptr};
+  RetrieverVec plugins;
 };
 
 }  //  namespace resource_retriever

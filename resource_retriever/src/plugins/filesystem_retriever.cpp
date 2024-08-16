@@ -26,50 +26,66 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include "resource_retriever/retriever.hpp"
+#include "resource_retriever/plugins/filesystem_retriever.hpp"
 
+#include <array>
 #include <cstring>
+#include <fstream>
 #include <memory>
 #include <string>
 #include <utility>
 #include <vector>
 
 #include "resource_retriever/exception.hpp"
-#include "resource_retriever/plugins/curl_retriever.hpp"
-#include "resource_retriever/plugins/filesystem_retriever.hpp"
 
-
-namespace resource_retriever
+namespace resource_retriever::plugins
 {
 
-RetrieverVec default_plugins()
-{
-  return {
-    std::make_shared<plugins::FilesystemRetriever>(),
-    std::make_shared<plugins::CurlRetriever>(),
-  };
+FilesystemRetriever::FilesystemRetriever() = default;
+
+FilesystemRetriever::~FilesystemRetriever() = default;
+
+std::string FilesystemRetriever::name() {
+  return "resource_retriever::plugins::FilesystemRetriever";
 }
 
-Retriever::Retriever(RetrieverVec plugins):
-  plugins(std::move(plugins))
+bool FilesystemRetriever::can_handle(const std::string & url)
 {
+  return url.find("package://") == 0 || url.find("file://") == 0;
 }
 
-Retriever::~Retriever() = default;
-
-MemoryResourcePtr Retriever::get(const std::string & url)
+MemoryResourcePtr FilesystemRetriever::get(const std::string & url)
 {
-  for (auto & plugin : plugins)
-  {
-    if (plugin->can_handle(url))
-    {
-      auto res = plugin->get(url);
-
-      if (res != nullptr)
-        return res;
-    }
+  // Expand package:// url into file://
+  auto mod_url = url;
+  try {
+    mod_url = expand_package_url(mod_url);
+  } catch (const resource_retriever::Exception &e) {
+    return nullptr;
   }
-  return nullptr;
+
+  if (mod_url.find("file://") == 0)
+  {
+    mod_url = mod_url.substr(7);
+  }
+
+  std::ifstream file(mod_url, std::ios::binary);
+  MemoryResourcePtr res {nullptr};
+
+  if (file.is_open()) {
+    // Get the file size
+    file.seekg(0, std::ios::end);
+    std::streampos fileSize = file.tellg();
+    file.seekg(0, std::ios::beg);
+
+    // Create the vector and read the file
+    std::vector<uint8_t> data(fileSize);
+    file.read(reinterpret_cast<char*>(data.data()), fileSize);
+    file.close();
+    res = std::make_shared<MemoryResource>(data);
+  }
+
+  return res;
 }
 
-}  // namespace resource_retriever
+}  // namespace resource_retriever::plugins

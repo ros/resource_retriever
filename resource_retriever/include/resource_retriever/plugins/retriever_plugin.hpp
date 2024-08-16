@@ -26,50 +26,30 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include "resource_retriever/retriever.hpp"
+#ifndef RESOURCE_RETRIEVER__PLUGINS__RETRIEVER_PLUGIN_HPP_
+#define RESOURCE_RETRIEVER__PLUGINS__RETRIEVER_PLUGIN_HPP_
 
-#include <cstring>
-#include <memory>
 #include <string>
-#include <utility>
-#include <vector>
 
-#include "resource_retriever/exception.hpp"
-#include "resource_retriever/plugins/curl_retriever.hpp"
-#include "resource_retriever/plugins/filesystem_retriever.hpp"
+#include <resource_retriever/memory_resource.hpp>
+#include "resource_retriever/visibility_control.hpp"
 
-
-namespace resource_retriever
+namespace resource_retriever::plugins
 {
+std::string expand_package_url(const std::string &  url);
+std::string escape_spaces(const std::string & url);
 
-RetrieverVec default_plugins()
+class RESOURCE_RETRIEVER_PUBLIC RetrieverPlugin
 {
-  return {
-    std::make_shared<plugins::FilesystemRetriever>(),
-    std::make_shared<plugins::CurlRetriever>(),
-  };
-}
+public:
+  RetrieverPlugin();
+  virtual ~RetrieverPlugin() = 0;
 
-Retriever::Retriever(RetrieverVec plugins):
-  plugins(std::move(plugins))
-{
-}
+  virtual std::string name() = 0;
+  virtual bool can_handle(const std::string & url) = 0;
+  virtual MemoryResourcePtr get(const std::string & url) = 0;
+};
 
-Retriever::~Retriever() = default;
+}  //  namespace resource_retriever::plugins
 
-MemoryResourcePtr Retriever::get(const std::string & url)
-{
-  for (auto & plugin : plugins)
-  {
-    if (plugin->can_handle(url))
-    {
-      auto res = plugin->get(url);
-
-      if (res != nullptr)
-        return res;
-    }
-  }
-  return nullptr;
-}
-
-}  // namespace resource_retriever
+#endif  // RESOURCE_RETRIEVER__PLUGINS__RETRIEVER_PLUGIN_HPP_
