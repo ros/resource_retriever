@@ -148,7 +148,7 @@ MemoryResourcePtr CurlRetriever::get(const std::string & url)
   CURLcode ret = curl_easy_perform(curl_handle_);
 
   if (ret == 0 && !buf.v.empty()) {
-    res = std::make_shared<MemoryResource>(buf.v);
+    res = std::make_shared<MemoryResource>(url, mod_url, buf.v);
   }
 
   return res;

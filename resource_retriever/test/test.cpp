@@ -94,8 +94,7 @@ public:
   }
 
   resource_retriever::MemoryResourcePtr get(const std::string & url) override {
-    (void) url;
-    return std::make_shared<resource_retriever::MemoryResource>(std::vector<uint8_t>{0, 1, 2, 3, 4, 5});
+    return std::make_shared<resource_retriever::MemoryResource>(url, url, std::vector<uint8_t>{0, 1, 2, 3, 4, 5});
   }
 };
 

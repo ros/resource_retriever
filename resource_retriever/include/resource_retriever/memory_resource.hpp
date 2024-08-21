@@ -30,6 +30,7 @@
 #define RESOURCE_RETRIEVER__MEMORY_RESOURCE_HPP_
 
 #include <memory>
+#include <string>
 #include <utility>
 #include <vector>
 
@@ -42,10 +43,14 @@ namespace resource_retriever
  */
 struct RESOURCE_RETRIEVER_PUBLIC MemoryResource
 {
-  explicit MemoryResource(std::vector<uint8_t> data):
+  explicit MemoryResource(std::string url, std::string expanded_url, std::vector<uint8_t> data):
+    url(std::move(url)),
+    expanded_url(std::move(expanded_url)),
     data(std::move(data))
   {
   }
+  const std::string url;
+  const std::string expanded_url;
   const std::vector<uint8_t> data;
 };
 

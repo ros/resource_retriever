@@ -82,7 +82,7 @@ MemoryResourcePtr FilesystemRetriever::get(const std::string & url)
     std::vector<uint8_t> data(fileSize);
     file.read(reinterpret_cast<char*>(data.data()), fileSize);
     file.close();
-    res = std::make_shared<MemoryResource>(data);
+    res = std::make_shared<MemoryResource>(url, mod_url, data);
   }
 
   return res;
