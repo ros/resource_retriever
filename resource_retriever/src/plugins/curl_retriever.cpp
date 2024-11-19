@@ -108,8 +108,6 @@ CurlRetriever & CurlRetriever::operator=(CurlRetriever && other) noexcept
   return *this;
 }
 
-
-
 std::string CurlRetriever::name() {
   return "resource_retriever::plugins::CurlRetriever";
 }

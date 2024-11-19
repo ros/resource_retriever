@@ -29,12 +29,6 @@
 #ifndef RESOURCE_RETRIEVER__PLUGINS__CURL_RETRIEVER_HPP_
 #define RESOURCE_RETRIEVER__PLUGINS__CURL_RETRIEVER_HPP_
 
-#include <cstdint>
-#include <memory>
-#include <stdexcept>
-#include <string>
-#include <vector>
-
 #include "resource_retriever/plugins/retriever_plugin.hpp"
 #include "resource_retriever/visibility_control.hpp"
 
