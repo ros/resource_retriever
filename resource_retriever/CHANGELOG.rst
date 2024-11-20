@@ -2,6 +2,11 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Stop using python_cmake_module. (`#94 <https://github.com/ros/resource_retriever/issues/94>`_)
+* Contributors: Chris Lalancette
+
 3.5.1 (2024-06-17)
 ------------------
 * Allow spaces (`#100 <https://github.com/ros/resource_retriever/issues/100>`_)
