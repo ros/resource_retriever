@@ -2,8 +2,8 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+3.6.0 (2024-11-20)
+------------------
 * Stop using python_cmake_module. (`#94 <https://github.com/ros/resource_retriever/issues/94>`_)
 * Contributors: Chris Lalancette
 
