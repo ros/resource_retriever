@@ -36,7 +36,7 @@
 
 namespace resource_retriever::plugins
 {
-std::string expand_package_url(const std::string &  url);
+std::string expand_package_url(const std::string & url);
 std::string escape_spaces(const std::string & url);
 
 class RESOURCE_RETRIEVER_PUBLIC RetrieverPlugin

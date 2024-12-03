@@ -32,6 +32,7 @@
 
 #include <array>
 #include <cstring>
+#include <iostream>
 #include <memory>
 #include <string>
 #include <utility>
@@ -49,7 +50,7 @@ public:
   {
     CURLcode ret = curl_global_init(CURL_GLOBAL_ALL);
     if (ret != 0) {
-      fprintf(stderr, "Error initializing libcurl! retcode = %d", ret);
+      std::cerr << "Error initializing libcurl! retcode = " << ret;
     } else {
       initialized_ = true;
     }
@@ -85,11 +86,11 @@ size_t curlWriteFunc(void * buffer, size_t size, size_t nmemb, void * userp)
   return size * nmemb;
 }
 
-CurlRetriever::CurlRetriever():
-  curl_handle_(curl_easy_init())
+CurlRetriever::CurlRetriever()
+:curl_handle_(curl_easy_init())
 {
-
 }
+
 CurlRetriever::~CurlRetriever()
 {
   if (curl_handle_ != nullptr) {
@@ -108,16 +109,17 @@ CurlRetriever & CurlRetriever::operator=(CurlRetriever && other) noexcept
   return *this;
 }
 
-std::string CurlRetriever::name() {
+std::string CurlRetriever::name()
+{
   return "resource_retriever::plugins::CurlRetriever";
 }
 
 bool CurlRetriever::can_handle(const std::string & url)
 {
-  return (url.find("package://") == 0 ||
-          url.find("file://") == 0 ||
-          url.find("http://") == 0 ||
-          url.find("https://") == 0);
+  return  url.find("package://") == 0 ||
+         url.find("file://") == 0 ||
+         url.find("http://") == 0 ||
+         url.find("https://") == 0;
 }
 
 MemoryResourcePtr CurlRetriever::get(const std::string & url)
@@ -126,7 +128,7 @@ MemoryResourcePtr CurlRetriever::get(const std::string & url)
   auto mod_url = url;
   try {
     mod_url = expand_package_url(mod_url);
-  } catch (const resource_retriever::Exception &e) {
+  } catch (const resource_retriever::Exception & e) {
     return nullptr;
   }
 

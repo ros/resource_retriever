@@ -45,7 +45,8 @@ FilesystemRetriever::FilesystemRetriever() = default;
 
 FilesystemRetriever::~FilesystemRetriever() = default;
 
-std::string FilesystemRetriever::name() {
+std::string FilesystemRetriever::name()
+{
   return "resource_retriever::plugins::FilesystemRetriever";
 }
 
@@ -60,12 +61,11 @@ MemoryResourcePtr FilesystemRetriever::get(const std::string & url)
   auto mod_url = url;
   try {
     mod_url = expand_package_url(mod_url);
-  } catch (const resource_retriever::Exception &e) {
+  } catch (const resource_retriever::Exception & e) {
     return nullptr;
   }
 
-  if (mod_url.find("file://") == 0)
-  {
+  if (mod_url.find("file://") == 0) {
     mod_url = mod_url.substr(7);
   }
 
@@ -80,7 +80,7 @@ MemoryResourcePtr FilesystemRetriever::get(const std::string & url)
 
     // Create the vector and read the file
     std::vector<uint8_t> data(fileSize);
-    file.read(reinterpret_cast<char*>(data.data()), fileSize);
+    file.read(reinterpret_cast<char *>(data.data()), fileSize);
     file.close();
     res = std::make_shared<MemoryResource>(url, mod_url, data);
   }

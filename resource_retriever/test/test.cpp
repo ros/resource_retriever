@@ -79,22 +79,26 @@ TEST(Retriever, invalidFiles)
   EXPECT_EQ(nullptr, r.get("package:///test.xml"));
 }
 
-class TestRetrieverPlugin: public resource_retriever::plugins::RetrieverPlugin
+class TestRetrieverPlugin : public resource_retriever::plugins::RetrieverPlugin
 {
 public:
-    TestRetrieverPlugin() = default;
-    ~TestRetrieverPlugin() override = default;
+  TestRetrieverPlugin() = default;
+  ~TestRetrieverPlugin() override = default;
 
-    std::string name() override {
-      return "TestRetrieverPlugin";
-    }
+  std::string name() override
+  {
+    return "TestRetrieverPlugin";
+  }
 
-  bool can_handle(const std::string & url) override {
+  bool can_handle(const std::string & url) override
+  {
     return url.find("test://") == 0;
   }
 
-  resource_retriever::MemoryResourcePtr get(const std::string & url) override {
-    return std::make_shared<resource_retriever::MemoryResource>(url, url, std::vector<uint8_t>{0, 1, 2, 3, 4, 5});
+  resource_retriever::MemoryResourcePtr get(const std::string & url) override
+  {
+    return std::make_shared<resource_retriever::MemoryResource>(
+        url, url, std::vector<uint8_t>{0, 1, 2, 3, 4, 5});
   }
 };
 

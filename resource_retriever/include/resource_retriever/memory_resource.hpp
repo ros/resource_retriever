@@ -43,8 +43,11 @@ namespace resource_retriever
  */
 struct RESOURCE_RETRIEVER_PUBLIC MemoryResource
 {
-  explicit MemoryResource(std::string url_in, std::string expanded_url_in, std::vector<uint8_t> data_in):
-    url(std::move(url_in)),
+  explicit MemoryResource(
+    std::string url_in,
+    std::string expanded_url_in,
+    std::vector<uint8_t> data_in)
+  :url(std::move(url_in)),
     expanded_url(std::move(expanded_url_in)),
     data(std::move(data_in))
   {

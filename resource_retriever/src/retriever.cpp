@@ -50,8 +50,8 @@ RetrieverVec default_plugins()
   };
 }
 
-Retriever::Retriever(RetrieverVec plugins):
-  plugins(std::move(plugins))
+Retriever::Retriever(RetrieverVec plugins)
+:plugins(std::move(plugins))
 {
 }
 
@@ -59,14 +59,13 @@ Retriever::~Retriever() = default;
 
 MemoryResourcePtr Retriever::get(const std::string & url)
 {
-  for (auto & plugin : plugins)
-  {
-    if (plugin->can_handle(url))
-    {
+  for (auto & plugin : plugins) {
+    if (plugin->can_handle(url)) {
       auto res = plugin->get(url);
 
-      if (res != nullptr)
+      if (res != nullptr) {
         return res;
+      }
     }
   }
   return nullptr;

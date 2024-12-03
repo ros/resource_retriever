@@ -82,7 +82,7 @@ std::string expand_package_url(const std::string & url)
     mod_url = "file://" + package_path + mod_url;
   }
   return mod_url;
-};
+}
 
 RetrieverPlugin::RetrieverPlugin() = default;
 

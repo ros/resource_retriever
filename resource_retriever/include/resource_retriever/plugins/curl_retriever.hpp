@@ -29,6 +29,8 @@
 #ifndef RESOURCE_RETRIEVER__PLUGINS__CURL_RETRIEVER_HPP_
 #define RESOURCE_RETRIEVER__PLUGINS__CURL_RETRIEVER_HPP_
 
+#include <string>
+
 #include "resource_retriever/plugins/retriever_plugin.hpp"
 #include "resource_retriever/visibility_control.hpp"
 
@@ -37,7 +39,7 @@ using CURL = void;
 namespace resource_retriever::plugins
 {
 
-class RESOURCE_RETRIEVER_PUBLIC CurlRetriever: public RetrieverPlugin
+class RESOURCE_RETRIEVER_PUBLIC CurlRetriever : public RetrieverPlugin
 {
 public:
   CurlRetriever();
