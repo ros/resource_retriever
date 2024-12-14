@@ -28,12 +28,9 @@
 
 #include "resource_retriever/plugins/filesystem_retriever.hpp"
 
-#include <array>
-#include <cstring>
 #include <fstream>
 #include <memory>
 #include <string>
-#include <utility>
 #include <vector>
 
 #include "resource_retriever/exception.hpp"

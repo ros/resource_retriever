@@ -42,6 +42,10 @@ namespace resource_retriever::plugins
 class RESOURCE_RETRIEVER_PUBLIC CurlRetriever : public RetrieverPlugin
 {
 public:
+  /// Construct a CurlRetriever plugin and initialize libcurl.
+  /**
+   * \throws std::runtime_error if libcurl fails to initialize
+   */
   CurlRetriever();
   ~CurlRetriever() override;
 

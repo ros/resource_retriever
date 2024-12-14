@@ -30,10 +30,9 @@
 
 #include <curl/curl.h>
 
-#include <array>
 #include <cstring>
-#include <iostream>
 #include <memory>
+#include <stdexcept>
 #include <string>
 #include <utility>
 #include <vector>
@@ -42,16 +41,13 @@
 
 namespace
 {
-
 class CURLStaticInit
 {
 public:
   CURLStaticInit()
   {
-    CURLcode ret = curl_global_init(CURL_GLOBAL_ALL);
-    if (ret != 0) {
-      std::cerr << "Error initializing libcurl! retcode = " << ret;
-    } else {
+    ret_ = curl_global_init(CURL_GLOBAL_ALL);
+    if (ret_ == CURLE_OK) {
       initialized_ = true;
     }
   }
@@ -63,8 +59,19 @@ public:
     }
   }
 
+  /// Check that libcurl is globally initialized, otherwise throw.
+  void check_if_initialized() const
+  {
+    if (!this->initialized_) {
+      throw std::runtime_error(
+        "curl_global_init(CURL_GLOBAL_ALL) failed (" + std::to_string(ret_) + "): " +
+        curl_easy_strerror(ret_));
+    }
+  }
+
 private:
   bool initialized_ {false};
+  CURLcode ret_ = CURLE_OK;
 };
 CURLStaticInit g_curl_init;
 }  // namespace
@@ -86,8 +93,14 @@ size_t curlWriteFunc(void * buffer, size_t size, size_t nmemb, void * userp)
   return size * nmemb;
 }
 
+CURL * do_curl_easy_init()
+{
+  ::g_curl_init.check_if_initialized();
+  return curl_easy_init();
+}
+
 CurlRetriever::CurlRetriever()
-:curl_handle_(curl_easy_init())
+: curl_handle_(do_curl_easy_init())
 {
 }
 
@@ -116,10 +129,11 @@ std::string CurlRetriever::name()
 
 bool CurlRetriever::can_handle(const std::string & url)
 {
-  return  url.find("package://") == 0 ||
-         url.find("file://") == 0 ||
-         url.find("http://") == 0 ||
-         url.find("https://") == 0;
+  return
+    url.find("package://") == 0 ||
+    url.find("file://") == 0 ||
+    url.find("http://") == 0 ||
+    url.find("https://") == 0;
 }
 
 MemoryResourcePtr CurlRetriever::get(const std::string & url)

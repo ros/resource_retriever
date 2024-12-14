@@ -28,11 +28,9 @@
 
 #include "resource_retriever/retriever.hpp"
 
-#include <cstring>
 #include <memory>
 #include <string>
 #include <utility>
-#include <vector>
 
 #include "resource_retriever/exception.hpp"
 #include "resource_retriever/plugins/curl_retriever.hpp"

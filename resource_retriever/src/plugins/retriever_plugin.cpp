@@ -28,7 +28,8 @@
 
 #include "resource_retriever/plugins/retriever_plugin.hpp"
 
-#include <cstring>
+#include <string>
+#include <string_view>
 
 #include "resource_retriever/exception.hpp"
 
@@ -59,12 +60,15 @@ std::string escape_spaces(const std::string & url)
 
 std::string expand_package_url(const std::string & url)
 {
+  constexpr std::string_view package_url_prefix = "package://";
   std::string mod_url = url;
-  if (url.find("package://") == 0) {
-    mod_url.erase(0, strlen("package://"));
+  if (url.find(package_url_prefix) == 0) {
+    mod_url.erase(0, package_url_prefix.length());
     size_t pos = mod_url.find('/');
     if (pos == std::string::npos) {
-      throw Exception(url, "Could not parse package:// format into file:// format");
+      throw Exception(
+        url,
+        "Could not parse " + std::string(package_url_prefix) + " format into file:// format");
     }
 
     std::string package = mod_url.substr(0, pos);
