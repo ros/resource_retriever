@@ -2,8 +2,8 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.12.8 (2025-02-13)
+-------------------
 * Allow spaces (`#85 <https://github.com/ros/resource_retriever/issues/85>`_)
 * Drop old C++ standard (`#73 <https://github.com/ros/resource_retriever/issues/73>`_)
 * On Windows install .dll libraries in <prefix>/bin (`#91 <https://github.com/ros/resource_retriever/issues/91>`_)

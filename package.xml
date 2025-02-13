@@ -4,7 +4,7 @@
   schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>resource_retriever</name>
-  <version>1.12.7</version>
+  <version>1.12.8</version>
   <description>
    This package retrieves data from url-format files such as http://,
    ftp://, package:// file://, etc., and loads the data into memory.
