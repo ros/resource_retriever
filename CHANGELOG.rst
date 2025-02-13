@@ -2,6 +2,14 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Allow spaces (`#85 <https://github.com/ros/resource_retriever/issues/85>`_)
+* Drop old C++ standard (`#73 <https://github.com/ros/resource_retriever/issues/73>`_)
+* On Windows install .dll libraries in <prefix>/bin (`#91 <https://github.com/ros/resource_retriever/issues/91>`_)
+* Make importing the library fast (`#87 <https://github.com/ros/resource_retriever/issues/87>`_)
+* Contributors: Jochen Sprickerhof, Silvio Traversaro, Simon Schmeisser, Yuki Furuta
+
 1.12.7 (2021-12-06)
 -------------------
 * Split curl dependency to avoid dev package at runtime (`#67 <https://github.com/ros/resource_retriever/issues/67>`_)
