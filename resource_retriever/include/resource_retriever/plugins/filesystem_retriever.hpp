@@ -45,7 +45,7 @@ public:
 
   bool can_handle(const std::string & url) override;
   std::string name() override;
-  MemoryResourcePtr get(const std::string & url) override;
+  MemoryResourceSharedPtr get_shared(const std::string & url) override;
 };
 
 }  //  namespace resource_retriever::plugins

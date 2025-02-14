@@ -47,7 +47,7 @@ public:
 
   virtual std::string name() = 0;
   virtual bool can_handle(const std::string & url) = 0;
-  virtual MemoryResourcePtr get(const std::string & url) = 0;
+  virtual MemoryResourceSharedPtr get_shared(const std::string & url) = 0;
 };
 
 }  //  namespace resource_retriever::plugins

@@ -31,7 +31,6 @@
 
 #include <cstdint>
 #include <memory>
-#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -41,8 +40,8 @@
 namespace resource_retriever
 {
 
-using RetrieverPluginPtr = std::shared_ptr<plugins::RetrieverPlugin>;
-using RetrieverVec = std::vector<RetrieverPluginPtr>;
+using RetrieverPluginSharedPtr = std::shared_ptr<plugins::RetrieverPlugin>;
+using RetrieverVec = std::vector<RetrieverPluginSharedPtr>;
 
 RetrieverVec RESOURCE_RETRIEVER_PUBLIC default_plugins();
 
@@ -63,7 +62,16 @@ public:
    * \return The file, loaded into memory
    * \throws resource_retriever::Exception if anything goes wrong.
    */
-  MemoryResourcePtr get(const std::string & url);
+  [[deprecated("Use get_shared(const std::string & url) instead.")]]
+  MemoryResource get(const std::string & url);
+
+  /**
+   * \brief Get a file and store it in memory
+   * \param url The url to retrieve.  package://package/file will be turned into the correct file:// invocation
+   * \return The file, loaded into memory
+   * \throws resource_retriever::Exception if anything goes wrong.
+   */
+  MemoryResourceSharedPtr get_shared(const std::string & url);
 
 private:
   RetrieverVec plugins;

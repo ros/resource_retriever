@@ -57,7 +57,7 @@ struct RESOURCE_RETRIEVER_PUBLIC MemoryResource
   const std::vector<uint8_t> data;
 };
 
-using MemoryResourcePtr = std::shared_ptr<MemoryResource>;
+using MemoryResourceSharedPtr = std::shared_ptr<MemoryResource>;
 
 }  //  namespace resource_retriever
 

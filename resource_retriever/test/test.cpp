@@ -48,7 +48,7 @@ TEST(Retriever, getByPackage)
 {
   try {
     resource_retriever::Retriever r;
-    auto res = r.get("package://resource_retriever/test/test.txt");
+    auto res = r.get_shared("package://resource_retriever/test/test.txt");
 
     ASSERT_NE(nullptr, res);
     ASSERT_EQ(res->data.size(), 1u);
@@ -62,7 +62,7 @@ TEST(Retriever, http)
 {
   try {
     resource_retriever::Retriever r;
-    auto res = r.get("http://packages.ros.org/ros.key");
+    auto res = r.get_shared("http://packages.ros.org/ros.key");
 
     ASSERT_NE(nullptr, res);
     ASSERT_GT(res->data.size(), 0u);
@@ -75,10 +75,10 @@ TEST(Retriever, invalidFiles)
 {
   resource_retriever::Retriever r;
 
-  EXPECT_EQ(nullptr, r.get("file://fail"));
-  EXPECT_EQ(nullptr, r.get("package://roscpp"));
-  EXPECT_EQ(nullptr, r.get("package://invalid_package_blah/test.xml"));
-  EXPECT_EQ(nullptr, r.get("package:///test.xml"));
+  EXPECT_EQ(nullptr, r.get_shared("file://fail"));
+  EXPECT_EQ(nullptr, r.get_shared("package://roscpp"));
+  EXPECT_EQ(nullptr, r.get_shared("package://invalid_package_blah/test.xml"));
+  EXPECT_EQ(nullptr, r.get_shared("package:///test.xml"));
 }
 
 class TestRetrieverPlugin : public resource_retriever::plugins::RetrieverPlugin
@@ -97,7 +97,7 @@ public:
     return url.find("test://") == 0;
   }
 
-  resource_retriever::MemoryResourcePtr get(const std::string & url) override
+  resource_retriever::MemoryResourceSharedPtr get_shared(const std::string & url) override
   {
     return std::make_shared<resource_retriever::MemoryResource>(
         url, url, std::vector<uint8_t>{0, 1, 2, 3, 4, 5});
@@ -111,11 +111,11 @@ TEST(Retriever, customPlugin)
   };
 
   resource_retriever::Retriever r(plugins);
-  EXPECT_EQ(nullptr, r.get("package://resource_retriever/test/text.txt"));
-  EXPECT_EQ(nullptr, r.get("file://foo/bar/text.txt"));
-  EXPECT_NE(nullptr, r.get("test://foo"));
+  EXPECT_EQ(nullptr, r.get_shared("package://resource_retriever/test/text.txt"));
+  EXPECT_EQ(nullptr, r.get_shared("file://foo/bar/text.txt"));
+  EXPECT_NE(nullptr, r.get_shared("test://foo"));
 
-  auto res = r.get("test://foo");
+  auto res = r.get_shared("test://foo");
   EXPECT_EQ(res->data.size(), 6u);
   EXPECT_EQ(res->data[0], 0u);
   EXPECT_EQ(res->data[1], 1u);

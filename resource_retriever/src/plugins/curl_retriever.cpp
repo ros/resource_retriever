@@ -136,7 +136,7 @@ bool CurlRetriever::can_handle(const std::string & url)
     url.find("https://") == 0;
 }
 
-MemoryResourcePtr CurlRetriever::get(const std::string & url)
+MemoryResourceSharedPtr CurlRetriever::get_shared(const std::string & url)
 {
   // Expand package:// url into file://
   auto mod_url = url;
@@ -155,7 +155,7 @@ MemoryResourcePtr CurlRetriever::get(const std::string & url)
   char error_buffer[CURL_ERROR_SIZE];
   curl_easy_setopt(curl_handle_, CURLOPT_ERRORBUFFER, error_buffer);
 
-  MemoryResourcePtr res {nullptr};
+  MemoryResourceSharedPtr res {nullptr};
   MemoryBuffer buf;
   curl_easy_setopt(curl_handle_, CURLOPT_WRITEDATA, &buf);
 

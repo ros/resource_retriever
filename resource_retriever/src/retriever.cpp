@@ -55,11 +55,16 @@ Retriever::Retriever(RetrieverVec plugins)
 
 Retriever::~Retriever() = default;
 
-MemoryResourcePtr Retriever::get(const std::string & url)
+MemoryResource Retriever::get(const std::string & url)
+{
+  return *get_shared(url);
+}
+
+MemoryResourceSharedPtr Retriever::get_shared(const std::string & url)
 {
   for (auto & plugin : plugins) {
     if (plugin->can_handle(url)) {
-      auto res = plugin->get(url);
+      auto res = plugin->get_shared(url);
 
       if (res != nullptr) {
         return res;
