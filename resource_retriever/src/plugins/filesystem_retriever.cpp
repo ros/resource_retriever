@@ -29,6 +29,7 @@
 #include "resource_retriever/plugins/filesystem_retriever.hpp"
 
 #include <fstream>
+#include <ios>
 #include <memory>
 #include <string>
 #include <vector>

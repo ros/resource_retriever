@@ -29,6 +29,7 @@
 #ifndef RESOURCE_RETRIEVER__MEMORY_RESOURCE_HPP_
 #define RESOURCE_RETRIEVER__MEMORY_RESOURCE_HPP_
 
+#include <cstdint>
 #include <memory>
 #include <string>
 #include <utility>

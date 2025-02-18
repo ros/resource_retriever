@@ -46,7 +46,7 @@ using RetrieverVec = std::vector<RetrieverPluginSharedPtr>;
 RetrieverVec RESOURCE_RETRIEVER_PUBLIC default_plugins();
 
 /**
- * \brief Retrieves files from from a url.  Caches a CURL handle so multiple accesses to a single url
+ * \brief Retrieves files from from a url. Caches a CURL handle so multiple accesses to a single url
  * will keep connections open.
  */
 class RESOURCE_RETRIEVER_PUBLIC Retriever
@@ -58,7 +58,7 @@ public:
 
   /**
    * \brief Get a file and store it in memory
-   * \param url The url to retrieve.  package://package/file will be turned into the correct file:// invocation
+   * \param url The url to retrieve. package://package/file will be turned into the correct file:// invocation
    * \return The file, loaded into memory
    * \throws resource_retriever::Exception if anything goes wrong.
    */
@@ -67,7 +67,7 @@ public:
 
   /**
    * \brief Get a file and store it in memory
-   * \param url The url to retrieve.  package://package/file will be turned into the correct file:// invocation
+   * \param url The url to retrieve. package://package/file will be turned into the correct file:// invocation
    * \return The file, loaded into memory
    * \throws resource_retriever::Exception if anything goes wrong.
    */

@@ -30,6 +30,7 @@
 
 #include <curl/curl.h>
 
+#include <cstdint>
 #include <cstring>
 #include <memory>
 #include <stdexcept>
