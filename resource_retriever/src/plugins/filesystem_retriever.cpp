@@ -72,13 +72,7 @@ MemoryResourceSharedPtr FilesystemRetriever::get_shared(const std::string & url)
 
   if (file.is_open()) {
     // Get the file size
-    file.seekg(0, std::ios::end);
-    std::streampos fileSize = file.tellg();
-    file.seekg(0, std::ios::beg);
-
-    // Create the vector and read the file
-    std::vector<uint8_t> data(fileSize);
-    file.read(reinterpret_cast<char *>(data.data()), fileSize);
+    std::vector<uint8_t> data(std::istreambuf_iterator<char>(file), {});
     file.close();
     res = std::make_shared<MemoryResource>(url, mod_url, data);
   }
