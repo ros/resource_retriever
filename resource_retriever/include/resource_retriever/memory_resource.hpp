@@ -42,23 +42,31 @@ namespace resource_retriever
 /**
  * \brief A combination of a pointer to data in memory along with the data's size.
  */
-struct RESOURCE_RETRIEVER_PUBLIC MemoryResource
+struct
+[[deprecated("use resource_retriever::Resource")]]
+RESOURCE_RETRIEVER_PUBLIC
+MemoryResource
 {
-  explicit MemoryResource(
-    std::string url_in,
-    std::string expanded_url_in,
-    std::vector<uint8_t> data_in)
-  : url(std::move(url_in)),
-    expanded_url(std::move(expanded_url_in)),
-    data(std::move(data_in))
-  {
-  }
-  const std::string url;
-  const std::string expanded_url;
-  const std::vector<uint8_t> data;
+  std::shared_ptr<uint8_t> data;
+  size_t size {0};
 };
 
-using MemoryResourceSharedPtr = std::shared_ptr<MemoryResource>;
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#else
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
+using MemoryResourceSharedPtr [[deprecated("use resource_retriever::ResourceSharedPtr")]] =
+  std::shared_ptr<MemoryResource>;
+
+#ifdef _MSC_VER
+#pragma warning(pop)
+#else
+#pragma GCC diagnostic pop
+#endif
 
 }  //  namespace resource_retriever
 

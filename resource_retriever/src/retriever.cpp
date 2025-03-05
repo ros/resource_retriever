@@ -28,6 +28,7 @@
 
 #include "resource_retriever/retriever.hpp"
 
+#include <cstring>
 #include <memory>
 #include <string>
 #include <utility>
@@ -55,12 +56,32 @@ Retriever::Retriever(RetrieverVec plugins)
 
 Retriever::~Retriever() = default;
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#else
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
 MemoryResource Retriever::get(const std::string & url)
 {
-  return *get_shared(url);
+  auto resource_shared_ptr = get_shared(url);
+  MemoryResource memory_resource;
+  memory_resource.size = resource_shared_ptr->data.size();
+  // Converted from boost::shared_array, see: https://stackoverflow.com/a/8624884
+  memory_resource.data.reset(new uint8_t[memory_resource.size], std::default_delete<uint8_t[]>());
+  memcpy(memory_resource.data.get(), &resource_shared_ptr->data[0], memory_resource.size);
+  return memory_resource;
 }
 
-MemoryResourceSharedPtr Retriever::get_shared(const std::string & url)
+#ifdef _MSC_VER
+#pragma warning(pop)
+#else
+#pragma GCC diagnostic pop
+#endif
+
+ResourceSharedPtr Retriever::get_shared(const std::string & url)
 {
   for (auto & plugin : plugins) {
     if (plugin->can_handle(url)) {

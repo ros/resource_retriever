@@ -57,7 +57,7 @@ public:
 
   bool can_handle(const std::string & url) override;
   std::string name() override;
-  MemoryResourceSharedPtr get_shared(const std::string & url) override;
+  ResourceSharedPtr get_shared(const std::string & url) override;
 
 private:
   CURL * curl_handle_ {nullptr};

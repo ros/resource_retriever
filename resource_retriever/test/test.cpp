@@ -97,9 +97,9 @@ public:
     return url.find("test://") == 0;
   }
 
-  resource_retriever::MemoryResourceSharedPtr get_shared(const std::string & url) override
+  resource_retriever::ResourceSharedPtr get_shared(const std::string & url) override
   {
-    return std::make_shared<resource_retriever::MemoryResource>(
+    return std::make_shared<resource_retriever::Resource>(
         url, url, std::vector<uint8_t>{0, 1, 2, 3, 4, 5});
   }
 };

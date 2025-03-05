@@ -34,7 +34,9 @@
 #include <string>
 #include <vector>
 
+#include "resource_retriever/memory_resource.hpp"
 #include "resource_retriever/plugins/retriever_plugin.hpp"
+#include "resource_retriever/resource.hpp"
 #include "resource_retriever/visibility_control.hpp"
 
 namespace resource_retriever
@@ -71,7 +73,7 @@ public:
    * \return The file, loaded into memory
    * \throws resource_retriever::Exception if anything goes wrong.
    */
-  MemoryResourceSharedPtr get_shared(const std::string & url);
+  ResourceSharedPtr get_shared(const std::string & url);
 
 private:
   RetrieverVec plugins;

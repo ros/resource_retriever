@@ -53,7 +53,7 @@ bool FilesystemRetriever::can_handle(const std::string & url)
   return url.find("package://") == 0 || url.find("file://") == 0;
 }
 
-MemoryResourceSharedPtr FilesystemRetriever::get_shared(const std::string & url)
+ResourceSharedPtr FilesystemRetriever::get_shared(const std::string & url)
 {
   // Expand package:// url into file://
   auto mod_url = url;
@@ -68,13 +68,13 @@ MemoryResourceSharedPtr FilesystemRetriever::get_shared(const std::string & url)
   }
 
   std::ifstream file(mod_url, std::ios::binary);
-  MemoryResourceSharedPtr res {nullptr};
+  ResourceSharedPtr res {nullptr};
 
   if (file.is_open()) {
     // Get the file size
     std::vector<uint8_t> data(std::istreambuf_iterator<char>(file), {});
     file.close();
-    res = std::make_shared<MemoryResource>(url, mod_url, data);
+    res = std::make_shared<Resource>(url, mod_url, data);
   }
 
   return res;

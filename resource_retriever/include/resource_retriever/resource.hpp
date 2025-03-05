@@ -26,28 +26,40 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef RESOURCE_RETRIEVER__PLUGINS__FILESYSTEM_RETRIEVER_HPP_
-#define RESOURCE_RETRIEVER__PLUGINS__FILESYSTEM_RETRIEVER_HPP_
+#ifndef RESOURCE_RETRIEVER__RESOURCE_HPP_
+#define RESOURCE_RETRIEVER__RESOURCE_HPP_
 
+#include <cstdint>
+#include <memory>
 #include <string>
+#include <utility>
+#include <vector>
 
-#include "resource_retriever/plugins/retriever_plugin.hpp"
 #include "resource_retriever/visibility_control.hpp"
 
-namespace resource_retriever::plugins
+namespace resource_retriever
 {
-
-class RESOURCE_RETRIEVER_PUBLIC FilesystemRetriever : public RetrieverPlugin
+/**
+ * \brief A retrieved resource, containing the url, expanded url, and binary data.
+ */
+struct RESOURCE_RETRIEVER_PUBLIC Resource
 {
-public:
-  FilesystemRetriever();
-  ~FilesystemRetriever() override;
-
-  bool can_handle(const std::string & url) override;
-  std::string name() override;
-  ResourceSharedPtr get_shared(const std::string & url) override;
+  explicit Resource(
+    std::string url_in,
+    std::string expanded_url_in,
+    std::vector<uint8_t> data_in)
+  : url(std::move(url_in)),
+    expanded_url(std::move(expanded_url_in)),
+    data(std::move(data_in))
+  {
+  }
+  const std::string url;
+  const std::string expanded_url;
+  const std::vector<uint8_t> data;
 };
 
-}  //  namespace resource_retriever::plugins
+using ResourceSharedPtr = std::shared_ptr<Resource>;
 
-#endif  // RESOURCE_RETRIEVER__PLUGINS__FILESYSTEM_RETRIEVER_HPP_
+}  //  namespace resource_retriever
+
+#endif  // RESOURCE_RETRIEVER__RESOURCE_HPP_

@@ -31,7 +31,7 @@
 
 #include <string>
 
-#include <resource_retriever/memory_resource.hpp>
+#include <resource_retriever/resource.hpp>
 #include "resource_retriever/visibility_control.hpp"
 
 namespace resource_retriever::plugins
@@ -47,7 +47,7 @@ public:
 
   virtual std::string name() = 0;
   virtual bool can_handle(const std::string & url) = 0;
-  virtual MemoryResourceSharedPtr get_shared(const std::string & url) = 0;
+  virtual ResourceSharedPtr get_shared(const std::string & url) = 0;
 };
 
 }  //  namespace resource_retriever::plugins
