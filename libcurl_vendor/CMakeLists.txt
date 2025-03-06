@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 cmake_minimum_required(VERSION 3.5)
 
 project(libcurl_vendor)
@@ -5,6 +6,10 @@ project(libcurl_vendor)
 option(FORCE_BUILD_VENDOR_PKG
   "Build libcurl from source, even if system-installed package is available"
   OFF)
+=======
+cmake_minimum_required(VERSION 3.14)
+project(libcurl_vendor C)
+>>>>>>> 168300f (uniform  MinCMakeVersion (#108))
 
 find_package(ament_cmake REQUIRED)
 
