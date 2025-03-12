@@ -68,6 +68,10 @@ MemoryResource Retriever::get(const std::string & url)
 {
   auto resource_shared_ptr = get_shared(url);
   MemoryResource memory_resource;
+  if (!resource_shared_ptr) {
+    // resource not found, return empty MemoryResource
+    return memory_resource;
+  }
   memory_resource.size = resource_shared_ptr->data.size();
   // Converted from boost::shared_array, see: https://stackoverflow.com/a/8624884
   memory_resource.data.reset(new uint8_t[memory_resource.size], std::default_delete<uint8_t[]>());
