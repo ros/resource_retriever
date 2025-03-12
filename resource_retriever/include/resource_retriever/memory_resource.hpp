@@ -43,7 +43,15 @@ namespace resource_retriever
  * \brief A combination of a pointer to data in memory along with the data's size.
  */
 struct
-[[deprecated("use resource_retriever::Resource")]]
+// Not using [[deprecated("use resource_retriever::Resource")]] here becuase of:
+//   https://github.com/ros/resource_retriever/pull/103#issuecomment-2718515266
+#if defined(_MSC_VER)
+__declspec(deprecated("use resource_retriever::Resource"))
+#elif defined(__GNUC__) || defined(__clang__)
+__attribute__((deprecated("use resource_retriever::Resource")))
+#else
+  // do nothing, no deprecated attribute
+#endif
 RESOURCE_RETRIEVER_PUBLIC
 MemoryResource
 {
