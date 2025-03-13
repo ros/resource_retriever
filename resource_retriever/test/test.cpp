@@ -75,10 +75,11 @@ TEST(Retriever, invalidFiles)
 {
   resource_retriever::Retriever r;
 
-  EXPECT_EQ(nullptr, r.get_shared("file://fail"));
-  EXPECT_EQ(nullptr, r.get_shared("package://roscpp"));
-  EXPECT_EQ(nullptr, r.get_shared("package://invalid_package_blah/test.xml"));
-  EXPECT_EQ(nullptr, r.get_shared("package:///test.xml"));
+  EXPECT_THROW(r.get_shared("file://fail"), resource_retriever::Exception);
+  EXPECT_THROW(r.get_shared("package://roscpp"), resource_retriever::Exception);
+  EXPECT_THROW(r.get_shared("package://invalid_package_blah/test.xml"),
+    resource_retriever::Exception);
+  EXPECT_THROW(r.get_shared("package:///test.xml"), resource_retriever::Exception);
 }
 
 class TestRetrieverPlugin : public resource_retriever::plugins::RetrieverPlugin
