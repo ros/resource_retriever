@@ -141,11 +141,7 @@ ResourceSharedPtr CurlRetriever::get_shared(const std::string & url)
 {
   // Expand package:// url into file://
   auto mod_url = url;
-  try {
-    mod_url = expand_package_url(mod_url);
-  } catch (const resource_retriever::Exception & e) {
-    return nullptr;
-  }
+  mod_url = expand_package_url(mod_url);
 
   // newer versions of curl do not accept spaces in URLs
   mod_url = escape_spaces(mod_url);
@@ -161,6 +157,9 @@ ResourceSharedPtr CurlRetriever::get_shared(const std::string & url)
   curl_easy_setopt(curl_handle_, CURLOPT_WRITEDATA, &buf);
 
   CURLcode ret = curl_easy_perform(curl_handle_);
+  if (ret != 0) {
+    throw Exception(mod_url, error_buffer);
+  }
 
   if (ret == 0 && !buf.v.empty()) {
     res = std::make_shared<Resource>(url, mod_url, buf.v);

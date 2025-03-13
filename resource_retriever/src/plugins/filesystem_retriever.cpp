@@ -57,11 +57,7 @@ ResourceSharedPtr FilesystemRetriever::get_shared(const std::string & url)
 {
   // Expand package:// url into file://
   auto mod_url = url;
-  try {
-    mod_url = expand_package_url(mod_url);
-  } catch (const resource_retriever::Exception & e) {
-    return nullptr;
-  }
+  mod_url = expand_package_url(mod_url);
 
   if (mod_url.find("file://") == 0) {
     mod_url = mod_url.substr(7);
@@ -75,6 +71,8 @@ ResourceSharedPtr FilesystemRetriever::get_shared(const std::string & url)
     std::vector<uint8_t> data(std::istreambuf_iterator<char>(file), {});
     file.close();
     res = std::make_shared<Resource>(url, mod_url, data);
+  } else {
+    throw Exception(mod_url, "Failed to open file");
   }
 
   return res;
