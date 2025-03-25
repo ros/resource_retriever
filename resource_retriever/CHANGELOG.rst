@@ -2,6 +2,11 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.1.3 (2025-03-25)
+------------------
+* uniform  MinCMakeVersion (backport `#108 <https://github.com/ros/resource_retriever/issues/108>`_) (`#110 <https://github.com/ros/resource_retriever/issues/110>`_)
+* Contributors: mergify[bot]
+
 3.1.2 (2024-05-15)
 ------------------
 

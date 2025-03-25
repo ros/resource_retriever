@@ -2,6 +2,11 @@
 Changelog for package libcurl_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.1.3 (2025-03-25)
+------------------
+* uniform  MinCMakeVersion (backport `#108 <https://github.com/ros/resource_retriever/issues/108>`_) (`#110 <https://github.com/ros/resource_retriever/issues/110>`_)
+* Contributors: mergify[bot]
+
 3.1.2 (2024-05-15)
 ------------------
 * Add "lib" to the Windows curl search path. (`#96 <https://github.com/ros/resource_retriever/issues/96>`_) (`#99 <https://github.com/ros/resource_retriever/issues/99>`_)
