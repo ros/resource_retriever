@@ -2,8 +2,8 @@
 Changelog for package libcurl_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+3.4.4 (2025-04-02)
+------------------
 * uniform  MinCMakeVersion (`#108 <https://github.com/ros/resource_retriever/issues/108>`_) (`#109 <https://github.com/ros/resource_retriever/issues/109>`_)
   Co-authored-by: Alejandro Hernandez Cordero <ahcorde@gmail.com>
   (cherry picked from commit 168300fba1c4f507d1e3bea0c4f97d468cbad477)
