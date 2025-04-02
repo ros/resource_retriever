@@ -25,7 +25,7 @@ catkin_package(
   INCLUDE_DIRS include)
 
 add_library(${PROJECT_NAME} src/retriever.cpp)
-target_link_libraries(${PROJECT_NAME} ${CURL_LIBRARIES} ${catkin_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} CURL::libcurl ${catkin_LIBRARIES})
 
 if(CATKIN_ENABLE_TESTING)
   add_subdirectory(test EXCLUDE_FROM_ALL)
