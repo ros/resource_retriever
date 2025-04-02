@@ -2,6 +2,14 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* uniform  MinCMakeVersion (`#108 <https://github.com/ros/resource_retriever/issues/108>`_) (`#109 <https://github.com/ros/resource_retriever/issues/109>`_)
+  Co-authored-by: Alejandro Hernandez Cordero <ahcorde@gmail.com>
+  (cherry picked from commit 168300fba1c4f507d1e3bea0c4f97d468cbad477)
+  Co-authored-by: mosfet80 <realeandrea@yahoo.it>
+* Contributors: mergify[bot]
+
 3.4.3 (2024-06-27)
 ------------------
 * Allow spaces (`#100 <https://github.com/ros/resource_retriever/issues/100>`_) (`#101 <https://github.com/ros/resource_retriever/issues/101>`_)
