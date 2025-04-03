@@ -1,4 +1,5 @@
 // Copyright 2009, Willow Garage, Inc. All rights reserved.
+// Copyright 2025 Open Source Robotics Foundation, Inc.
 //
 // Redistribution and use in source and binary forms, with or without
 // modification, are permitted provided that the following conditions are met:
@@ -26,60 +27,24 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef RESOURCE_RETRIEVER__RETRIEVER_HPP_
-#define RESOURCE_RETRIEVER__RETRIEVER_HPP_
+#ifndef RESOURCE_RETRIEVER__EXCEPTION_HPP_
+#define RESOURCE_RETRIEVER__EXCEPTION_HPP_
 
-#include <cstdint>
-#include <memory>
+#include <stdexcept>
 #include <string>
-#include <vector>
 
-#include "resource_retriever/exception.hpp"
-#include "resource_retriever/memory_resource.hpp"
-#include "resource_retriever/plugins/retriever_plugin.hpp"
-#include "resource_retriever/resource.hpp"
 #include "resource_retriever/visibility_control.hpp"
 
 namespace resource_retriever
 {
-
-using RetrieverPluginSharedPtr = std::shared_ptr<plugins::RetrieverPlugin>;
-using RetrieverVec = std::vector<RetrieverPluginSharedPtr>;
-
-RetrieverVec RESOURCE_RETRIEVER_PUBLIC default_plugins();
-
-/**
- * \brief Retrieves files from from a url. Caches a CURL handle so multiple accesses to a single url
- * will keep connections open.
- */
-class RESOURCE_RETRIEVER_PUBLIC Retriever
+class RESOURCE_RETRIEVER_PUBLIC Exception : public std::runtime_error
 {
 public:
-  explicit Retriever(RetrieverVec plugins = default_plugins());
-
-  ~Retriever();
-
-  /**
-   * \brief Get a file and store it in memory
-   * \param url The url to retrieve. package://package/file will be turned into the correct file:// invocation
-   * \return The file, loaded into memory
-   * \throws resource_retriever::Exception if anything goes wrong.
-   */
-  [[deprecated("Use get_shared(const std::string & url) instead.")]]
-  MemoryResource get(const std::string & url);
-
-  /**
-   * \brief Get a file and store it in memory
-   * \param url The url to retrieve. package://package/file will be turned into the correct file:// invocation
-   * \return The file, loaded into memory
-   * \throws resource_retriever::Exception if anything goes wrong.
-   */
-  ResourceSharedPtr get_shared(const std::string & url);
-
-private:
-  RetrieverVec plugins;
+  Exception(const std::string & file, const std::string & error_msg)
+  : std::runtime_error("Error retrieving file [" + file + "]: " + error_msg)
+  {
+  }
 };
+}  // namespace resource_retriever
 
-}  //  namespace resource_retriever
-
-#endif  //  RESOURCE_RETRIEVER__RETRIEVER_HPP_
+#endif  // RESOURCE_RETRIEVER__EXCEPTION_HPP_

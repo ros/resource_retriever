@@ -28,159 +28,75 @@
 
 #include "resource_retriever/retriever.hpp"
 
-#include <curl/curl.h>
-
 #include <cstring>
 #include <memory>
 #include <string>
 #include <utility>
-#include <vector>
 
-#include "ament_index_cpp/get_package_prefix.hpp"
-#include "ament_index_cpp/get_package_share_directory.hpp"
-
-
-namespace
-{
-class CURLStaticInit
-{
-public:
-  CURLStaticInit()
-  {
-    CURLcode ret = curl_global_init(CURL_GLOBAL_ALL);
-    if (ret != 0) {
-      fprintf(stderr, "Error initializing libcurl! retcode = %d", ret);
-    } else {
-      initialized_ = true;
-    }
-  }
-
-  ~CURLStaticInit()
-  {
-    if (initialized_) {
-      curl_global_cleanup();
-    }
-  }
-
-private:
-  bool initialized_ {false};
-};
-CURLStaticInit g_curl_init;
-}  // namespace
+#include "resource_retriever/exception.hpp"
+#include "resource_retriever/plugins/curl_retriever.hpp"
+#include "resource_retriever/plugins/filesystem_retriever.hpp"
 
 
 namespace resource_retriever
 {
 
-Retriever::Retriever()
-: curl_handle_(curl_easy_init())
+RetrieverVec default_plugins()
+{
+  return {
+    std::make_shared<plugins::FilesystemRetriever>(),
+    std::make_shared<plugins::CurlRetriever>(),
+  };
+}
+
+Retriever::Retriever(RetrieverVec plugins)
+:plugins(std::move(plugins))
 {
 }
 
-Retriever::~Retriever()
-{
-  if (curl_handle_ != nullptr) {
-    curl_easy_cleanup(curl_handle_);
-  }
-}
+Retriever::~Retriever() = default;
 
-Retriever::Retriever(Retriever && other) noexcept
-: curl_handle_(std::exchange(other.curl_handle_, nullptr))
-{
-}
-
-Retriever & Retriever::operator=(Retriever && other) noexcept
-{
-  std::swap(curl_handle_, other.curl_handle_);
-  return *this;
-}
-
-struct MemoryBuffer
-{
-  std::vector<uint8_t> v;
-};
-
-size_t curlWriteFunc(void * buffer, size_t size, size_t nmemb, void * userp)
-{
-  MemoryBuffer * membuf = reinterpret_cast<MemoryBuffer *>(userp);
-
-  size_t prev_size = membuf->v.size();
-  membuf->v.resize(prev_size + size * nmemb);
-  memcpy(&membuf->v[prev_size], buffer, size * nmemb);
-
-  return size * nmemb;
-}
-
-static std::string escape_spaces(const std::string & url)
-{
-  std::string new_mod_url;
-  new_mod_url.reserve(url.length());
-
-  std::string::size_type last_pos = 0;
-  std::string::size_type find_pos;
-
-  while (std::string::npos != (find_pos = url.find(" ", last_pos))) {
-    new_mod_url.append(url, last_pos, find_pos - last_pos);
-    new_mod_url += "%20";
-    last_pos = find_pos + std::string(" ").length();
-  }
-
-  // Take care for the rest after last occurrence
-  new_mod_url.append(url, last_pos, url.length() - last_pos);
-  return new_mod_url;
-}
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#else
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
 
 MemoryResource Retriever::get(const std::string & url)
 {
-  std::string mod_url = url;
-  if (url.find("package://") == 0) {
-    mod_url.erase(0, strlen("package://"));
-    size_t pos = mod_url.find('/');
-    if (pos == std::string::npos) {
-      throw Exception(url, "Could not parse package:// format into file:// format");
-    }
-
-    std::string package = mod_url.substr(0, pos);
-    if (package.empty()) {
-      throw Exception(url, "Package name must not be empty");
-    }
-    mod_url.erase(0, pos);
-    std::string package_path;
-    try {
-      package_path = ament_index_cpp::get_package_share_directory(package);
-    } catch (const ament_index_cpp::PackageNotFoundError &) {
-      throw Exception(url, "Package [" + package + "] does not exist");
-    }
-
-    mod_url = "file://" + package_path + mod_url;
+  auto resource_shared_ptr = get_shared(url);
+  MemoryResource memory_resource;
+  if (!resource_shared_ptr) {
+    // resource not found, return empty MemoryResource
+    return memory_resource;
   }
+  memory_resource.size = resource_shared_ptr->data.size();
+  // Converted from boost::shared_array, see: https://stackoverflow.com/a/8624884
+  memory_resource.data.reset(new uint8_t[memory_resource.size], std::default_delete<uint8_t[]>());
+  memcpy(memory_resource.data.get(), &resource_shared_ptr->data[0], memory_resource.size);
+  return memory_resource;
+}
 
-  // newer versions of curl do not accept spaces in URLs
-  mod_url = escape_spaces(mod_url);
+#ifdef _MSC_VER
+#pragma warning(pop)
+#else
+#pragma GCC diagnostic pop
+#endif
 
-  curl_easy_setopt(curl_handle_, CURLOPT_URL, mod_url.c_str());
-  curl_easy_setopt(curl_handle_, CURLOPT_WRITEFUNCTION, curlWriteFunc);
+ResourceSharedPtr Retriever::get_shared(const std::string & url)
+{
+  for (auto & plugin : plugins) {
+    if (plugin->can_handle(url)) {
+      auto res = plugin->get_shared(url);
 
-  char error_buffer[CURL_ERROR_SIZE];
-  curl_easy_setopt(curl_handle_, CURLOPT_ERRORBUFFER, error_buffer);
-
-  MemoryResource res;
-  MemoryBuffer buf;
-  curl_easy_setopt(curl_handle_, CURLOPT_WRITEDATA, &buf);
-
-  CURLcode ret = curl_easy_perform(curl_handle_);
-  if (ret != 0) {
-    throw Exception(mod_url, error_buffer);
+      if (res != nullptr) {
+        return res;
+      }
+    }
   }
-
-  if (!buf.v.empty()) {
-    res.size = buf.v.size();
-    // Converted from boost::shared_array, see: https://stackoverflow.com/a/8624884
-    res.data.reset(new uint8_t[res.size], std::default_delete<uint8_t[]>());
-    memcpy(res.data.get(), &buf.v[0], res.size);
-  }
-
-  return res;
+  return nullptr;
 }
 
 }  // namespace resource_retriever

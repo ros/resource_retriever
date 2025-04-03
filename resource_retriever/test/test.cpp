@@ -26,21 +26,33 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#include <string>
 #include <exception>
+#include <memory>
+#include <string>
+#include <vector>
 
 #include "gtest/gtest.h"
 
+#include "resource_retriever/memory_resource.hpp"
+#include "resource_retriever/plugins/retriever_plugin.hpp"
 #include "resource_retriever/retriever.hpp"
+
+TEST(Retriever, defaultPlugins)
+{
+  auto plugins = resource_retriever::default_plugins();
+
+  EXPECT_EQ(plugins.size(), 2u);
+}
 
 TEST(Retriever, getByPackage)
 {
   try {
     resource_retriever::Retriever r;
-    resource_retriever::MemoryResource res = r.get("package://resource_retriever/test/test.txt");
+    auto res = r.get_shared("package://resource_retriever/test/test.txt");
 
-    ASSERT_EQ(res.size, 1u);
-    ASSERT_EQ(*res.data, 'A');
+    ASSERT_NE(nullptr, res);
+    ASSERT_EQ(res->data.size(), 1u);
+    ASSERT_EQ(*res->data.data(), 'A');
   } catch (const std::exception & e) {
     FAIL() << "Exception caught: " << e.what() << '\n';
   }
@@ -50,9 +62,10 @@ TEST(Retriever, http)
 {
   try {
     resource_retriever::Retriever r;
-    resource_retriever::MemoryResource res = r.get("http://packages.ros.org/ros.key");
+    auto res = r.get_shared("http://packages.ros.org/ros.key");
 
-    ASSERT_GT(res.size, 0u);
+    ASSERT_NE(nullptr, res);
+    ASSERT_GT(res->data.size(), 0u);
   } catch (const std::exception & e) {
     FAIL() << "Exception caught: " << e.what() << '\n';
   }
@@ -62,34 +75,51 @@ TEST(Retriever, invalidFiles)
 {
   resource_retriever::Retriever r;
 
-  try {
-    r.get("file://fail");
-    FAIL();
-  } catch (const std::exception & e) {
-    (void)e;
+  EXPECT_THROW(r.get_shared("file://fail"), resource_retriever::Exception);
+  EXPECT_THROW(r.get_shared("package://roscpp"), resource_retriever::Exception);
+  EXPECT_THROW(r.get_shared("package://invalid_package_blah/test.xml"),
+    resource_retriever::Exception);
+  EXPECT_THROW(r.get_shared("package:///test.xml"), resource_retriever::Exception);
+}
+
+class TestRetrieverPlugin : public resource_retriever::plugins::RetrieverPlugin
+{
+public:
+  TestRetrieverPlugin() = default;
+  ~TestRetrieverPlugin() override = default;
+
+  std::string name() override
+  {
+    return "TestRetrieverPlugin";
   }
 
-  try {
-    r.get("package://roscpp");
-    FAIL();
-  } catch (const std::exception & e) {
-    (void)e;
+  bool can_handle(const std::string & url) override
+  {
+    return url.find("test://") == 0;
   }
 
-  try {
-    r.get("package://invalid_package_blah/test.xml");
-    FAIL();
-  } catch (const std::exception & e) {
-    (void)e;
+  resource_retriever::ResourceSharedPtr get_shared(const std::string & url) override
+  {
+    return std::make_shared<resource_retriever::Resource>(
+        url, url, std::vector<uint8_t>{0, 1, 2, 3, 4, 5});
   }
+};
 
-  // Empty package name
-  try {
-    r.get("package:///test.xml");
-    FAIL();
-  } catch (const std::exception & e) {
-    (void)e;
-  }
+TEST(Retriever, customPlugin)
+{
+  resource_retriever::RetrieverVec plugins {
+    std::make_shared<TestRetrieverPlugin>()
+  };
+
+  resource_retriever::Retriever r(plugins);
+  EXPECT_EQ(nullptr, r.get_shared("package://resource_retriever/test/text.txt"));
+  EXPECT_EQ(nullptr, r.get_shared("file://foo/bar/text.txt"));
+  EXPECT_NE(nullptr, r.get_shared("test://foo"));
+
+  auto res = r.get_shared("test://foo");
+  EXPECT_EQ(res->data.size(), 6u);
+  EXPECT_EQ(res->data[0], 0u);
+  EXPECT_EQ(res->data[1], 1u);
 }
 
 int main(int argc, char ** argv)
