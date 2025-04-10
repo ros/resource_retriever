@@ -2,8 +2,8 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.12.9 (2025-04-10)
+-------------------
 * use CURL::libcurl instead of ${CURL_LIBRARIES} in cmakelists.txt (`#102 <https://github.com/ros/resource_retriever/issues/102>`_)
 * change to setuptools in accordance with migration guide (`#83 <https://github.com/ros/resource_retriever/issues/83>`_)
 * Contributors: Arne Hitzmann, Lucas Walter
