@@ -29,6 +29,7 @@
 #ifndef RESOURCE_RETRIEVER__MEMORY_RESOURCE_HPP_
 #define RESOURCE_RETRIEVER__MEMORY_RESOURCE_HPP_
 
+#include <cstddef>
 #include <cstdint>
 #include <memory>
 #include <string>
@@ -52,7 +53,6 @@ __attribute__((deprecated("use resource_retriever::Resource")))
 #else
   // do nothing, no deprecated attribute
 #endif
-RESOURCE_RETRIEVER_PUBLIC
 MemoryResource
 {
   std::shared_ptr<uint8_t> data;

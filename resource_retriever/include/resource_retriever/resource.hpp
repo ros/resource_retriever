@@ -42,8 +42,9 @@ namespace resource_retriever
 /**
  * \brief A retrieved resource, containing the url, expanded url, and binary data.
  */
-struct RESOURCE_RETRIEVER_PUBLIC Resource
+struct Resource
 {
+  RESOURCE_RETRIEVER_PUBLIC
   explicit Resource(
     std::string url_in,
     std::string expanded_url_in,

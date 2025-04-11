@@ -52,28 +52,44 @@ RetrieverVec RESOURCE_RETRIEVER_PUBLIC default_plugins();
  * \brief Retrieves files from from a url. Caches a CURL handle so multiple accesses to a single url
  * will keep connections open.
  */
-class RESOURCE_RETRIEVER_PUBLIC Retriever
+class Retriever
 {
 public:
+  RESOURCE_RETRIEVER_PUBLIC
   explicit Retriever(RetrieverVec plugins = default_plugins());
 
+  RESOURCE_RETRIEVER_PUBLIC
   ~Retriever();
 
+#ifdef _MSC_VER
+#pragma warning(push)
+#pragma warning(disable : 4996)
+#else
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
   /**
    * \brief Get a file and store it in memory
    * \param url The url to retrieve. package://package/file will be turned into the correct file:// invocation
    * \return The file, loaded into memory
    * \throws resource_retriever::Exception if anything goes wrong.
    */
+  RESOURCE_RETRIEVER_PUBLIC
   [[deprecated("Use get_shared(const std::string & url) instead.")]]
   MemoryResource get(const std::string & url);
+#ifdef _MSC_VER
+#pragma warning(pop)
+#else
+#pragma GCC diagnostic pop
+#endif
 
-  /**
+/**
    * \brief Get a file and store it in memory
    * \param url The url to retrieve. package://package/file will be turned into the correct file:// invocation
    * \return The file, loaded into memory
    * \throws resource_retriever::Exception if anything goes wrong.
    */
+  RESOURCE_RETRIEVER_PUBLIC
   ResourceSharedPtr get_shared(const std::string & url);
 
 private:
