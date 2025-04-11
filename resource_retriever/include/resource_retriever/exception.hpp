@@ -37,9 +37,10 @@
 
 namespace resource_retriever
 {
-class RESOURCE_RETRIEVER_PUBLIC Exception : public std::runtime_error
+class Exception : public std::runtime_error
 {
 public:
+  RESOURCE_RETRIEVER_PUBLIC
   Exception(const std::string & file, const std::string & error_msg)
   : std::runtime_error("Error retrieving file [" + file + "]: " + error_msg)
   {
