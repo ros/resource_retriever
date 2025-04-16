@@ -74,8 +74,8 @@ public:
    * \return The file, loaded into memory
    * \throws resource_retriever::Exception if anything goes wrong.
    */
-  RESOURCE_RETRIEVER_PUBLIC
   [[deprecated("Use get_shared(const std::string & url) instead.")]]
+  RESOURCE_RETRIEVER_PUBLIC
   MemoryResource get(const std::string & url);
 #ifdef _MSC_VER
 #pragma warning(pop)
