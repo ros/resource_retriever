@@ -2,6 +2,14 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.7.0 (2025-04-22)
+------------------
+* Fixed clang compile error (`#112 <https://github.com/ros/resource_retriever/issues/112>`_)
+* Removed windows warnings (`#111 <https://github.com/ros/resource_retriever/issues/111>`_)
+* Add a plugin mechanism to resource_retriever (`#103 <https://github.com/ros/resource_retriever/issues/103>`_)
+* uniform  MinCMakeVersion (`#108 <https://github.com/ros/resource_retriever/issues/108>`_)
+* Contributors: Alejandro Hernández Cordero, Michael Carroll, mosfet80
+
 3.6.0 (2024-11-20)
 ------------------
 * Stop using python_cmake_module. (`#94 <https://github.com/ros/resource_retriever/issues/94>`_)
