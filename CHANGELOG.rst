@@ -2,8 +2,8 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+1.12.10 (2025-04-26)
+--------------------
 * fix build if no gtest is installed (`#77 <https://github.com/ros/resource_retriever/issues/77>`_)
 * Contributors: Daniel Reuter
 
