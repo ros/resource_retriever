@@ -2,6 +2,11 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* fix build if no gtest is installed (`#77 <https://github.com/ros/resource_retriever/issues/77>`_)
+* Contributors: Daniel Reuter
+
 1.12.9 (2025-04-10)
 -------------------
 * use CURL::libcurl instead of ${CURL_LIBRARIES} in cmakelists.txt (`#102 <https://github.com/ros/resource_retriever/issues/102>`_)
