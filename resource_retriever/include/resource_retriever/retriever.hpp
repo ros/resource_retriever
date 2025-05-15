@@ -35,7 +35,6 @@
 #include <vector>
 
 #include "resource_retriever/exception.hpp"
-#include "resource_retriever/memory_resource.hpp"
 #include "resource_retriever/plugins/retriever_plugin.hpp"
 #include "resource_retriever/resource.hpp"
 #include "resource_retriever/visibility_control.hpp"
@@ -60,28 +59,6 @@ public:
 
   RESOURCE_RETRIEVER_PUBLIC
   ~Retriever();
-
-#ifdef _MSC_VER
-#pragma warning(push)
-#pragma warning(disable : 4996)
-#else
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-#endif
-  /**
-   * \brief Get a file and store it in memory
-   * \param url The url to retrieve. package://package/file will be turned into the correct file:// invocation
-   * \return The file, loaded into memory
-   * \throws resource_retriever::Exception if anything goes wrong.
-   */
-  [[deprecated("Use get_shared(const std::string & url) instead.")]]
-  RESOURCE_RETRIEVER_PUBLIC
-  MemoryResource get(const std::string & url);
-#ifdef _MSC_VER
-#pragma warning(pop)
-#else
-#pragma GCC diagnostic pop
-#endif
 
 /**
    * \brief Get a file and store it in memory

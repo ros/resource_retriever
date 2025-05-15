@@ -33,7 +33,6 @@
 
 #include "gtest/gtest.h"
 
-#include "resource_retriever/memory_resource.hpp"
 #include "resource_retriever/plugins/retriever_plugin.hpp"
 #include "resource_retriever/retriever.hpp"
 
