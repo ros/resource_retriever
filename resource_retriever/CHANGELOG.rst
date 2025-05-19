@@ -2,6 +2,11 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.8.1 (2025-05-19)
+------------------
+* Removed deprecated code (`#113 <https://github.com/ros/resource_retriever/issues/113>`_)
+* Contributors: Alejandro Hernández Cordero
+
 3.8.0 (2025-04-25)
 ------------------
 
