@@ -9,7 +9,7 @@ find_package(CURL QUIET)
 ament_vendor(libcurl_vendor
   SATISFIED ${CURL_FOUND}
   VCS_URL https://github.com/curl/curl.git
-  VCS_VERSION curl-7_81_0
+  VCS_VERSION curl-8_5_0
   CMAKE_ARGS
     -DENABLE_MANUAL:BOOL=OFF
     -DCURL_ENABLE_SSL:BOOL=ON  # default, but just to make clear
