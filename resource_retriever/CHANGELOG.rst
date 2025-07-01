@@ -2,6 +2,9 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 3.8.1 (2025-05-19)
 ------------------
 * Removed deprecated code (`#113 <https://github.com/ros/resource_retriever/issues/113>`_)

@@ -2,6 +2,11 @@
 Changelog for package libcurl_vendor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+* Update Curl (`#114 <https://github.com/ros/resource_retriever/issues/114>`_)
+* Contributors: mosfet80
+
 3.8.1 (2025-05-19)
 ------------------
 
