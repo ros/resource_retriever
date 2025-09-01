@@ -13,7 +13,6 @@ endif()
 
 find_package(ament_cmake_ros REQUIRED)
 find_package(ament_index_cpp REQUIRED)
-find_package(libcurl_vendor REQUIRED)
 find_package(CURL REQUIRED)
 
 # TODO(wjwwood): split cpp and python apis into separate packages
