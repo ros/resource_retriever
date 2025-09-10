@@ -2,6 +2,11 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.9.0 (2025-09-10)
+------------------
+* removed libcurl_vendor package (`#116 <https://github.com/ros/resource_retriever/issues/116>`_)
+* Contributors: Alejandro Hernández Cordero
+
 3.8.2 (2025-07-01)
 ------------------
 
