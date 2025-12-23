@@ -2,6 +2,9 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.7.1 (2025-12-23)
+------------------
+
 3.7.0 (2025-04-22)
 ------------------
 * Fixed clang compile error (`#112 <https://github.com/ros/resource_retriever/issues/112>`_)
