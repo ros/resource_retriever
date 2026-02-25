@@ -35,7 +35,7 @@
 #include "resource_retriever/exception.hpp"
 
 #include "ament_index_cpp/get_package_prefix.hpp"
-#include "ament_index_cpp/get_package_share_directory.hpp"
+#include "ament_index_cpp/get_package_share_path.hpp"
 
 namespace resource_retriever::plugins
 {
@@ -79,7 +79,7 @@ std::string expand_package_url(const std::string & url)
     mod_url.erase(0, pos);
     std::filesystem::path package_path;
     try {
-      ament_index_cpp::get_package_share_directory(package, package_path);
+      package_path = ament_index_cpp::get_package_share_path(package);
     } catch (const ament_index_cpp::PackageNotFoundError &) {
       throw Exception(url, "Package [" + package + "] does not exist");
     }
