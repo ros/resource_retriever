@@ -2,6 +2,11 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.9.2 (2026-02-25)
+------------------
+* Use get_package_share_path (`#119 <https://github.com/ros/resource_retriever/issues/119>`_)
+* Contributors: Alejandro Hernández Cordero
+
 3.9.1 (2025-12-23)
 ------------------
 * Updated deprecated ament_index_cpp API (`#118 <https://github.com/ros/resource_retriever/issues/118>`_)
