@@ -43,12 +43,12 @@ def test_http():
 
 
 def test_invalid_file():
-    with pytest.raises(Exception):
+    with pytest.raises(ValueError):
         r.get('file://fail')
 
 
 def test_no_file():
-    with pytest.raises(Exception):
+    with pytest.raises(ValueError):
         r.get('package://roscpp')
 
 
