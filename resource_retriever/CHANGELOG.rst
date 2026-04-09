@@ -2,6 +2,12 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.9.3 (2026-04-09)
+------------------
+* Removed python2 code (`#121 <https://github.com/ros/resource_retriever/issues/121>`_)
+* Delete resource_retriever/setup.py (`#120 <https://github.com/ros/resource_retriever/issues/120>`_)
+* Contributors: Alejandro Hernández Cordero, Michael Carlstrom
+
 3.9.2 (2026-02-25)
 ------------------
 * Use get_package_share_path (`#119 <https://github.com/ros/resource_retriever/issues/119>`_)
