@@ -2,6 +2,9 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+Forthcoming
+-----------
+
 3.9.3 (2026-04-09)
 ------------------
 * Removed python2 code (`#121 <https://github.com/ros/resource_retriever/issues/121>`_)
