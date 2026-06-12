@@ -29,6 +29,7 @@
 #include "resource_retriever/plugins/retriever_plugin.hpp"
 
 #include <filesystem>
+#include <format>  // NOLINT(build/include_order) cpplint <C++20 misclassifies as C header
 #include <string>
 #include <string_view>
 
@@ -45,17 +46,13 @@ std::string escape_spaces(const std::string & url)
   std::string new_mod_url;
   new_mod_url.reserve(url.length());
 
-  std::string::size_type last_pos = 0;
-  std::string::size_type find_pos;
-
-  while (std::string::npos != (find_pos = url.find(' ', last_pos))) {
-    new_mod_url.append(url, last_pos, find_pos - last_pos);
-    new_mod_url += "%20";
-    last_pos = find_pos + std::string(" ").length();
+  for (const char c : url) {
+    if (c == ' ') {
+      new_mod_url += "%20";
+    } else {
+      new_mod_url += c;
+    }
   }
-
-  // Take care for the rest after last occurrence
-  new_mod_url.append(url, last_pos, url.length() - last_pos);
   return new_mod_url;
 }
 
@@ -63,13 +60,13 @@ std::string expand_package_url(const std::string & url)
 {
   constexpr std::string_view package_url_prefix = "package://";
   std::string mod_url = url;
-  if (url.find(package_url_prefix) == 0) {
+  if (url.starts_with(package_url_prefix)) {
     mod_url.erase(0, package_url_prefix.length());
     size_t pos = mod_url.find('/');
     if (pos == std::string::npos) {
       throw Exception(
         url,
-        "Could not parse " + std::string(package_url_prefix) + " format into file:// format");
+        std::format("Could not parse {} format into file:// format", package_url_prefix));
     }
 
     std::string package = mod_url.substr(0, pos);
@@ -81,7 +78,7 @@ std::string expand_package_url(const std::string & url)
     try {
       package_path = ament_index_cpp::get_package_share_path(package);
     } catch (const ament_index_cpp::PackageNotFoundError &) {
-      throw Exception(url, "Package [" + package + "] does not exist");
+      throw Exception(url, std::format("Package [{}] does not exist", package));
     }
 
     mod_url = "file://" + package_path.string() + mod_url;

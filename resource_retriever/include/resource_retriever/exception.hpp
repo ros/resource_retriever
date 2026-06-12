@@ -30,8 +30,10 @@
 #ifndef RESOURCE_RETRIEVER__EXCEPTION_HPP_
 #define RESOURCE_RETRIEVER__EXCEPTION_HPP_
 
+#include <format>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 
 #include "resource_retriever/visibility_control.hpp"
 
@@ -41,8 +43,8 @@ class Exception : public std::runtime_error
 {
 public:
   RESOURCE_RETRIEVER_PUBLIC
-  Exception(const std::string & file, const std::string & error_msg)
-  : std::runtime_error("Error retrieving file [" + file + "]: " + error_msg)
+  Exception(std::string_view file, std::string_view error_msg)
+  : std::runtime_error(std::format("Error retrieving file [{}]: {}", file, error_msg))
   {
   }
 };
