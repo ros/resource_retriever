@@ -27,22 +27,17 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
-#ifndef RESOURCE_RETRIEVER__EXCEPTION_HPP_
-#define RESOURCE_RETRIEVER__EXCEPTION_HPP_
+#include "resource_retriever/exception.hpp"
 
-#include <stdexcept>
+#include <format>
 #include <string_view>
-
-#include "resource_retriever/visibility_control.hpp"
 
 namespace resource_retriever
 {
-class Exception : public std::runtime_error
-{
-public:
-  RESOURCE_RETRIEVER_PUBLIC
-  Exception(std::string_view file, std::string_view error_msg);
-};
-}  // namespace resource_retriever
 
-#endif  // RESOURCE_RETRIEVER__EXCEPTION_HPP_
+Exception::Exception(std::string_view file, std::string_view error_msg)
+: std::runtime_error(std::format("Error retrieving file [{}]: {}", file, error_msg))
+{
+}
+
+}  // namespace resource_retriever

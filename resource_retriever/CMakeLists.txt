@@ -16,6 +16,7 @@ find_package(CURL REQUIRED)
 # TODO(wjwwood): split cpp and python apis into separate packages
 add_library(${PROJECT_NAME}
   src/retriever.cpp
+  src/exception.cpp
   src/plugins/retriever_plugin.cpp
   src/plugins/filesystem_retriever.cpp
   src/plugins/curl_retriever.cpp
