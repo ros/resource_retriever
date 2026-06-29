@@ -141,9 +141,10 @@ bool CurlRetriever::can_handle(const std::string & url)
 
 ResourceSharedPtr CurlRetriever::get_shared(const std::string & url)
 {
-  // Expand package:// url into file://, then escape spaces because newer
-  // versions of curl do not accept spaces in URLs.
-  std::string mod_url = escape_spaces(expand_package_url(url));
+  // Expand package:// url into file://, then percent-encode the path because
+  // newer versions of curl do not accept spaces (or other special characters)
+  // in URLs.
+  std::string mod_url = encode_uri(expand_package_url(url));
 
   curl_easy_setopt(curl_handle_, CURLOPT_URL, mod_url.c_str());
   curl_easy_setopt(curl_handle_, CURLOPT_WRITEFUNCTION, curlWriteFunc);

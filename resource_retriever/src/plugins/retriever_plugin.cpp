@@ -28,6 +28,9 @@
 
 #include "resource_retriever/plugins/retriever_plugin.hpp"
 
+#include <curl/curl.h>
+
+#include <cstddef>
 #include <filesystem>
 #include <format>  // NOLINT(build/include_order) cpplint <C++20 misclassifies as C header
 #include <string>
@@ -41,19 +44,61 @@
 namespace resource_retriever::plugins
 {
 
-std::string escape_spaces(const std::string & url)
+std::string url_encode(const std::string & decoded)
 {
-  std::string new_mod_url;
-  new_mod_url.reserve(url.length());
-
-  for (const char c : url) {
-    if (c == ' ') {
-      new_mod_url += "%20";
-    } else {
-      new_mod_url += c;
-    }
+  char * encoded = curl_easy_escape(nullptr, decoded.c_str(), static_cast<int>(decoded.length()));
+  if (encoded == nullptr) {
+    return decoded;
   }
-  return new_mod_url;
+  std::string result(encoded);
+  curl_free(encoded);
+  return result;
+}
+
+std::string url_decode(const std::string & encoded)
+{
+  int output_length = 0;
+  char * decoded = curl_easy_unescape(
+    nullptr, encoded.c_str(), static_cast<int>(encoded.length()), &output_length);
+  if (decoded == nullptr) {
+    return encoded;
+  }
+  std::string result(decoded, static_cast<size_t>(output_length));
+  curl_free(decoded);
+  return result;
+}
+
+std::string encode_uri(const std::string & url)
+{
+  // curl_easy_escape() percent-encodes every reserved character, including the
+  // "scheme://" delimiters and the '/' path separators, so it cannot be applied
+  // to a whole URL. Instead keep the scheme and authority verbatim and encode
+  // each path segment individually, preserving the '/' separators.
+  constexpr std::string_view scheme_separator = "://";
+  const size_t scheme_pos = url.find(scheme_separator);
+  if (scheme_pos == std::string::npos) {
+    return url;
+  }
+
+  const size_t authority_pos = scheme_pos + scheme_separator.length();
+  const size_t path_pos = url.find('/', authority_pos);
+  if (path_pos == std::string::npos) {
+    return url;
+  }
+
+  // Keep "scheme://authority" untouched, then percent-encode each '/'-delimited
+  // path segment.
+  std::string result = url.substr(0, path_pos);
+  for (size_t segment_start = path_pos; segment_start < url.length(); ) {
+    size_t segment_end = url.find('/', segment_start + 1);
+    if (segment_end == std::string::npos) {
+      segment_end = url.length();
+    }
+    result += '/';
+    result += url_encode(url.substr(segment_start + 1, segment_end - segment_start - 1));
+    segment_start = segment_end;
+  }
+  return result;
 }
 
 std::string expand_package_url(const std::string & url)
