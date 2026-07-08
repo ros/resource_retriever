@@ -32,6 +32,8 @@
 #include <ios>
 #include <memory>
 #include <string>
+#include <string_view>
+#include <utility>
 #include <vector>
 
 #include "resource_retriever/exception.hpp"
@@ -50,32 +52,26 @@ std::string FilesystemRetriever::name()
 
 bool FilesystemRetriever::can_handle(const std::string & url)
 {
-  return url.find("package://") == 0 || url.find("file://") == 0;
+  return url.starts_with("package://") || url.starts_with("file://");
 }
 
 ResourceSharedPtr FilesystemRetriever::get_shared(const std::string & url)
 {
   // Expand package:// url into file://
-  auto mod_url = url;
-  mod_url = expand_package_url(mod_url);
+  std::string mod_url = expand_package_url(url);
 
-  if (mod_url.find("file://") == 0) {
-    mod_url = mod_url.substr(7);
+  constexpr std::string_view file_scheme = "file://";
+  if (mod_url.starts_with(file_scheme)) {
+    mod_url.erase(0, file_scheme.length());
   }
 
   std::ifstream file(mod_url, std::ios::binary);
-  ResourceSharedPtr res {nullptr};
-
-  if (file.is_open()) {
-    // Get the file size
-    std::vector<uint8_t> data(std::istreambuf_iterator<char>(file), {});
-    file.close();
-    res = std::make_shared<Resource>(url, mod_url, data);
-  } else {
+  if (!file.is_open()) {
     throw Exception(mod_url, "Failed to open file");
   }
 
-  return res;
+  std::vector<uint8_t> data(std::istreambuf_iterator<char>(file), {});
+  return std::make_shared<Resource>(url, std::move(mod_url), std::move(data));
 }
 
 }  // namespace resource_retriever::plugins

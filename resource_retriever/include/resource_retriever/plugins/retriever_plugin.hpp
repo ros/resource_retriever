@@ -36,8 +36,22 @@
 
 namespace resource_retriever::plugins
 {
+RESOURCE_RETRIEVER_PUBLIC
 std::string expand_package_url(const std::string & url);
-std::string escape_spaces(const std::string & url);
+
+/// Percent-encode a single URL component (e.g. one path segment).
+RESOURCE_RETRIEVER_PUBLIC
+std::string url_encode(const std::string & decoded);
+
+/// Percent-decode a single URL component.
+RESOURCE_RETRIEVER_PUBLIC
+std::string url_decode(const std::string & encoded);
+
+/// Percent-encode the path of a URL while leaving the scheme, authority and
+/// '/' separators untouched, so that libcurl accepts paths containing spaces
+/// or other special characters.
+RESOURCE_RETRIEVER_PUBLIC
+std::string encode_uri(const std::string & url);
 
 class RESOURCE_RETRIEVER_PUBLIC RetrieverPlugin
 {

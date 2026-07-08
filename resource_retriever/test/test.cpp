@@ -121,6 +121,43 @@ TEST(Retriever, customPlugin)
   EXPECT_EQ(res->data[1], 1u);
 }
 
+TEST(Retriever, urlEncodeDecodeRoundTrip)
+{
+  using resource_retriever::plugins::url_decode;
+  using resource_retriever::plugins::url_encode;
+
+  EXPECT_EQ(url_encode("a b"), "a%20b");
+  EXPECT_EQ(url_decode("a%20b"), "a b");
+
+  const std::string raw = "weird (v2)#1?x.dae";
+  EXPECT_EQ(url_decode(url_encode(raw)), raw);
+}
+
+TEST(Retriever, encodeUri)
+{
+  using resource_retriever::plugins::encode_uri;
+
+  // The path is percent-encoded while the scheme, authority and '/' separators
+  // are left untouched.
+  EXPECT_EQ(
+    encode_uri("file:///home/me/my model.dae"),
+    "file:///home/me/my%20model.dae");
+  EXPECT_EQ(
+    encode_uri("file:///home/me/part (v2)/m#1.dae"),
+    "file:///home/me/part%20%28v2%29/m%231.dae");
+  EXPECT_EQ(
+    encode_uri("https://example.com/a b/c.stl"),
+    "https://example.com/a%20b/c.stl");
+
+  // URLs without special characters are returned unchanged.
+  EXPECT_EQ(
+    encode_uri("http://packages.ros.org/ros.key"),
+    "http://packages.ros.org/ros.key");
+
+  // URLs without a path component are returned unchanged.
+  EXPECT_EQ(encode_uri("file://fail"), "file://fail");
+}
+
 int main(int argc, char ** argv)
 {
   testing::InitGoogleTest(&argc, argv);

@@ -32,7 +32,9 @@
 
 #include <cstdint>
 #include <cstring>
+#include <format>  // NOLINT(build/include_order) cpplint <C++20 misclassifies as C header
 #include <memory>
+#include <span>  // NOLINT(build/include_order) cpplint <C++20 misclassifies as C header
 #include <stdexcept>
 #include <string>
 #include <utility>
@@ -65,8 +67,9 @@ public:
   {
     if (!this->initialized_) {
       throw std::runtime_error(
-        "curl_global_init(CURL_GLOBAL_ALL) failed (" + std::to_string(ret_) + "): " +
-        curl_easy_strerror(ret_));
+        std::format(
+          "curl_global_init(CURL_GLOBAL_ALL) failed ({}): {}",
+          static_cast<int>(ret_), curl_easy_strerror(ret_)));
     }
   }
 
@@ -88,10 +91,9 @@ struct MemoryBuffer
 size_t curlWriteFunc(void * buffer, size_t size, size_t nmemb, void * userp)
 {
   auto * membuf = reinterpret_cast<MemoryBuffer *>(userp);
-  size_t prev_size = membuf->v.size();
-  membuf->v.resize(prev_size + size * nmemb);
-  memcpy(&membuf->v[prev_size], buffer, size * nmemb);
-  return size * nmemb;
+  const std::span<const uint8_t> chunk{static_cast<const uint8_t *>(buffer), size * nmemb};
+  membuf->v.insert(membuf->v.end(), chunk.begin(), chunk.end());
+  return chunk.size();
 }
 
 CURL * do_curl_easy_init()
@@ -131,20 +133,18 @@ std::string CurlRetriever::name()
 bool CurlRetriever::can_handle(const std::string & url)
 {
   return
-    url.find("package://") == 0 ||
-    url.find("file://") == 0 ||
-    url.find("http://") == 0 ||
-    url.find("https://") == 0;
+    url.starts_with("package://") ||
+    url.starts_with("file://") ||
+    url.starts_with("http://") ||
+    url.starts_with("https://");
 }
 
 ResourceSharedPtr CurlRetriever::get_shared(const std::string & url)
 {
-  // Expand package:// url into file://
-  auto mod_url = url;
-  mod_url = expand_package_url(mod_url);
-
-  // newer versions of curl do not accept spaces in URLs
-  mod_url = escape_spaces(mod_url);
+  // Expand package:// url into file://, then percent-encode the path because
+  // newer versions of curl do not accept spaces (or other special characters)
+  // in URLs.
+  std::string mod_url = encode_uri(expand_package_url(url));
 
   curl_easy_setopt(curl_handle_, CURLOPT_URL, mod_url.c_str());
   curl_easy_setopt(curl_handle_, CURLOPT_WRITEFUNCTION, curlWriteFunc);
@@ -152,20 +152,19 @@ ResourceSharedPtr CurlRetriever::get_shared(const std::string & url)
   char error_buffer[CURL_ERROR_SIZE];
   curl_easy_setopt(curl_handle_, CURLOPT_ERRORBUFFER, error_buffer);
 
-  ResourceSharedPtr res {nullptr};
   MemoryBuffer buf;
   curl_easy_setopt(curl_handle_, CURLOPT_WRITEDATA, &buf);
 
   CURLcode ret = curl_easy_perform(curl_handle_);
-  if (ret != 0) {
+  if (ret != CURLE_OK) {
     throw Exception(mod_url, error_buffer);
   }
 
-  if (ret == 0 && !buf.v.empty()) {
-    res = std::make_shared<Resource>(url, mod_url, buf.v);
+  if (buf.v.empty()) {
+    return nullptr;
   }
 
-  return res;
+  return std::make_shared<Resource>(url, std::move(mod_url), std::move(buf.v));
 }
 
 }  // namespace resource_retriever::plugins

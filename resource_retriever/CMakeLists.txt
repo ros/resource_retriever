@@ -1,23 +1,22 @@
 cmake_minimum_required(VERSION 3.20)
 project(resource_retriever)
 
-# Default to C++17
-if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 17)
-  set(CMAKE_CXX_STANDARD_REQUIRED ON)
-endif()
-
+# The C++/C standard comes from ament_ros_defaults (cxx_std_20 / c_std_17),
+# linked PRIVATE below so it applies to this library's own translation units
+# only and is not propagated to downstream consumers.
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
 find_package(ament_cmake_ros REQUIRED)
+find_package(ament_cmake_ros_core REQUIRED)
 find_package(ament_index_cpp REQUIRED)
 find_package(CURL REQUIRED)
 
 # TODO(wjwwood): split cpp and python apis into separate packages
 add_library(${PROJECT_NAME}
   src/retriever.cpp
+  src/exception.cpp
   src/plugins/retriever_plugin.cpp
   src/plugins/filesystem_retriever.cpp
   src/plugins/curl_retriever.cpp
@@ -31,6 +30,11 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
   ament_index_cpp::ament_index_cpp
   CURL::libcurl
 )
+# ament_ros_defaults is an INTERFACE target providing cxx_std_20 / c_std_17.
+# Linked PRIVATE so the standard applies to our own sources without leaking
+# into the exported interface (a SHARED library does not propagate PRIVATE
+# link requirements to consumers).
+target_link_libraries(${PROJECT_NAME} PRIVATE ament_cmake_ros_core::ament_ros_defaults)
 
 # Causes the visibility macros to use dllexport rather than dllimport,
 # which is appropriate when building the dll but not consuming it.
@@ -52,7 +56,10 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 
   ament_add_gtest(${PROJECT_NAME}_test test/test.cpp)
-  target_link_libraries(${PROJECT_NAME}_test ${PROJECT_NAME})
+  target_link_libraries(${PROJECT_NAME}_test
+    ${PROJECT_NAME}
+    ament_cmake_ros_core::ament_ros_defaults
+  )
 
   find_package(ament_cmake_pytest REQUIRED)
   ament_add_pytest_test(resource_retriever_python_test test/test.py
