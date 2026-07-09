@@ -2,6 +2,12 @@
 Changelog for package resource_retriever
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+3.10.1 (2026-07-09)
+-------------------
+* Updated to cpp20 (`#123 <https://github.com/ros/resource_retriever/issues/123>`_)
+* Update cmake_minimum_required version and package version (`#124 <https://github.com/ros/resource_retriever/issues/124>`_)
+* Contributors: Alejandro Hernández Cordero
+
 3.10.0 (2026-05-06)
 -------------------
 
