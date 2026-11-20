@@ -36,6 +36,15 @@
 
 namespace resource_retriever::plugins
 {
+/// Convert a package://package/file url into a file:// url.
+/**
+ * The package is looked up in the ament index, and the file is relative to its share directory.
+ * Urls that do not start with package:// are returned unchanged.
+ *
+ * \param url The url to expand
+ * \return The expanded url
+ * \throws resource_retriever::Exception if the url is malformed or the package is not found
+ */
 RESOURCE_RETRIEVER_PUBLIC
 std::string expand_package_url(const std::string & url);
 
@@ -53,14 +62,25 @@ std::string url_decode(const std::string & encoded);
 RESOURCE_RETRIEVER_PUBLIC
 std::string encode_uri(const std::string & url);
 
+/// Interface of the plugins that a Retriever uses to retrieve urls.
 class RESOURCE_RETRIEVER_PUBLIC RetrieverPlugin
 {
 public:
   RetrieverPlugin();
   virtual ~RetrieverPlugin() = 0;
 
+  /// Get a human readable name of the plugin.
   virtual std::string name() = 0;
+
+  /// Check whether this plugin is able to retrieve a url, usually based on its scheme.
   virtual bool can_handle(const std::string & url) = 0;
+
+  /// Retrieve a url and load it into memory.
+  /**
+   * \param url The url to retrieve, for which can_handle() returned true
+   * \return The retrieved resource, or nullptr to let the Retriever try the next plugin
+   * \throws resource_retriever::Exception if the url cannot be retrieved
+   */
   virtual ResourceSharedPtr get_shared(const std::string & url) = 0;
 };
 

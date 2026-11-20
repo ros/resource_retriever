@@ -44,6 +44,12 @@ namespace resource_retriever
  */
 struct Resource
 {
+  /**
+   * \brief Construct a resource
+   * \param url_in The url that was requested
+   * \param expanded_url_in The location the data was actually read from
+   * \param data_in The content of the resource
+   */
   RESOURCE_RETRIEVER_PUBLIC
   explicit Resource(
     std::string url_in,
@@ -54,11 +60,17 @@ struct Resource
     data(std::move(data_in))
   {
   }
+
+  /// The url that was requested, e.g. package://my_package/meshes/base.stl
   const std::string url;
+  /// The location the data was actually read from, e.g. the path of the file on disk for a
+  /// package:// url. Its exact format depends on the plugin that retrieved the resource.
   const std::string expanded_url;
+  /// The content of the resource
   const std::vector<uint8_t> data;
 };
 
+/// Shared pointer to a Resource, as returned by Retriever::get_shared()
 using ResourceSharedPtr = std::shared_ptr<Resource>;
 
 }  //  namespace resource_retriever

@@ -37,6 +37,11 @@
 namespace resource_retriever::plugins
 {
 
+/// Plugin that reads package:// and file:// urls directly from the local filesystem.
+/**
+ * The expanded url of the resources it returns is the path of the file, without the file://
+ * prefix.
+ */
 class RESOURCE_RETRIEVER_PUBLIC FilesystemRetriever : public RetrieverPlugin
 {
 public:

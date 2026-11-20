@@ -2,12 +2,7 @@
   <name>resource_retriever</name>
   <version>3.10.2</version>
   <description>
-   This package retrieves data from url-format files such as http://,
-   ftp://, package:// file://, etc., and loads the data into memory.
-   The package:// url for ros packages is translated into a local
-   file:// url.  The resourse retriever was initially designed to load
-   mesh files into memory, but it can be used for any type of
-   data. The resource retriever is based on the the libcurl library.
+    This package retrieves data from url-format files such as http://, https://, package://, file://, and loads the data into memory. The package:// url for ROS packages is translated into a local file:// url. The resource retriever was initially designed to load mesh files into memory, but it can be used for any type of data. Remote urls are retrieved with the libcurl library.
   </description>
 
   <maintainer email="alejandro@openrobotics.org">Alejandro Hernandez Cordero</maintainer>
@@ -19,9 +14,9 @@
   <author email="jfaust@willowgarage.com">Josh Faust</author>
   <author email="sloretz@osrfoundation.org">Shane Loretz</author>
 
-  <url type="website">http://ros.org/wiki/resource_retriever</url>
-  <url type="repository">https://github.com/ros/robot_model</url>
-  <url type="bugtracker">https://github.com/ros/robot_model/issues</url>
+  <url type="website">https://docs.ros.org/en/rolling/p/resource_retriever/</url>
+  <url type="repository">https://github.com/ros/resource_retriever</url>
+  <url type="bugtracker">https://github.com/ros/resource_retriever/issues</url>
 
   <buildtool_depend>ament_cmake_ros</buildtool_depend>
   <buildtool_depend>ament_cmake_ros_core</buildtool_depend>
@@ -41,5 +36,6 @@
 
   <export>
     <build_type>ament_cmake</build_type>
+    <rosdoc2>rosdoc2.yaml</rosdoc2>
   </export>
 </package>

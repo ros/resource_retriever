@@ -42,29 +42,47 @@
 namespace resource_retriever
 {
 
+/// Shared pointer to a retriever plugin
 using RetrieverPluginSharedPtr = std::shared_ptr<plugins::RetrieverPlugin>;
+/// List of retriever plugins, ordered by priority
 using RetrieverVec = std::vector<RetrieverPluginSharedPtr>;
 
+/**
+ * \brief Create the plugins that a Retriever uses by default
+ * \return A plugins::FilesystemRetriever (package:// and file:// urls) followed by a
+ * plugins::CurlRetriever (package://, file://, http:// and https:// urls)
+ */
 RetrieverVec RESOURCE_RETRIEVER_PUBLIC default_plugins();
 
 /**
- * \brief Retrieves files from from a url. Caches a CURL handle so multiple accesses to a single url
- * will keep connections open.
+ * \brief Retrieves files from a url, delegating the work to a list of plugins.
+ *
+ * With the default plugins, package://, file://, http:// and https:// urls are supported, and a
+ * CURL handle is cached so multiple accesses to a single url will keep connections open.
  */
 class Retriever
 {
 public:
+  /**
+   * \brief Construct a retriever
+   * \param plugins The plugins used to retrieve the urls, which are tried in order
+   */
   RESOURCE_RETRIEVER_PUBLIC
   explicit Retriever(RetrieverVec plugins = default_plugins());
 
   RESOURCE_RETRIEVER_PUBLIC
   ~Retriever();
 
-/**
+  /**
    * \brief Get a file and store it in memory
+   *
+   * The url is given to the first plugin that can handle it. If that plugin returns nullptr, the
+   * next plugin that can handle the url is tried.
+   *
    * \param url The url to retrieve. package://package/file will be turned into the correct file:// invocation
-   * \return The file, loaded into memory
-   * \throws resource_retriever::Exception if anything goes wrong.
+   * \return The file, loaded into memory, or nullptr if none of the plugins can handle the url
+   * or none of them returned any data.
+   * \throws resource_retriever::Exception if a plugin fails to retrieve the url.
    */
   RESOURCE_RETRIEVER_PUBLIC
   ResourceSharedPtr get_shared(const std::string & url);
