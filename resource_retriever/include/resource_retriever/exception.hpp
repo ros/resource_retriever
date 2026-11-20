@@ -37,9 +37,17 @@
 
 namespace resource_retriever
 {
+/**
+ * \brief Thrown when a resource cannot be retrieved.
+ */
 class Exception : public std::runtime_error
 {
 public:
+  /**
+   * \brief Construct an exception whose message is "Error retrieving file [file]: error_msg".
+   * \param file The url or path of the resource that could not be retrieved
+   * \param error_msg A description of what went wrong
+   */
   RESOURCE_RETRIEVER_PUBLIC
   Exception(std::string_view file, std::string_view error_msg);
 };

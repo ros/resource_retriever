@@ -39,6 +39,15 @@ using CURL = void;
 namespace resource_retriever::plugins
 {
 
+/// Plugin that retrieves package://, file://, http:// and https:// urls with libcurl.
+/**
+ * The CURL handle is kept for the lifetime of the plugin, so multiple accesses to a single host
+ * can reuse the connection.
+ *
+ * The expanded url of the resources it returns is the percent-encoded url that was given to
+ * libcurl. get_shared() returns nullptr when no data was received, and an HTTP error status is
+ * not reported as an error: the resource then contains the body of the response.
+ */
 class RESOURCE_RETRIEVER_PUBLIC CurlRetriever : public RetrieverPlugin
 {
 public:
@@ -52,7 +61,9 @@ public:
   CurlRetriever(const CurlRetriever & ret) = delete;
   CurlRetriever & operator=(const CurlRetriever & other) = delete;
 
+  /// Move constructor, takes ownership of the CURL handle of other.
   CurlRetriever(CurlRetriever && other) noexcept;
+  /// Move assignment, takes ownership of the CURL handle of other.
   CurlRetriever & operator=(CurlRetriever && other) noexcept;
 
   bool can_handle(const std::string & url) override;

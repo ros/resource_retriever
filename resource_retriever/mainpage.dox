@@ -1,14 +1,15 @@
 /**
 \mainpage
-\htmlinclude manifest.html
-
-\b resource_retriever is a package used for downloading files from a url.  It also provides special handling of the package:// prefix, allowing things to be referenced
-by path relative to a package.
+\b resource_retriever is a package used for loading files from a url into memory.  It also provides special handling of the package:// prefix, allowing things to be referenced
+by path relative to the share directory of a package.
 
 
 \section codeapi Code API
 
- - resource_retriever::Retriever -- Use this class to download files.
+ - resource_retriever::Retriever -- Use this class to retrieve files, with its get_shared() method.
+ - resource_retriever::Resource -- A retrieved file, loaded into memory.
+ - resource_retriever::Exception -- Thrown when a file cannot be retrieved.
+ - resource_retriever::plugins::RetrieverPlugin -- Interface to implement to support other types of urls.
 
 
 */
