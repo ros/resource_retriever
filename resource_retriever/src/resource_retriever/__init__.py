@@ -56,6 +56,8 @@ def get_filename(url: str, use_protocol: bool = True) -> str:
     ------
     ValueError
         If the ``package://`` URL is malformed (missing path separator).
+    ament_index_python.PackageNotFoundError
+        If the package of the ``package://`` URL cannot be found.
 
     """
     if not url.startswith(PACKAGE_PREFIX):
@@ -103,7 +105,9 @@ def get(url: str) -> bytes:
     Raises
     ------
     ValueError
-        If the URL cannot be fetched.
+        If the URL cannot be fetched, or if the ``package://`` URL is malformed.
+    ament_index_python.PackageNotFoundError
+        If the package of the ``package://`` URL cannot be found.
 
     """
     filename = get_filename(url)
